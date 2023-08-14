@@ -15,5 +15,26 @@ public class Usuario {
     private String nome_usuario; 
     private String email_usuario;
     private String senha_usuario;
-    private int nivelPermissao_usuario;
+    private int nivel_permissao_usuario;
+
+    public int getId_usuario() {
+        return id_usuario;
+    }
+
+    public String getNome_usuario() {
+        return nome_usuario;
+    }
+
+    public String getEmail_usuario() {
+        return email_usuario;
+    }
+
+    public String getSenha_usuario() {
+        return senha_usuario;
+    }
+
+    public int getNivel_permissao_usuario() {
+        return nivel_permissao_usuario;
+    }
 }
+
