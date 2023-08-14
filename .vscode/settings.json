@@ -1,3 +1,8 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "docwriter.style": "Auto-detect",
+    "docwriter.progress.trackMethods": false,
+    "docwriter.progress.trackClasses": true,
+    "java.compile.nullAnalysis.mode": "automatic",
+    "cmake.sourceDirectory": "/home/yuri/Documentos/Dev/StoreCheckoutSystem/linux"
 }
