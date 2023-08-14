@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/services/validate_service.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   var _userNameController = TextEditingController();
   var _passwordController = TextEditingController();
+  ValidateService validateService = ValidateService();
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               width: 400,
               child: TextFormField(
-                textAlign: TextAlign.center,
                 textAlignVertical: TextAlignVertical.center,
                 controller: _userNameController,
                 decoration: InputDecoration(labelText: 'Usuário'),
@@ -40,8 +41,14 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
-                  onPressed: () {
-                    //Lógica para login
+                  onPressed: () async {
+                    bool isValid = await validateService.validateData(
+                        _userNameController.text, _passwordController.text);
+                    if (isValid) {
+                      print('deu certo');
+                    } else {
+                      print('deu errado');
+                    }
                   },
                   child: Text('Entrar'),
                 ),
