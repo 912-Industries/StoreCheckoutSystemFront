@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:store_checkout_system/screens/home.dart';
 import '/services/validate_service.dart';
+import 'home.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -45,9 +47,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     bool isValid = await validateService.validateData(
                         _userNameController.text, _passwordController.text);
                     if (isValid) {
-                      print('deu certo');
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                      );
                     } else {
-                      print('deu errado');
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Erro de Login'),
+                            content:
+                                Text('O usuario ou a senha está incorreto'),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text('Close'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     }
                   },
                   child: Text('Entrar'),
