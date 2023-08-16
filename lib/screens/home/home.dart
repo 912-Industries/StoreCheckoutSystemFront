@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '/widgets/bottom_nav_bar.dart';
-import '/screens/vendas/vendas.dart';
-
 
 class HomePage extends StatelessWidget {
   @override
@@ -13,9 +11,7 @@ class HomePage extends StatelessWidget {
       body: Center(
         child: Text('Welcome to Home Page!'),
       ),
-      
-      bottomNavigationBar: BottomNavBar(),
-
+      bottomNavigationBar: MainPage(),
     );
   }
 }
