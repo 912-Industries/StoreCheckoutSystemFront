@@ -13,9 +13,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person), label: 'Minha conta'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: 'sla'),
+          BottomNavigationBarItem(icon: Icon(Icons.payments_rounded), label: 'Vendas'),
+          BottomNavigationBarItem(icon: Icon(Icons.view_list_rounded), label: 'Estoque'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings_rounded),label: 'Configurações'),
         ],
       ),
     );
