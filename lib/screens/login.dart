@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:store_checkout_system/screens/home.dart';
+import 'package:store_checkout_system/screens/home/home.dart';
 import '/services/validate_service.dart';
-import 'home.dart';
+import 'home/home.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
       body: Center(
         child: Text('Welcome to Home Page!'),
       ),
-      bottomNavigationBar: BottomNavBar(),
+      bottomNavigationBar: MainPage(),
     );
   }
 }
