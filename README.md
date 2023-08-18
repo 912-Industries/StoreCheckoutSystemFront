@@ -73,7 +73,7 @@ O StoreCheckout é um projeto que visa fornecer um sistema de administração pa
 ### Frontend
 
 1. Instale o Flutter em seu ambiente de desenvolvimento.
-2. Acesse o diretório `frontend` pelo terminal.
+2. Acesse o diretório `lib` pelo terminal.
 3. Execute `flutter pub get` para obter as dependências.
 4. Inicie o aplicativo com `flutter run`.
 
