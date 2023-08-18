@@ -50,12 +50,11 @@ StoreCheckoutSystem/
 │   │   │   ├── estoque.dart
 │   │   │   ├── home.dart
 │   │   │   ├── vendas.dart
-│   │   │   ├── home.dart
-│   ├── services/
-│   │   ├── validate_service.dart
-│   ├── widgets/
-│   │   ├── bottom_nav_bar.dart
-│   ├── main.dart
+├── services/
+│   ├── validate_service.dart
+├── widgets/
+│   ├── bottom_nav_bar.dart
+├── main.dart
 ├── README.md
 
 
