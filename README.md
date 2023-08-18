@@ -26,7 +26,7 @@ O StoreCheckout é um projeto que visa fornecer um sistema de administração pa
 
 ## Estrutura do Projeto
 
-StoreCheckoutSystem/
+```StoreCheckoutSystem/
 ├── backend/
 │   ├── src/
 │   │   ├── main/
@@ -56,7 +56,7 @@ StoreCheckoutSystem/
 │   ├── bottom_nav_bar.dart
 ├── main.dart
 ├── README.md
-
+```
 
 
 
