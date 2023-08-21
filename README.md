@@ -2,7 +2,7 @@
 
 ## Descrição
 
-O StoreCheckout é um projeto que visa fornecer um sistema de administração para uma loja virtual, construído com o uso de tecnologias como Java, Spring Boot, MySQL e Flutter. Este sistema capacita os administradores a gerenciar produtos, processar pedidos e supervisionar o funcionamento geral da loja.
+O StoreCheckout é um projeto que visa fornecer um sistema de administração de um caixa, construído com o uso de tecnologias como Java, Spring Boot, MySQL e Flutter. Este sistema capacita os administradores a gerenciar produtos, processar pedidos e supervisionar o funcionamento geral da loja.
 
 ## Funcionalidades
 
