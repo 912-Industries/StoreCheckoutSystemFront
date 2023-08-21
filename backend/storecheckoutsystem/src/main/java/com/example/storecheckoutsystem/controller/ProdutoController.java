@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,10 +28,11 @@ public class ProdutoController {
     private ProdutoRepository produtoRepository;
 
     @GetMapping
-    public Iterable<Produto> pesquisaProduto() {
-        return produtoRepository.findAll();
+    public ResponseEntity<Iterable<Produto>> pesquisaProduto() {
+        Iterable<Produto> produtos = produtoRepository.findAll();
+        return new ResponseEntity<>(produtos, HttpStatus.OK);
     }
-
+    
     @PostMapping
     public Produto salvarProduto(@Validated @RequestBody Produto produto) {
         return produtoRepository.save(produto);
