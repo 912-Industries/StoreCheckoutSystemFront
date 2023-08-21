@@ -2,7 +2,7 @@
 
 ## Descrição
 
-O StoreCheckout é um projeto que visa fornecer um sistema de administração para uma loja virtual, construído com o uso de tecnologias como Java, Spring Boot, MySQL e Flutter. Este sistema capacita os administradores a gerenciar produtos, processar pedidos e supervisionar o funcionamento geral da loja.
+O StoreCheckout é um projeto que visa fornecer um sistema de administração de um caixa, construído com o uso de tecnologias como Java, Spring Boot, MySQL e Flutter. Este sistema capacita os administradores a gerenciar produtos, processar pedidos e supervisionar o funcionamento geral da loja.
 
 ## Funcionalidades
 
@@ -26,7 +26,7 @@ O StoreCheckout é um projeto que visa fornecer um sistema de administração pa
 
 ## Estrutura do Projeto
 
-StoreCheckoutSystem/
+```StoreCheckoutSystem/
 ├── backend/
 │   ├── src/
 │   │   ├── main/
@@ -50,14 +50,13 @@ StoreCheckoutSystem/
 │   │   │   ├── estoque.dart
 │   │   │   ├── home.dart
 │   │   │   ├── vendas.dart
-│   │   │   ├── home.dart
-│   ├── services/
-│   │   ├── validate_service.dart
-│   ├── widgets/
-│   │   ├── bottom_nav_bar.dart
-│   ├── main.dart
+├── services/
+│   ├── validate_service.dart
+├── widgets/
+│   ├── bottom_nav_bar.dart
+├── main.dart
 ├── README.md
-
+```
 
 
 
@@ -74,7 +73,7 @@ StoreCheckoutSystem/
 ### Frontend
 
 1. Instale o Flutter em seu ambiente de desenvolvimento.
-2. Acesse o diretório `frontend` pelo terminal.
+2. Acesse o diretório `lib` pelo terminal.
 3. Execute `flutter pub get` para obter as dependências.
 4. Inicie o aplicativo com `flutter run`.
 
