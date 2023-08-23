@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '/services/estoque_service.dart';
+import '/services/autocomplete_service.dart';
 import 'dart:convert';
 
 class EstoquePage extends StatefulWidget {
@@ -9,6 +10,7 @@ class EstoquePage extends StatefulWidget {
 
 class _EstoquePageState extends State<EstoquePage> {
   final EstoqueService produtoService = EstoqueService();
+  final AutocompleteService autocompleteService = AutocompleteService();
   List<Map<String, dynamic>>? produtos = [];
   String query = '';
   final TextEditingController _typeAheadController = TextEditingController();
@@ -50,21 +52,31 @@ class _EstoquePageState extends State<EstoquePage> {
             children: [
               Container(
                 width: MediaQuery.of(context).size.width * 0.4,
-                child: TextField(
-                  controller: this._typeAheadController,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    hintText: "Pesquisar",
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                    ),
-                  ),
-                  onChanged: (value) {
+                child: Autocomplete<String>(
+                  optionsBuilder: (TextEditingValue textEditingValue) {
+                    return autocompleteService.optionsBuilder(textEditingValue);
+                  },
+                  onSelected: (String selection) {
                     setState(() {
-                      query = value;
+                      query = selection;
                       fetchData();
                     });
+                  },
+                  fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                    textEditingController.text = query;
+                    return TextField(
+                      controller: textEditingController,
+                      focusNode: focusNode,
+                      decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.search),
+                      ),
+                      onChanged: (String value) {
+                        setState(() {
+                          query = value;
+                          fetchData();
+                        });
+                      },
+                    );
                   },
                 ),
               ),
@@ -109,6 +121,7 @@ class _EstoquePageState extends State<EstoquePage> {
                         .map((produto) => DataRow(
                               cells: <DataCell>[
                                 DataCell(Text(produto['id_produto']
+                                       
                                         ?.toString() ??
                                     '')),
                                 DataCell(Text(produto['nome_produto'] ?? '')),
