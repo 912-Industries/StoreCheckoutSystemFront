@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '/services/estoque_service.dart';
 import '/services/autocomplete_service.dart';
-import 'dart:convert';
 
 class EstoquePage extends StatefulWidget {
   @override
@@ -54,7 +53,11 @@ class _EstoquePageState extends State<EstoquePage> {
                 width: MediaQuery.of(context).size.width * 0.4,
                 child: Autocomplete<String>(
                   optionsBuilder: (TextEditingValue textEditingValue) {
-                    return autocompleteService.optionsBuilder(textEditingValue);
+                    if (textEditingValue.text.isEmpty) {
+                      return const Iterable<String>.empty();
+                    }
+                    return autocompleteService
+                        .getSuggestions(textEditingValue.text);
                   },
                   onSelected: (String selection) {
                     setState(() {
@@ -62,13 +65,19 @@ class _EstoquePageState extends State<EstoquePage> {
                       fetchData();
                     });
                   },
-                  fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                  fieldViewBuilder: (BuildContext context,
+                      TextEditingController textEditingController,
+                      FocusNode focusNode,
+                      VoidCallback onFieldSubmitted) {
                     textEditingController.text = query;
+                    textEditingController.selection =
+                        TextSelection.fromPosition(TextPosition(
+                            offset: textEditingController.text.length));
                     return TextField(
                       controller: textEditingController,
                       focusNode: focusNode,
                       decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.search),
+                        suffixIcon: Icon(Icons.add_circle_rounded),
                       ),
                       onChanged: (String value) {
                         setState(() {
@@ -120,16 +129,14 @@ class _EstoquePageState extends State<EstoquePage> {
                                 .contains(query.toLowerCase()))
                         .map((produto) => DataRow(
                               cells: <DataCell>[
-                                DataCell(Text(produto['id_produto']
-                                       
-                                        ?.toString() ??
-                                    '')),
-                                DataCell(Text(produto['nome_produto'] ?? '')),
-                                DataCell(Text(produto['preco_produto']
-                                        ?.toString() ??
-                                    '')),
                                 DataCell(Text(
-                                    produto['categoria_produto'] ?? '')),
+                                    produto['id_produto']?.toString() ?? '')),
+                                DataCell(Text(produto['nome_produto'] ?? '')),
+                                DataCell(Text(
+                                    produto['preco_produto']?.toString() ??
+                                        '')),
+                                DataCell(
+                                    Text(produto['categoria_produto'] ?? '')),
                               ],
                             ))
                         .toList(),

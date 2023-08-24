@@ -1,6 +1,7 @@
 package com.example.storecheckoutsystem.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ public class AutoCompleteController {
 
     @RequestMapping(value = "/api/autocomplete", method = RequestMethod.GET)
     @ResponseBody
-    public List<String> autocomplete(@RequestParam(value = "term", required = false, defaultValue = "") String term) {
+    public List<Object[]> autocomplete(@RequestParam(value = "term", required = false, defaultValue = "") String term) {
         return autoCompleteService.getSuggestions(term);
     }
 }
