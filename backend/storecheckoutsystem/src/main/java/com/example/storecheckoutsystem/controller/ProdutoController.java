@@ -4,6 +4,9 @@ import com.example.storecheckoutsystem.model.Produto;
 import com.example.storecheckoutsystem.model.Usuario;
 import com.example.storecheckoutsystem.repository.ProdutoRepository;
 import com.example.storecheckoutsystem.repository.UsuarioRepository;
+
+import jakarta.validation.Valid;
+
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,4 +40,6 @@ public class ProdutoController {
     public Produto salvarProduto(@Validated @RequestBody Produto produto) {
         return produtoRepository.save(produto);
     }
+  
+    
 }

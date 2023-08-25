@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '/services/estoque_service.dart';
 import '/services/autocomplete_service.dart';
+import '/widgets/cadastro_produto.dart';
 
 class EstoquePage extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class EstoquePage extends StatefulWidget {
 class _EstoquePageState extends State<EstoquePage> {
   final EstoqueService produtoService = EstoqueService();
   final AutocompleteService autocompleteService = AutocompleteService();
+  final CadastroProduto cadastroProduto = CadastroProduto();
   List<Map<String, dynamic>>? produtos = [];
   String query = '';
   final TextEditingController _typeAheadController = TextEditingController();
@@ -77,7 +79,15 @@ class _EstoquePageState extends State<EstoquePage> {
                       controller: textEditingController,
                       focusNode: focusNode,
                       decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.add_circle_rounded),
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.add_circle_rounded),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => CadastroProduto()),
+                            );
+                          },
+                        ),
                       ),
                       onChanged: (String value) {
                         setState(() {
