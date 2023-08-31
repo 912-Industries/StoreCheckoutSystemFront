@@ -11,6 +11,7 @@ class _CadastroProduto extends State<CadastroProduto> {
     var nomeProdutoController;
     var descricaoProdutoController;
     var precoProdutoController;
+    var categoriaProdutoController;
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -31,20 +32,7 @@ class _CadastroProduto extends State<CadastroProduto> {
                         labelText: 'Nome do Produto',
                         prefixIcon: Padding(
                           child: Icon(Icons.shopping_bag),
-                          padding: EdgeInsets.all(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    child: TextFormField(
-                      controller: descricaoProdutoController,
-                      decoration: InputDecoration(
-                        labelText: 'Descrição do Produto',
-                        prefixIcon: Padding(
-                          child: Icon(Icons.description),
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.all(5),
                         ),
                       ),
                     ),
@@ -57,11 +45,40 @@ class _CadastroProduto extends State<CadastroProduto> {
                         labelText: 'Preço do Produto',
                         prefixIcon: Padding(
                           child: Icon(Icons.attach_money),
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                         ),
                       ),
                     ),
                   ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: TextFormField(
+                      controller: categoriaProdutoController,
+                      decoration: InputDecoration(
+                        labelText: 'Categoria do Produto',
+                        prefixIcon: Padding(
+                          child: Icon(Icons.category_rounded),
+                          padding: EdgeInsets.all(5),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: TextField(
+                      textAlignVertical: TextAlignVertical.top,
+                      controller: descricaoProdutoController,
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                        //border: OutlineInputBorder(),
+                        labelText: 'Descrição do Produto',
+                        prefixIcon: Padding(
+                          child: Icon(Icons.description),
+                          padding: const EdgeInsets.all(10),
+                        ),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
