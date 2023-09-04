@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CadastroProduto extends StatefulWidget {
   @override
@@ -68,15 +69,41 @@ class _CadastroProduto extends State<CadastroProduto> {
                     child: TextField(
                       textAlignVertical: TextAlignVertical.top,
                       controller: descricaoProdutoController,
-                      maxLines: 5,
+                      maxLines: null,
+                      maxLength: 255,
+                      maxLengthEnforcement: MaxLengthEnforcement.enforced,
                       decoration: InputDecoration(
-                        //border: OutlineInputBorder(),
                         labelText: 'Descrição do Produto',
                         prefixIcon: Padding(
                           child: Icon(Icons.description),
                           padding: const EdgeInsets.all(10),
                         ),
                       ),
+                      buildCounter: (
+                        context, {
+                        required int currentLength,
+                        required int? maxLength,
+                        required bool isFocused,
+                      }) {
+                        return DefaultTextStyle(
+                          style: TextStyle(color: Colors.grey),
+                          child: Text(
+                            '$currentLength/$maxLength caracteres',
+                            semanticsLabel: 'contador caracteres',
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.060,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text('Cadastrar Produto'),
                     ),
                   )
                 ],
