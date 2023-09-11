@@ -6,14 +6,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "produto")
 public class Produto {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id_produto;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_produto")
+    @JsonProperty("id_produto")
+    private int idProduto;
 
     @Column(name = "nome_produto")
     @JsonProperty("nome_produto")
@@ -32,7 +35,7 @@ public class Produto {
     private String descricaoProduto;
 
     public int getId_produto() {
-        return id_produto;
+        return idProduto;
     }
 
     public String getNomeProduto() {
@@ -49,6 +52,31 @@ public class Produto {
 
     public String getDescricaoProduto() {
         return descricaoProduto;
+    }
+
+
+    public void setId_produto(int id_produto) {
+        this.idProduto = id_produto;
+    }
+
+
+    public void setNomeProduto(String nomeProduto) {
+        this.nomeProduto = nomeProduto;
+    }
+
+
+    public void setPrecoProduto(float precoProduto) {
+        this.precoProduto = precoProduto;
+    }
+
+
+    public void setCategoriaProduto(String categoriaProduto) {
+        this.categoriaProduto = categoriaProduto;
+    }
+
+
+    public void setDescricaoProduto(String descricaoProduto) {
+        this.descricaoProduto = descricaoProduto;
     }
 
 }

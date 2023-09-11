@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '/services/cadastro_produto_service.dart';
 
 class CadastroProduto extends StatefulWidget {
   @override
@@ -7,12 +8,20 @@ class CadastroProduto extends StatefulWidget {
 }
 
 class _CadastroProduto extends State<CadastroProduto> {
+  final nomeProdutoController = TextEditingController();
+  final descricaoProdutoController = TextEditingController();
+  final precoProdutoController = TextEditingController();
+  final categoriaProdutoController = TextEditingController();
+
+  void limpaCampos() {
+    nomeProdutoController.clear();
+    descricaoProdutoController.clear();
+    precoProdutoController.clear();
+    categoriaProdutoController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var nomeProdutoController;
-    var descricaoProdutoController;
-    var precoProdutoController;
-    var categoriaProdutoController;
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -102,7 +111,19 @@ class _CadastroProduto extends State<CadastroProduto> {
                     width: MediaQuery.of(context).size.width * 0.2,
                     height: MediaQuery.of(context).size.height * 0.060,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        CadastroProdutoService service =
+                            CadastroProdutoService();
+                        bool? isValid = await service.cadastroProduto(
+                          nomeProdutoController.text,
+                          double.parse(precoProdutoController.text),
+                          categoriaProdutoController.text,
+                          descricaoProdutoController.text,
+                        );
+                        setState(() {
+                          limpaCampos();
+                        });
+                      },
                       child: Text('Cadastrar Produto'),
                     ),
                   )
