@@ -4,6 +4,8 @@ import '/services/autocomplete_service.dart';
 import '/widgets/cadastro_produto.dart';
 
 class EstoquePage extends StatefulWidget {
+  static ValueNotifier<bool> shouldRefreshData = ValueNotifier(false);
+
   @override
   _EstoquePageState createState() => _EstoquePageState();
 }
@@ -19,7 +21,14 @@ class _EstoquePageState extends State<EstoquePage> {
   @override
   void initState() {
     super.initState();
+    EstoquePage.shouldRefreshData.addListener(fetchData);
     fetchData();
+  }
+
+  @override
+  void dispose() {
+    EstoquePage.shouldRefreshData.removeListener(fetchData);
+    super.dispose();
   }
 
   void fetchData() async {
@@ -81,20 +90,19 @@ class _EstoquePageState extends State<EstoquePage> {
                       decoration: InputDecoration(
                         suffixIcon: IconButton(
                           icon: Icon(Icons.add_circle_rounded),
-                          onPressed: () {
-                            Navigator.of(context).push(
+                          onPressed: () async {
+                            bool? isNewProductAdded =
+                                await Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => CadastroProduto()),
                             );
+                            if (isNewProductAdded != null &&
+                                isNewProductAdded) {
+                              fetchData();
+                            }
                           },
                         ),
                       ),
-                      onChanged: (String value) {
-                        setState(() {
-                          query = value;
-                          fetchData();
-                        });
-                      },
                     );
                   },
                 ),

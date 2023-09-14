@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '/services/cadastro_produto_service.dart';
+import '/screens/home/estoque.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 
 class CadastroProduto extends StatefulWidget {
   @override
@@ -26,6 +28,12 @@ class _CadastroProduto extends State<CadastroProduto> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Cadastro de Produto'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_rounded),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
         body: SafeArea(
           child: Padding(
@@ -51,6 +59,14 @@ class _CadastroProduto extends State<CadastroProduto> {
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: TextFormField(
                       controller: precoProdutoController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        CurrencyTextInputFormatter(
+                          locale: 'pt-BR',
+                          decimalDigits: 2,
+                          symbol: 'R\$ ',
+                        ),
+                      ],
                       decoration: InputDecoration(
                         labelText: 'Preço do Produto',
                         prefixIcon: Padding(
@@ -116,10 +132,17 @@ class _CadastroProduto extends State<CadastroProduto> {
                             CadastroProdutoService();
                         bool? isValid = await service.cadastroProduto(
                           nomeProdutoController.text,
-                          double.parse(precoProdutoController.text),
+                          double.parse(precoProdutoController.text
+                              .replaceAll('R\$', '')
+                              .replaceAll(',', '.')),
                           categoriaProdutoController.text,
                           descricaoProdutoController.text,
                         );
+
+                        if (isValid != null && isValid) {
+                          EstoquePage.shouldRefreshData.value =
+                              !EstoquePage.shouldRefreshData.value;
+                        }
                         setState(() {
                           limpaCampos();
                         });
