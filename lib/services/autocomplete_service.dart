@@ -11,14 +11,12 @@ class AutocompleteService {
       List<dynamic> list = json.decode(response.body) as List;
       List<String> suggestions = [];
       for (var item in list) {
-        suggestions.add(item[0].toString()); // id
-        suggestions.add(item[1].toString()); // nome
-        suggestions.add(item[2].toString()); // categoria
+        suggestions.add(
+            item.toString()); // Access the item directly without using an index
       }
       return suggestions;
     } else {
-      throw Exception('Failed to load suggestions');
+      throw Exception('Falha ao carregar sugestões');
     }
-    return []; // Add this line to ensure your function always returns a value
   }
 }

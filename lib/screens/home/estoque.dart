@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '/services/estoque_service.dart';
 import '/services/autocomplete_service.dart';
@@ -23,6 +25,16 @@ class _EstoquePageState extends State<EstoquePage> {
     super.initState();
     EstoquePage.shouldRefreshData.addListener(fetchData);
     fetchData();
+    Timer? debounce;
+    _typeAheadController.addListener(() {
+      if (debounce?.isActive ?? false) debounce?.cancel();
+      debounce = Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          query = _typeAheadController.text;
+          fetchData();
+        });
+      });
+    });
   }
 
   @override
@@ -36,17 +48,9 @@ class _EstoquePageState extends State<EstoquePage> {
     if (newProdutos.isNotEmpty) {
       setState(() {
         produtos = newProdutos
-            .where((produto) =>
-                produto['nome_produto']
-                    .toLowerCase()
-                    .contains(query.toLowerCase()) ||
-                produto['id_produto']
-                    .toString()
-                    .toLowerCase()
-                    .contains(query.toLowerCase()) ||
-                produto['categoria_produto']
-                    .toLowerCase()
-                    .contains(query.toLowerCase()))
+            .where((produto) => produto['nome_produto']
+                .toLowerCase()
+                .contains(query.toLowerCase()))
             .toList();
       });
     }
@@ -64,9 +68,6 @@ class _EstoquePageState extends State<EstoquePage> {
                 width: MediaQuery.of(context).size.width * 0.4,
                 child: Autocomplete<String>(
                   optionsBuilder: (TextEditingValue textEditingValue) {
-                    if (textEditingValue.text.isEmpty) {
-                      return const Iterable<String>.empty();
-                    }
                     return autocompleteService
                         .getSuggestions(textEditingValue.text);
                   },
@@ -134,17 +135,9 @@ class _EstoquePageState extends State<EstoquePage> {
                   ],
                   rows: List<DataRow>.from(
                     produtos!
-                        .where((produto) =>
-                            produto['nome_produto']
-                                .toLowerCase()
-                                .contains(query.toLowerCase()) ||
-                            produto['id_produto']
-                                .toString()
-                                .toLowerCase()
-                                .contains(query.toLowerCase()) ||
-                            produto['categoria_produto']
-                                .toLowerCase()
-                                .contains(query.toLowerCase()))
+                        .where((produto) => produto['nome_produto']
+                            .toLowerCase()
+                            .contains(query.toLowerCase()))
                         .map((produto) => DataRow(
                               cells: <DataCell>[
                                 DataCell(Text(
