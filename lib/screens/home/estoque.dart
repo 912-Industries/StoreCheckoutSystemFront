@@ -147,7 +147,26 @@ class _EstoquePageState extends State<EstoquePage> {
                                     produto['preco_produto']?.toString() ??
                                         '')),
                                 DataCell(
-                                    Text(produto['categoria_produto'] ?? '')),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(produto['categoria_produto'] ?? ''),
+                                      Row(
+                                        children: <Widget>[
+                                          IconButton(
+                                            icon: Icon(Icons.edit_rounded),
+                                            onPressed: () {},
+                                          ),
+                                          IconButton(
+                                            icon: Icon(Icons.delete_rounded),
+                                            onPressed: () {},
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ],
                             ))
                         .toList(),
