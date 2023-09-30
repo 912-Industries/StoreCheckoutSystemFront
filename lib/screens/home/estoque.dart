@@ -56,6 +56,7 @@ class _EstoquePageState extends State<EstoquePage> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -113,7 +114,7 @@ class _EstoquePageState extends State<EstoquePage> {
                 child: DataTable(
                   columns: const <DataColumn>[
                     DataColumn(
-                      label: Text(
+                      label: Text( 
                         'Id',
                       ),
                     ),
@@ -156,11 +157,15 @@ class _EstoquePageState extends State<EstoquePage> {
                                         children: <Widget>[
                                           IconButton(
                                             icon: Icon(Icons.edit_rounded),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              print('ID: ${produto['id_produto']}, Nome: ${produto['nome_produto']}, Preco: ${produto['preco_produto']}, Categoria: ${produto['categoria_produto']}');
+                                            },
                                           ),
                                           IconButton(
                                             icon: Icon(Icons.delete_rounded),
-                                            onPressed: () {},
+                                            onPressed: (){
+                                              
+                                            },
                                           ),
                                         ],
                                       )
