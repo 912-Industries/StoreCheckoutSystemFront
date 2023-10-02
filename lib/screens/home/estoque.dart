@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '/services/estoque_service.dart';
 import '/services/autocomplete_service.dart';
+import '../../widgets/editar_produto.dart';
 import '/widgets/cadastro_produto.dart';
 
 class EstoquePage extends StatefulWidget {
@@ -55,7 +56,6 @@ class _EstoquePageState extends State<EstoquePage> {
       });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,7 @@ class _EstoquePageState extends State<EstoquePage> {
                 child: DataTable(
                   columns: const <DataColumn>[
                     DataColumn(
-                      label: Text( 
+                      label: Text(
                         'Id',
                       ),
                     ),
@@ -158,14 +158,21 @@ class _EstoquePageState extends State<EstoquePage> {
                                           IconButton(
                                             icon: Icon(Icons.edit_rounded),
                                             onPressed: () {
-                                              print('ID: ${produto['id_produto']}, Nome: ${produto['nome_produto']}, Preco: ${produto['preco_produto']}, Categoria: ${produto['categoria_produto']}');
+                                              print(
+                                                  'ID: ${produto['id_produto']}, Nome: ${produto['nome_produto']}, Preco: ${produto['preco_produto']}, Categoria: ${produto['categoria_produto']}');
+
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: ((context) =>
+                                                      EditarProduto()),
+                                                ),
+                                              );
                                             },
                                           ),
                                           IconButton(
                                             icon: Icon(Icons.delete_rounded),
-                                            onPressed: (){
-                                              
-                                            },
+                                            onPressed: () {},
                                           ),
                                         ],
                                       )
