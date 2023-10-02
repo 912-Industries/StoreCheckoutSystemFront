@@ -165,7 +165,8 @@ class _EstoquePageState extends State<EstoquePage> {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: ((context) =>
-                                                      EditarProduto()),
+                                                      EditarProduto(
+                                                          produto: produto)),
                                                 ),
                                               );
                                             },

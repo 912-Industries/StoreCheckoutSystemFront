@@ -1,21 +1,49 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '/services/editar_produto_service.dart';
 import '/screens/home/estoque.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 
-import 'editar_produto.dart';
-
 class EditarProduto extends StatefulWidget {
+  late final Map<String, dynamic> produto;
+  EditarProduto({required this.produto});
+
   @override
   _EditarProduto createState() => _EditarProduto();
 }
 
 class _EditarProduto extends State<EditarProduto> {
-  final nomeProdutoController = TextEditingController();
-  final descricaoProdutoController = TextEditingController();
-  final precoProdutoController = TextEditingController();
-  final categoriaProdutoController = TextEditingController();
+  late TextEditingController idProdutoController;
+  late TextEditingController nomeProdutoController;
+  late TextEditingController descricaoProdutoController;
+  late TextEditingController precoProdutoController;
+  late TextEditingController categoriaProdutoController;
+
+  @override
+  void initState() {
+    super.initState();
+    idProdutoController =
+        TextEditingController(text: widget.produto['id_produto'].toString());
+    nomeProdutoController = TextEditingController(
+        text: utf8.decode(utf8.encode(widget.produto['nome_produto'])));
+    descricaoProdutoController = TextEditingController(
+        text: utf8.decode(utf8.encode(widget.produto['descricao_produto'])));
+    precoProdutoController =
+        TextEditingController(text: widget.produto['preco_produto'].toString());
+    categoriaProdutoController = TextEditingController(
+        text: utf8.decode(utf8.encode(widget.produto['categoria_produto'])));
+  }
+
+  @override
+  void dispose() {
+    idProdutoController.dispose();
+    nomeProdutoController.dispose();
+    descricaoProdutoController.dispose();
+    precoProdutoController.dispose();
+    categoriaProdutoController.dispose();
+    super.dispose();
+  }
 
   void limpaCampos() {
     nomeProdutoController.clear();
@@ -44,6 +72,19 @@ class _EditarProduto extends State<EditarProduto> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: TextFormField(
+                      controller: idProdutoController,
+                      decoration: InputDecoration(
+                        labelText: 'ID do Produto',
+                        prefixIcon: Padding(
+                          child: Icon(Icons.shopping_bag),
+                          padding: EdgeInsets.all(5),
+                        ),
+                      ),
+                    ),
+                  ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: TextFormField(
@@ -94,6 +135,10 @@ class _EditarProduto extends State<EditarProduto> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: TextField(
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                            RegExp('[a-zA-Z0-9 ]')),
+                      ],
                       textAlignVertical: TextAlignVertical.top,
                       controller: descricaoProdutoController,
                       maxLines: null,
