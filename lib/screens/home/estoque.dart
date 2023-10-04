@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '/services/estoque_service.dart';
 import '/services/autocomplete_service.dart';
+import '../../widgets/editar_produto.dart';
 import '/widgets/cadastro_produto.dart';
 
 class EstoquePage extends StatefulWidget {
@@ -156,7 +157,19 @@ class _EstoquePageState extends State<EstoquePage> {
                                         children: <Widget>[
                                           IconButton(
                                             icon: Icon(Icons.edit_rounded),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              print(
+                                                  'ID: ${produto['id_produto']}, Nome: ${produto['nome_produto']}, Preco: ${produto['preco_produto']}, Categoria: ${produto['categoria_produto']}');
+
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: ((context) =>
+                                                      EditarProduto(
+                                                          produto: produto)),
+                                                ),
+                                              );
+                                            },
                                           ),
                                           IconButton(
                                             icon: Icon(Icons.delete_rounded),
