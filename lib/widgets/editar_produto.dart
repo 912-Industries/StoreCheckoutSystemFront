@@ -76,10 +76,11 @@ class _EditarProduto extends State<EditarProduto> {
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: TextFormField(
                       controller: idProdutoController,
+                      enabled: false,
                       decoration: InputDecoration(
                         labelText: 'ID do Produto',
                         prefixIcon: Padding(
-                          child: Icon(Icons.shopping_bag),
+                          child: Icon(Icons.vpn_key),
                           padding: EdgeInsets.all(5),
                         ),
                       ),
@@ -183,6 +184,7 @@ class _EditarProduto extends State<EditarProduto> {
                               .replaceAll(',', '.')),
                           categoriaProdutoController.text,
                           descricaoProdutoController.text,
+                          idProdutoController.text,
                         );
 
                         if (isValid != null && isValid) {

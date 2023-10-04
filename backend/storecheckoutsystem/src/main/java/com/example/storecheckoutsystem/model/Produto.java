@@ -15,7 +15,8 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_produto")
     @JsonProperty("id_produto")
-    private int idProduto;
+    private Integer idProduto;
+    
 
     @Column(name = "nome_produto")
     @JsonProperty("nome_produto")
@@ -77,5 +78,7 @@ public class Produto {
     public void setDescricaoProduto(String descricaoProduto) {
         this.descricaoProduto = descricaoProduto;
     }
+
+    
 
 }
