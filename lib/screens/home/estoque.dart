@@ -5,6 +5,7 @@ import '/services/estoque_service.dart';
 import '/services/autocomplete_service.dart';
 import '../../widgets/editar_produto.dart';
 import '/widgets/cadastro_produto.dart';
+import '/services/excluir_produto_service.dart';
 
 class EstoquePage extends StatefulWidget {
   static ValueNotifier<bool> shouldRefreshData = ValueNotifier(false);
@@ -17,6 +18,7 @@ class _EstoquePageState extends State<EstoquePage> {
   final EstoqueService produtoService = EstoqueService();
   final AutocompleteService autocompleteService = AutocompleteService();
   final CadastroProduto cadastroProduto = CadastroProduto();
+  final ExcluirProdutoService excluirProdutoService = ExcluirProdutoService();
   List<Map<String, dynamic>>? produtos = [];
   String query = '';
   final TextEditingController _typeAheadController = TextEditingController();
@@ -55,6 +57,17 @@ class _EstoquePageState extends State<EstoquePage> {
             .toList();
       });
     }
+  }
+
+  Future<bool> excluirProduto(int idProduto) async {
+    bool isDeleted =
+        await ExcluirProdutoService().excluirProduto(idProduto.toString());
+    if (isDeleted) {
+      setState(() {
+        produtos?.removeWhere((produto) => produto['id_produto'] == idProduto);
+      });
+    }
+    return isDeleted;
   }
 
   @override
@@ -173,7 +186,12 @@ class _EstoquePageState extends State<EstoquePage> {
                                           ),
                                           IconButton(
                                             icon: Icon(Icons.delete_rounded),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              excluirProdutoService
+                                                  .excluirProduto(
+                                                      produto['id_produto']
+                                                          .toString());
+                                            },
                                           ),
                                         ],
                                       )

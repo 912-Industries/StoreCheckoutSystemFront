@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,7 +47,7 @@ public class ProdutoController {
     return produtoRepository.save(produto);
   }
 
-  @PutMapping(value="editar/{id}")
+  @PutMapping("editar/{id}")
   public ResponseEntity<Produto> editarProduto(@PathVariable int id, @RequestBody Produto produto) {
       Optional<Produto> optionalProduto = produtoRepository.findById(id);
       if (!optionalProduto.isPresent()){
@@ -57,5 +58,12 @@ public class ProdutoController {
       Produto atualizarProduto = produtoRepository.save(produto);
 
       return ResponseEntity.ok(atualizarProduto);
+  }
+  
+  @DeleteMapping("/excluir/{id}")
+  public ResponseEntity<Void> excluirProduto(@PathVariable int id){
+    produtoRepository.deleteById(id);
+    return ResponseEntity.noContent().build();
+
   }
 }
