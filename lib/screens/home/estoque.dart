@@ -61,14 +61,16 @@ class _EstoquePageState extends State<EstoquePage> {
 
   Future<bool> excluirProduto(int idProduto) async {
     bool isDeleted =
-        await ExcluirProdutoService().excluirProduto(idProduto.toString());
+        await excluirProdutoService.excluirProduto(idProduto.toString());
     if (isDeleted) {
+      fetchData();
       setState(() {
         produtos?.removeWhere((produto) => produto['id_produto'] == idProduto);
       });
     }
     return isDeleted;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -173,6 +175,9 @@ class _EstoquePageState extends State<EstoquePage> {
                                             onPressed: () {
                                               print(
                                                   'ID: ${produto['id_produto']}, Nome: ${produto['nome_produto']}, Preco: ${produto['preco_produto']}, Categoria: ${produto['categoria_produto']}');
+                                              setState(() {
+                                                
+                                              });
 
                                               Navigator.push(
                                                 context,
@@ -186,11 +191,15 @@ class _EstoquePageState extends State<EstoquePage> {
                                           ),
                                           IconButton(
                                             icon: Icon(Icons.delete_rounded),
-                                            onPressed: () {
-                                              excluirProdutoService
+                                            onPressed: () async {
+                                              await excluirProdutoService
                                                   .excluirProduto(
                                                       produto['id_produto']
                                                           .toString());
+                                              setState(() {
+                                                excluirProduto(
+                                                    produto['id_produto']);
+                                              });
                                             },
                                           ),
                                         ],
