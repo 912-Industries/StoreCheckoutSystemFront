@@ -6,7 +6,7 @@ class CadastroProdutoService {
       String CategoriaProduto, String DescricaoProduto) async {
     try {
       var response = await http.post(
-          Uri.parse('http://localhost:8080/api/produto/cadastro'),
+          Uri.parse('http://192.168.10.2:8080/api/produto/cadastro'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'nome_produto': NomeProduto,

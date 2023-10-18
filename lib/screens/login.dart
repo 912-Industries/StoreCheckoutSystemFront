@@ -21,15 +21,16 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              width: 400,
+              width: 250,
               child: TextFormField(
                 textAlignVertical: TextAlignVertical.center,
                 controller: _userNameController,
                 decoration: InputDecoration(labelText: 'Usuário'),
+                
               ),
             ),
             SizedBox(
-              width: 400,
+              width: 250,
               child: TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(labelText: 'Senha'),

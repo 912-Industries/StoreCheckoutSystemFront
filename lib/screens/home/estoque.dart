@@ -81,7 +81,7 @@ class _EstoquePageState extends State<EstoquePage> {
           child: Column(
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 0.4,
+                width: MediaQuery.of(context).size.width * 0.6,
                 child: Autocomplete<String>(
                   optionsBuilder: (TextEditingValue textEditingValue) {
                     return autocompleteService
@@ -126,7 +126,9 @@ class _EstoquePageState extends State<EstoquePage> {
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.vertical,
+                
                 child: DataTable(
+                  
                   columns: const <DataColumn>[
                     DataColumn(
                       label: Text(
@@ -157,7 +159,9 @@ class _EstoquePageState extends State<EstoquePage> {
                         .map((produto) => DataRow(
                               cells: <DataCell>[
                                 DataCell(Text(
-                                    produto['id_produto']?.toString() ?? '')),
+                                    produto['id_produto']?.toString() ?? '',
+                                    textAlign: TextAlign.center,)),
+                                    
                                 DataCell(Text(produto['nome_produto'] ?? '')),
                                 DataCell(Text(
                                     produto['preco_produto']?.toString() ??
