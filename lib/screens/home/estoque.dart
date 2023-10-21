@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import '/services/estoque_service.dart';
-import '/services/autocomplete_service.dart';
-import '../../widgets/editar_produto.dart';
-import '/widgets/cadastro_produto.dart';
+import 'package:store_checkout_system/screens/home/pedido_compra_modal/editar_produto.dart';
+import 'package:store_checkout_system/services/pedido_compra/estoque_service.dart';
+import 'package:store_checkout_system/services/pedido_compra/autocomplete_service.dart';
+import 'package:store_checkout_system/services/pedido_compra/excluir_produto_service.dart';
 
 class EstoquePage extends StatefulWidget {
   static ValueNotifier<bool> shouldRefreshData = ValueNotifier(false);
@@ -16,7 +16,7 @@ class EstoquePage extends StatefulWidget {
 class _EstoquePageState extends State<EstoquePage> {
   final EstoqueService produtoService = EstoqueService();
   final AutocompleteService autocompleteService = AutocompleteService();
-  final CadastroProduto cadastroProduto = CadastroProduto();
+  final ExcluirProdutoService excluirProdutoService = ExcluirProdutoService();
   List<Map<String, dynamic>>? produtos = [];
   String query = '';
   final TextEditingController _typeAheadController = TextEditingController();
@@ -57,6 +57,18 @@ class _EstoquePageState extends State<EstoquePage> {
     }
   }
 
+  Future<bool> excluirProduto(int idProduto) async {
+    bool isDeleted =
+        await excluirProdutoService.excluirProduto(idProduto.toString());
+    if (isDeleted) {
+      fetchData();
+      setState(() {
+        produtos?.removeWhere((produto) => produto['id_produto'] == idProduto);
+      });
+    }
+    return isDeleted;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -89,22 +101,6 @@ class _EstoquePageState extends State<EstoquePage> {
                     return TextField(
                       controller: textEditingController,
                       focusNode: focusNode,
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.add_circle_rounded),
-                          onPressed: () async {
-                            bool? isNewProductAdded =
-                                await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => CadastroProduto()),
-                            );
-                            if (isNewProductAdded != null &&
-                                isNewProductAdded) {
-                              fetchData();
-                            }
-                          },
-                        ),
-                      ),
                     );
                   },
                 ),
@@ -142,7 +138,9 @@ class _EstoquePageState extends State<EstoquePage> {
                         .map((produto) => DataRow(
                               cells: <DataCell>[
                                 DataCell(Text(
-                                    produto['id_produto']?.toString() ?? '')),
+                                  produto['id_produto']?.toString() ?? '',
+                                  textAlign: TextAlign.center,
+                                )),
                                 DataCell(Text(produto['nome_produto'] ?? '')),
                                 DataCell(Text(
                                     produto['preco_produto']?.toString() ??
@@ -160,6 +158,7 @@ class _EstoquePageState extends State<EstoquePage> {
                                             onPressed: () {
                                               print(
                                                   'ID: ${produto['id_produto']}, Nome: ${produto['nome_produto']}, Preco: ${produto['preco_produto']}, Categoria: ${produto['categoria_produto']}');
+                                              setState(() {});
 
                                               Navigator.push(
                                                 context,
@@ -173,7 +172,16 @@ class _EstoquePageState extends State<EstoquePage> {
                                           ),
                                           IconButton(
                                             icon: Icon(Icons.delete_rounded),
-                                            onPressed: () {},
+                                            onPressed: () async {
+                                              await excluirProdutoService
+                                                  .excluirProduto(
+                                                      produto['id_produto']
+                                                          .toString());
+                                              setState(() {
+                                                excluirProduto(
+                                                    produto['id_produto']);
+                                              });
+                                            },
                                           ),
                                         ],
                                       )

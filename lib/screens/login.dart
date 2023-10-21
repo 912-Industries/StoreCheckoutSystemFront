@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:store_checkout_system/screens/home/home.dart';
-import '/services/validate_service.dart';
+import '../services/login/validate_service.dart';
 import 'home/home.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,15 +21,16 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              width: 400,
+              width: 250,
               child: TextFormField(
                 textAlignVertical: TextAlignVertical.center,
                 controller: _userNameController,
                 decoration: InputDecoration(labelText: 'Usuário'),
+                
               ),
             ),
             SizedBox(
-              width: 400,
+              width: 250,
               child: TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(labelText: 'Senha'),
@@ -69,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           );
                         },
+                        
                       );
                     }
                   },

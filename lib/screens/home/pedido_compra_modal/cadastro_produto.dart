@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '/services/cadastro_produto_service.dart';
+import '../../../services/pedido_compra/cadastro_produto_service.dart';
 import '/screens/home/estoque.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:elegant_notification/elegant_notification.dart';
 
 class CadastroProduto extends StatefulWidget {
   @override
@@ -146,6 +147,18 @@ class _CadastroProduto extends State<CadastroProduto> {
                             if (isValid != null && isValid) {
                               EstoquePage.shouldRefreshData.value =
                                   !EstoquePage.shouldRefreshData.value;
+                              ElegantNotification.success(
+                                title: Text("Cadastro de Produto"),
+                                description: Text(
+                                    "O Produto foi cadastrado com sucesso"),
+                              ).show(context);
+                            } else {
+                              ElegantNotification.error(
+                                      title: Text("Cadastro de Produto"),
+                                      description:
+                                          Text("Ocorreu algum erro ao cadastrar o produto"))
+                                          
+                                  .show(context);
                             }
                           },
                           child: Text('Cadastrar Produto'),
