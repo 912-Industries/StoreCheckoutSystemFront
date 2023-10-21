@@ -6,7 +6,7 @@ class EditarProdutoService {
     String CategoriaProduto, String DescricaoProduto, String idProduto) async {
   try {
     var response =
-        await http.put(Uri.parse('http://192.168.10.2:8080/api/produto/editar/$idProduto'),
+        await http.put(Uri.parse('http://localhost:8080/api/produto/editar/$idProduto'),
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode({
               'nome_produto': NomeProduto,

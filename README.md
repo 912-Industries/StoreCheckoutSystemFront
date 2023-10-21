@@ -24,39 +24,7 @@ O StoreCheckout é um projeto que visa fornecer um sistema de administração de
 
 - **Flutter**: Framework para desenvolvimento de aplicativos móveis multiplataforma, permitindo a criação de interfaces nativas para iOS e Android a partir de um único código-base.
 
-## Estrutura do Projeto
 
-```StoreCheckoutSystem/
-├── backend/
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/
-│   │   │   │   ├── com/
-│   │   │   │   │   ├── storecheckoutsystem/
-│   │   │   │   │   │   ├── config/
-│   │   │   │   │   │   ├── controller/
-│   │   │   │   │   │   ├── model/
-│   │   │   │   │   │   ├── repository/
-│   │   │   │   │   │   ├── services/
-│   │   │   │   │   │   ├── StoreCheckoutApplication.java
-│   │   │   ├── resources/
-│   │   │   │   ├── application.properties
-├── lib/
-│   ├── main.dart
-│   ├── screens/
-│   │   ├── login.dart
-│   │   ├── home/
-│   │   │   ├── configuracoes.dart
-│   │   │   ├── estoque.dart
-│   │   │   ├── home.dart
-│   │   │   ├── vendas.dart
-├── services/
-│   ├── validate_service.dart
-├── widgets/
-│   ├── bottom_nav_bar.dart
-├── main.dart
-├── README.md
-```
 
 
 

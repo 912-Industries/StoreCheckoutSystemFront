@@ -6,7 +6,7 @@ class ValidateService {
   Future<bool> validateData(String username, String password) async {
     try {
       var response = await http.post(
-          Uri.parse('http://192.168.10.2:8080/api/usuario/login'),
+          Uri.parse('http://localhost:8080/api/usuario/login'),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(
               {'nome_usuario': username, 'senha_usuario': password}));

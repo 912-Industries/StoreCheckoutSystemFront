@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/screens/home/vendas.dart';
+import '../screens/home/pedido_compra.dart';
 import '/screens/home/estoque.dart';
 import '/screens/home/configuracoes.dart';
 
@@ -9,10 +9,10 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _currentIndex = 0;
+  int _currentIndex = 1;
   final List<Widget> _pages = [
-    VendasPage(),
     EstoquePage(),
+    PedidoCompraPage(),
     ConfiguracaoPage(),
   ];
 
@@ -30,9 +30,9 @@ class _MainPageState extends State<MainPage> {
         },
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.payments_rounded), label: 'Vendas'),
-          BottomNavigationBarItem(
               icon: Icon(Icons.view_list_rounded), label: 'Estoque'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.payments_rounded), label: 'Pedido de Compra'),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings_rounded), label: 'Configurações'),
         ],
