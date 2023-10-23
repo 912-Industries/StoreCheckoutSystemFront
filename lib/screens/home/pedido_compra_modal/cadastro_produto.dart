@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../services/pedido_compra/cadastro_produto_service.dart';
-import '/screens/home/estoque.dart';
+import '../estoque_modal/estoque.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:elegant_notification/elegant_notification.dart';
 

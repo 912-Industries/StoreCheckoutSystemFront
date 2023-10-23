@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../screens/home/pedido_compra.dart';
-import '/screens/home/estoque.dart';
+import '../screens/home/estoque_modal/estoque.dart';
 import '/screens/home/configuracoes.dart';
 
 class MainPage extends StatefulWidget {
