@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../services/pedido_compra/cadastro_produto_service.dart';
-import 'estoque_modal/estoque.dart';
+import '../../../../services/pedido_compra/cadastro_produto_service.dart';
+import '../estoque_modal/estoque.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:elegant_notification/elegant_notification.dart';
 
@@ -122,11 +122,26 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                           onPressed: () async {
                             CadastroProdutoService service =
                                 CadastroProdutoService();
+
+                            String precoProdutoText =
+                                precoProdutoController.text;
+                            precoProdutoText =
+                                precoProdutoText.replaceAll('R\$', '');
+                            precoProdutoText =
+                                precoProdutoText.replaceAll(',', '.');
+
+                            double precoProduto;
+                            try {
+                              precoProduto = double.parse(precoProdutoText);
+                            } catch (e) {
+                              print(
+                                  'Não foi possível converter a string para um double: $e');
+                              return;
+                            }
+
                             bool? isValid = await service.cadastroProduto(
                               nomeProdutoController.text,
-                              double.parse(precoProdutoController.text
-                                  .replaceAll('R\$', '')
-                                  .replaceAll(',', '.')),
+                              precoProduto,
                               categoriaProdutoController.text,
                               descricaoProdutoController.text,
                             );
