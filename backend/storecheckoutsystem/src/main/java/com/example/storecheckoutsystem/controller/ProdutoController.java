@@ -27,8 +27,9 @@ public class ProdutoController {
 
   private static final Logger logger = LoggerFactory.getLogger(
     UsuarioController.class
+    
   );
-
+  Produto produto = new Produto();
   @Autowired
   private ProdutoRepository produtoRepository;
 
@@ -37,7 +38,6 @@ public class ProdutoController {
     Iterable<Produto> produtos = produtoRepository.findAll();
     return new ResponseEntity<>(produtos, HttpStatus.OK);
   }
-
   @PostMapping("/cadastro")
   public Produto cadastroProduto(@Validated @RequestBody Produto produto) {
     produto.setNomeProduto(produto.getNomeProduto());
@@ -46,7 +46,6 @@ public class ProdutoController {
     produto.setDescricaoProduto(produto.getDescricaoProduto());
     return produtoRepository.save(produto);
   }
-
   @PutMapping("editar/{id}")
   public ResponseEntity<Produto> editarProduto(@PathVariable int id, @RequestBody Produto produto) {
       Optional<Produto> optionalProduto = produtoRepository.findById(id);
