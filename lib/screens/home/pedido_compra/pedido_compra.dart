@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../services/pedido_compra/cadastro_produto_service.dart';
-import '/screens/home/estoque.dart';
+import '../../../../services/pedido_compra/cadastro_produto_service.dart';
+import '../estoque_modal/estoque.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:elegant_notification/elegant_notification.dart';
 
-class CadastroProduto extends StatefulWidget {
+class PedidoCompraPage extends StatefulWidget {
   @override
-  _CadastroProduto createState() => _CadastroProduto();
+  _PedidoCompra createState() => _PedidoCompra();
 }
 
-class _CadastroProduto extends State<CadastroProduto> {
+class _PedidoCompra extends State<PedidoCompraPage> {
   final nomeProdutoController = TextEditingController();
   final descricaoProdutoController = TextEditingController();
   final precoProdutoController = TextEditingController();
@@ -27,15 +27,6 @@ class _CadastroProduto extends State<CadastroProduto> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Cadastro de Produto'),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_rounded),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -131,11 +122,26 @@ class _CadastroProduto extends State<CadastroProduto> {
                           onPressed: () async {
                             CadastroProdutoService service =
                                 CadastroProdutoService();
+
+                            String precoProdutoText =
+                                precoProdutoController.text;
+                            precoProdutoText =
+                                precoProdutoText.replaceAll('R\$', '');
+                            precoProdutoText =
+                                precoProdutoText.replaceAll(',', '.');
+
+                            double precoProduto;
+                            try {
+                              precoProduto = double.parse(precoProdutoText);
+                            } catch (e) {
+                              print(
+                                  'Não foi possível converter a string para um double: $e');
+                              return;
+                            }
+
                             bool? isValid = await service.cadastroProduto(
                               nomeProdutoController.text,
-                              double.parse(precoProdutoController.text
-                                  .replaceAll('R\$', '')
-                                  .replaceAll(',', '.')),
+                              precoProduto,
                               categoriaProdutoController.text,
                               descricaoProdutoController.text,
                             );
@@ -148,20 +154,20 @@ class _CadastroProduto extends State<CadastroProduto> {
                               EstoquePage.shouldRefreshData.value =
                                   !EstoquePage.shouldRefreshData.value;
                               ElegantNotification.success(
-                                title: Text("Cadastro de Produto"),
+                                title: Text("Pedido de Compra de Produto"),
                                 description: Text(
-                                    "O Produto foi cadastrado com sucesso"),
+                                    "O pedido de compra foi contabilizado com sucesso"),
                               ).show(context);
                             } else {
                               ElegantNotification.error(
-                                      title: Text("Cadastro de Produto"),
-                                      description:
-                                          Text("Ocorreu algum erro ao cadastrar o produto"))
-                                          
+                                      title:
+                                          Text("Pedido de Compra de Produto"),
+                                      description: Text(
+                                          "Ocorreu algum erro ao contabilizar o pedido de compra"))
                                   .show(context);
                             }
                           },
-                          child: Text('Cadastrar Produto'),
+                          child: Text('Pedido de Compra de Produto'),
                         )),
                   ]),
             ),

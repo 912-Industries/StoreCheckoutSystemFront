@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../screens/home/pedido_compra.dart';
-import '/screens/home/estoque.dart';
-import '/screens/home/configuracoes.dart';
+import 'package:store_checkout_system/screens/home/pedido_compra/pedido_compra.dart';
+import 'package:store_checkout_system/screens/home/estoque_modal/estoque.dart';
+import 'package:store_checkout_system/screens/home/config_screens/configuracoes.dart';
 
 class MainPage extends StatefulWidget {
   @override

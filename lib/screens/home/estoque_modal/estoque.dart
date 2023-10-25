@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:store_checkout_system/screens/home/pedido_compra_modal/editar_produto.dart';
+import 'editar_produto.dart';
 import 'package:store_checkout_system/services/pedido_compra/estoque_service.dart';
 import 'package:store_checkout_system/services/pedido_compra/autocomplete_service.dart';
 import 'package:store_checkout_system/services/pedido_compra/excluir_produto_service.dart';

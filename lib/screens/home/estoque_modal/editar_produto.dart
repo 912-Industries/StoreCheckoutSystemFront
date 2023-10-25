@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../services/pedido_compra/editar_produto_service.dart';
-import '/screens/home/estoque.dart';
+import 'estoque.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 
 class EditarProduto extends StatefulWidget {

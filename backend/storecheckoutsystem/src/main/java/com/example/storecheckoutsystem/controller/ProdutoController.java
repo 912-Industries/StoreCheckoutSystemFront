@@ -1,5 +1,8 @@
 package com.example.storecheckoutsystem.controller;
 
+import com.example.storecheckoutsystem.model.Markup;
+import com.example.storecheckoutsystem.controller.MarkupController;
+
 import com.example.storecheckoutsystem.model.Produto;
 import com.example.storecheckoutsystem.repository.ProdutoRepository;
 
@@ -27,25 +30,30 @@ public class ProdutoController {
 
   private static final Logger logger = LoggerFactory.getLogger(
     UsuarioController.class
+    
   );
-
+  Produto produto = new Produto();
   @Autowired
   private ProdutoRepository produtoRepository;
+  @Autowired
+  private MarkupController markupController;
 
   @GetMapping
   public ResponseEntity<Iterable<Produto>> pesquisaProduto() {
     Iterable<Produto> produtos = produtoRepository.findAll();
     return new ResponseEntity<>(produtos, HttpStatus.OK);
   }
-
-  @PostMapping("/cadastro")
-  public Produto cadastroProduto(@Validated @RequestBody Produto produto) {
+@PostMapping("/cadastro")
+public Produto cadastroProduto(@Validated @RequestBody Produto produto) {
+    Markup lastMarkup = markupController.getLastMarkup();
+    float productPrice = produto.getPrecoProduto();
+    float calculatedPrice =  (float) markupController.calculateProductPrice(productPrice, lastMarkup);
     produto.setNomeProduto(produto.getNomeProduto());
-    produto.setPrecoProduto(produto.getPrecoProduto());
+    produto.setPrecoProduto(calculatedPrice);
     produto.setCategoriaProduto(produto.getCategoriaProduto());
     produto.setDescricaoProduto(produto.getDescricaoProduto());
     return produtoRepository.save(produto);
-  }
+}
 
   @PutMapping("editar/{id}")
   public ResponseEntity<Produto> editarProduto(@PathVariable int id, @RequestBody Produto produto) {
