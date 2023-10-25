@@ -1,11 +1,8 @@
 package com.example.storecheckoutsystem.controller;
 
 import com.example.storecheckoutsystem.model.Markup;
-import com.example.storecheckoutsystem.controller.MarkupController;
-
 import com.example.storecheckoutsystem.model.Produto;
 import com.example.storecheckoutsystem.repository.ProdutoRepository;
-
 import java.util.Optional;
 
 import org.slf4j.Logger;
