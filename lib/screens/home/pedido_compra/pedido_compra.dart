@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../../services/pedido_compra/cadastro_produto_service.dart';
-import '../estoque_modal/estoque.dart';
+import 'package:store_checkout_system/services/pedido_compra/cadastro_produto_service.dart';
+import 'package:store_checkout_system/screens/home/estoque_modal/estoque.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:elegant_notification/elegant_notification.dart';
+import 'package:input_quantity/input_quantity.dart';
 
 class PedidoCompraPage extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class _PedidoCompra extends State<PedidoCompraPage> {
   final descricaoProdutoController = TextEditingController();
   final precoProdutoController = TextEditingController();
   final categoriaProdutoController = TextEditingController();
+  int quantidade = 1;
 
   void limpaCampos() {
     nomeProdutoController.clear();
@@ -60,7 +62,7 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                           ),
                         ],
                         decoration: InputDecoration(
-                          labelText: 'Preço do Produto',
+                          labelText: 'Preço de Custo',
                           prefixIcon: Padding(
                             child: Icon(Icons.attach_money),
                             padding: const EdgeInsets.all(10),
@@ -112,6 +114,28 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                         },
                       ),
                     ),
+                    InputQty(
+                      maxVal: 1000,
+                      initVal: 1,
+                      minVal: 0,
+                      steps: 1,
+                      decoration: const QtyDecorationProps(
+                        minusBtn: Icon(
+                          Icons.remove_circle_rounded,
+                          color: Colors.green,
+                        ),
+                        plusBtn: Icon(
+                          Icons.add_circle_rounded,
+                          color: Colors.green,
+                        ),
+                        isBordered: false,
+                      ),
+                      onQtyChanged: (val) {
+                        setState(() {
+                          quantidade = val;
+                        });
+                      },
+                    ),
                     SizedBox(
                       height: 40,
                     ),
@@ -140,11 +164,11 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                             }
 
                             bool? isValid = await service.cadastroProduto(
-                              nomeProdutoController.text,
-                              precoProduto,
-                              categoriaProdutoController.text,
-                              descricaoProdutoController.text,
-                            );
+                                nomeProdutoController.text,
+                                precoProduto,
+                                categoriaProdutoController.text,
+                                descricaoProdutoController.text,
+                                quantidade);
 
                             setState(() {
                               limpaCampos();

@@ -13,6 +13,10 @@ class EditarProduto extends StatefulWidget {
   _EditarProduto createState() => _EditarProduto();
 }
 
+/**
+ * TODO Regularizar edição de produto com novas colunas no banco
+ * Novas colunas: precoFinal_produto, quantidade_produto, precoCusto_produto
+ */
 class _EditarProduto extends State<EditarProduto> {
   late TextEditingController idProdutoController;
   late TextEditingController nomeProdutoController;
