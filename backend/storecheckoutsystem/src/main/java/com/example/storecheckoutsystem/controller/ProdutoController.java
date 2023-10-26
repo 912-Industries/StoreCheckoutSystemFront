@@ -74,4 +74,16 @@ public class ProdutoController {
     return ResponseEntity.noContent().build();
 
   }
+
+  @GetMapping("/quantidade/{id}")
+  public ResponseEntity<Integer> buscarQuantidadeProduto(@PathVariable int id) {
+    Optional<Produto> optionalProduto = produtoRepository.findById(id);
+    if (!optionalProduto.isPresent()) {
+      return ResponseEntity.notFound().build();
+    }
+
+    Produto produto = optionalProduto.get();
+    return ResponseEntity.ok(produto.getQuantidadeProduto());
+  }
+
 }
