@@ -86,4 +86,34 @@ public class ProdutoController {
     return ResponseEntity.ok(produto.getQuantidadeProduto());
   }
 
+  @PutMapping("/quantidade/aumentar/{id}")
+  public ResponseEntity<Integer> aumentarQuantidade(@PathVariable Integer id) {
+    Optional<Produto> optionalProduto = produtoRepository.findById(id);
+    if (produto != null) {
+      produto.setQuantidadeProduto(produto.getQuantidadeProduto() + 1);
+      produtoRepository.save(produto);
+      return ResponseEntity.ok(produto.getQuantidadeProduto());
+    } else {
+      return ResponseEntity.notFound().build();
+    }
+  }
+
+  @PutMapping("/quantidade/diminuir/{id}")
+  public ResponseEntity<Integer> diminuirQuantidade(@PathVariable Integer id) {
+    Optional<Produto> optionalProduto = produtoRepository.findById(id);
+    
+    if (produto != null) {
+      if (produto.getQuantidadeProduto() > 0) {
+        produto.setQuantidadeProduto(produto.getQuantidadeProduto() - 1);
+        produtoRepository.save(produto);
+        return ResponseEntity.ok(produto.getQuantidadeProduto());
+      } else {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(0);
+      }
+    } else {
+      return ResponseEntity.notFound().build();
+    }
+  }
+
 }

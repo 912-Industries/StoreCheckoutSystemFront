@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:input_quantity/input_quantity.dart';
+import 'package:store_checkout_system/services/pedido_compra/cadastro_produto_service.dart';
 import 'package:store_checkout_system/services/pedido_compra/editar_produto_service.dart';
 import 'package:store_checkout_system/screens/home/estoque_modal/estoque.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:store_checkout_system/screens/home/pedido_compra/pedido_compra.dart';
 
 class EditarProduto extends StatefulWidget {
   late final Map<String, dynamic> produto;
@@ -16,8 +17,8 @@ class EditarProduto extends StatefulWidget {
 }
 
 /**
- * TODO Regularizar edição de produto com novas colunas no banco
- * Novas colunas: precoFinal_produto, quantidade_produto, precoCusto_produto
+ * Fazer com que após cadastrado o produto ele puxe a quantidade
+ *  e seja atualizada a quantidade na tela ao editar o produto
  */
 class _EditarProduto extends State<EditarProduto> {
   late TextEditingController idProdutoController;
@@ -26,7 +27,36 @@ class _EditarProduto extends State<EditarProduto> {
   late TextEditingController precoProdutoFinalController;
   late TextEditingController precoProdutoCustoController;
   late TextEditingController categoriaProdutoController;
+
+  CadastroProdutoService service = CadastroProdutoService();
+
   int quantidade = 1;
+
+  void buscarQuantidade() async {
+    int? quantidadeProduto = await EditarProdutoService()
+        .buscarQuantidadeProduto(int.parse(idProdutoController.text));
+    if (quantidadeProduto != null) {
+      setState(() {
+        quantidade = quantidadeProduto;
+      });
+    }
+  }
+
+  void aumentarQuantidade() async {
+    int? novaQuantidade = await EditarProdutoService()
+        .aumentarQuantidade(int.parse(idProdutoController.text));
+    setState(() {
+      quantidade = novaQuantidade!;
+    });
+  }
+
+  void diminuirQuantidade() async {
+    int? novaQuantidade = await EditarProdutoService()
+        .diminuirQuantidade(int.parse(idProdutoController.text));
+    setState(() {
+      quantidade = novaQuantidade!;
+    });
+  }
 
   @override
   void initState() {
@@ -43,7 +73,6 @@ class _EditarProduto extends State<EditarProduto> {
         text: widget.produto['precoCusto_produto'].toString());
     categoriaProdutoController = TextEditingController(
         text: utf8.decode(utf8.encode(widget.produto['categoria_produto'])));
-    EditarProdutoService service = EditarProdutoService();
   }
 
   @override
@@ -204,6 +233,38 @@ class _EditarProduto extends State<EditarProduto> {
                   SizedBox(
                     height: 40,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          Icons.add_circle_rounded,
+                          color: Colors.green,
+                        ),
+                        onPressed: () async {
+                          int? novaQuantidade = await EditarProdutoService()
+                              .aumentarQuantidade(quantidade);
+                          setState(() {
+                            quantidade = novaQuantidade!;
+                          });
+                        },
+                      ),
+                      Text('$quantidade'),
+                      IconButton(
+                        onPressed: () async {
+                          int? novaQuantidade = await EditarProdutoService()
+                              .diminuirQuantidade(quantidade);
+                          setState(() {
+                            quantidade = novaQuantidade!;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.remove_circle_outlined,
+                          color: Colors.green,
+                        ),
+                      )
+                    ],
+                  ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.2,
                     height: MediaQuery.of(context).size.height * 0.060,
@@ -241,28 +302,6 @@ class _EditarProduto extends State<EditarProduto> {
                       },
                       child: Text('Editar Produto'),
                     ),
-                  ),
-                  InputQty(
-                    maxVal: 1000,
-                    initVal: quantidade,
-                    minVal: 0,
-                    steps: 1,
-                    decoration: const QtyDecorationProps(
-                      minusBtn: Icon(
-                        Icons.remove_circle_rounded,
-                        color: Colors.green,
-                      ),
-                      plusBtn: Icon(
-                        Icons.add_circle_rounded,
-                        color: Colors.green,
-                      ),
-                      isBordered: false,
-                    ),
-                    onQtyChanged: (val) {
-                      setState(() {
-                        quantidade = val;
-                      });
-                    },
                   ),
                   SizedBox(
                     height: 20,

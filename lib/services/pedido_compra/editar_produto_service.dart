@@ -49,4 +49,38 @@ class EditarProdutoService {
       return null;
     }
   }
+
+  Future<int?> aumentarQuantidade(int idProduto) async {
+    try {
+      var response = await http.put(
+          Uri.parse(
+              'http://localhost:8080/api/produto/quantidade/aumentar/$idProduto'),
+          headers: {'Content-Type': 'application/json'});
+      if (response.statusCode == 200) {
+        return int.parse(response.body);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Network error:  + $e');
+      return null;
+    }
+  }
+
+  Future<int?> diminuirQuantidade(int idProduto) async {
+    try {
+      var response = await http.put(
+          Uri.parse(
+              'http://localhost:8080/api/produto/quantidade/diminuir/$idProduto'),
+          headers: {'Content-Type': 'application/json'});
+      if (response.statusCode == 200) {
+        return int.parse(response.body);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Network error:  + $e');
+      return null;
+    }
+  }
 }

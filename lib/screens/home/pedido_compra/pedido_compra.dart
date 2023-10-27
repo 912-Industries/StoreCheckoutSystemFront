@@ -4,7 +4,6 @@ import 'package:store_checkout_system/services/pedido_compra/cadastro_produto_se
 import 'package:store_checkout_system/screens/home/estoque_modal/estoque.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:elegant_notification/elegant_notification.dart';
-import 'package:input_quantity/input_quantity.dart';
 
 class PedidoCompraPage extends StatefulWidget {
   @override
@@ -16,6 +15,7 @@ class _PedidoCompra extends State<PedidoCompraPage> {
   final descricaoProdutoController = TextEditingController();
   final precoProdutoController = TextEditingController();
   final categoriaProdutoController = TextEditingController();
+
   int quantidade = 1;
 
   void limpaCampos() {
@@ -23,6 +23,20 @@ class _PedidoCompra extends State<PedidoCompraPage> {
     descricaoProdutoController.clear();
     precoProdutoController.clear();
     categoriaProdutoController.clear();
+  }
+
+  void aumentarQuantidade() {
+    setState(() {
+      quantidade++;
+    });
+  }
+
+  void diminuirQuantidade() {
+    setState(() {
+      if (quantidade > 0) {
+        quantidade--;
+      }
+    });
   }
 
   @override
@@ -114,30 +128,29 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                         },
                       ),
                     ),
-                    InputQty(
-                      maxVal: 1000,
-                      initVal: 1,
-                      minVal: 0,
-                      steps: 1,
-                      decoration: const QtyDecorationProps(
-                        minusBtn: Icon(
-                          Icons.remove_circle_rounded,
-                          color: Colors.green,
-                        ),
-                        plusBtn: Icon(
-                          Icons.add_circle_rounded,
-                          color: Colors.green,
-                        ),
-                        isBordered: false,
-                      ),
-                      onQtyChanged: (val) {
-                        setState(() {
-                          quantidade = val;
-                        });
-                      },
-                    ),
                     SizedBox(
                       height: 40,
+                    ),
+                    Text('Quantidade: '),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: diminuirQuantidade,
+                          icon: Icon(
+                            Icons.remove_circle_outlined,
+                            color: Colors.green,
+                          ),
+                        ),
+                        Text('$quantidade'),
+                        IconButton(
+                          icon: Icon(
+                            Icons.add_circle_rounded,
+                            color: Colors.green,
+                          ),
+                          onPressed: aumentarQuantidade,
+                        ),
+                      ],
                     ),
                     Container(
                         width: MediaQuery.of(context).size.width * 0.2,
@@ -155,6 +168,7 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                                 precoProdutoText.replaceAll(',', '.');
 
                             double precoProduto;
+                            quantidade;
                             try {
                               precoProduto = double.parse(precoProdutoText);
                             } catch (e) {
