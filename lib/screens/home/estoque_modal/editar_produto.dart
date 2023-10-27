@@ -16,10 +16,6 @@ class EditarProduto extends StatefulWidget {
   _EditarProduto createState() => _EditarProduto();
 }
 
-/**
- * Fazer com que após cadastrado o produto ele puxe a quantidade
- *  e seja atualizada a quantidade na tela ao editar o produto
- */
 class _EditarProduto extends State<EditarProduto> {
   late TextEditingController idProdutoController;
   late TextEditingController nomeProdutoController;
@@ -27,34 +23,25 @@ class _EditarProduto extends State<EditarProduto> {
   late TextEditingController precoProdutoFinalController;
   late TextEditingController precoProdutoCustoController;
   late TextEditingController categoriaProdutoController;
+  late TextEditingController quantidadeProdutoController;
 
   CadastroProdutoService service = CadastroProdutoService();
 
   int quantidade = 1;
 
-  void buscarQuantidade() async {
-    int? quantidadeProduto = await EditarProdutoService()
-        .buscarQuantidadeProduto(int.parse(idProdutoController.text));
-    if (quantidadeProduto != null) {
-      setState(() {
-        quantidade = quantidadeProduto;
-      });
-    }
-  }
-
-  void aumentarQuantidade() async {
-    int? novaQuantidade = await EditarProdutoService()
-        .aumentarQuantidade(int.parse(idProdutoController.text));
+  void aumentarQuantidade() {
     setState(() {
-      quantidade = novaQuantidade!;
+      int currentQuantity = int.parse(quantidadeProdutoController.text);
+      quantidadeProdutoController.text = (currentQuantity + 1).toString();
     });
   }
 
-  void diminuirQuantidade() async {
-    int? novaQuantidade = await EditarProdutoService()
-        .diminuirQuantidade(int.parse(idProdutoController.text));
+  void diminuirQuantidade() {
     setState(() {
-      quantidade = novaQuantidade!;
+      int currentQuantity = int.parse(quantidadeProdutoController.text);
+      if (currentQuantity > 0) {
+        quantidadeProdutoController.text = (currentQuantity - 1).toString();
+      }
     });
   }
 
@@ -73,6 +60,8 @@ class _EditarProduto extends State<EditarProduto> {
         text: widget.produto['precoCusto_produto'].toString());
     categoriaProdutoController = TextEditingController(
         text: utf8.decode(utf8.encode(widget.produto['categoria_produto'])));
+    quantidadeProdutoController = TextEditingController(
+        text: widget.produto['quantidade_produto'].toString());
   }
 
   @override
@@ -82,6 +71,7 @@ class _EditarProduto extends State<EditarProduto> {
     descricaoProdutoController.dispose();
     precoProdutoFinalController.dispose();
     categoriaProdutoController.dispose();
+    quantidadeProdutoController.dispose();
     super.dispose();
   }
 
@@ -231,39 +221,42 @@ class _EditarProduto extends State<EditarProduto> {
                     ),
                   ),
                   SizedBox(
-                    height: 40,
+                    height: 10,
                   ),
+                  Text('Quantidade: '),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      IconButton(
+                        onPressed: diminuirQuantidade,
+                        icon: Icon(
+                          Icons.remove_circle_outlined,
+                          color: Colors.green,
+                        ),
+                      ),
+                      Container(
+                        width: 50.0, // ajuste este valor conforme necessário
+                        child: TextFormField(
+                          controller: quantidadeProdutoController,
+                          keyboardType: TextInputType.number,
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(vertical: 0.0),
+                          ),
+                        ),
+                      ),
                       IconButton(
                         icon: Icon(
                           Icons.add_circle_rounded,
                           color: Colors.green,
                         ),
-                        onPressed: () async {
-                          int? novaQuantidade = await EditarProdutoService()
-                              .aumentarQuantidade(quantidade);
-                          setState(() {
-                            quantidade = novaQuantidade!;
-                          });
-                        },
+                        onPressed: aumentarQuantidade,
                       ),
-                      Text('$quantidade'),
-                      IconButton(
-                        onPressed: () async {
-                          int? novaQuantidade = await EditarProdutoService()
-                              .diminuirQuantidade(quantidade);
-                          setState(() {
-                            quantidade = novaQuantidade!;
-                          });
-                        },
-                        icon: Icon(
-                          Icons.remove_circle_outlined,
-                          color: Colors.green,
-                        ),
-                      )
                     ],
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.2,
@@ -282,7 +275,7 @@ class _EditarProduto extends State<EditarProduto> {
                             categoriaProdutoController.text,
                             descricaoProdutoController.text,
                             int.parse(idProdutoController.text),
-                            quantidade);
+                            int.parse(quantidadeProdutoController.text));
 
                         if (isValid != null && isValid) {
                           EstoquePage.shouldRefreshData.value =

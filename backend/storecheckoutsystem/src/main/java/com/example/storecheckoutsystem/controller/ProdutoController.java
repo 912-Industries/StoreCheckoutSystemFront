@@ -55,6 +55,19 @@ public class ProdutoController {
     return produtoRepository.save(produto);
   }
 
+  /*
+   * TODO dessa forma ele está pegando o preço final do produto multiplicando pelo
+   * markup e deixando o valor dessa conta dentro do preço de custo e onde seria o
+   * preço final está multiplicando pelo preço de custo pelo markup ou seja.
+   * 
+   * No cadastro:
+   * preço de custo 60
+   * preço final 100.2
+   * 
+   * ao editar por qq valor o preço de custo
+   * preço de custo 100.20
+   * preçofinal 167.33
+   */
   @PutMapping("editar/{id}")
   public ResponseEntity<Produto> editarProduto(@PathVariable int id, @RequestBody Produto produto) {
     Optional<Produto> optionalProduto = produtoRepository.findById(id);
@@ -62,9 +75,13 @@ public class ProdutoController {
       return ResponseEntity.notFound().build();
     }
 
-    produto.setIdProduto(id);
-    Produto atualizarProduto = produtoRepository.save(produto);
-
+    Produto produtoAtual = optionalProduto.get();
+    produtoAtual.setPrecoCustoProduto(produto.getPrecoCustoProduto());
+    Markup lastMarkup = markupController.getLastMarkup();
+    float productPrice = produto.getPrecoCustoProduto();
+    float calculatedPrice = (float) markupController.calculateProductPrice(productPrice, lastMarkup);
+    produtoAtual.setPrecoFinalProduto(calculatedPrice);
+    Produto atualizarProduto = produtoRepository.save(produtoAtual);
     return ResponseEntity.ok(atualizarProduto);
   }
 
@@ -84,36 +101,6 @@ public class ProdutoController {
 
     Produto produto = optionalProduto.get();
     return ResponseEntity.ok(produto.getQuantidadeProduto());
-  }
-
-  @PutMapping("/quantidade/aumentar/{id}")
-  public ResponseEntity<Integer> aumentarQuantidade(@PathVariable Integer id) {
-    Optional<Produto> optionalProduto = produtoRepository.findById(id);
-    if (produto != null) {
-      produto.setQuantidadeProduto(produto.getQuantidadeProduto() + 1);
-      produtoRepository.save(produto);
-      return ResponseEntity.ok(produto.getQuantidadeProduto());
-    } else {
-      return ResponseEntity.notFound().build();
-    }
-  }
-
-  @PutMapping("/quantidade/diminuir/{id}")
-  public ResponseEntity<Integer> diminuirQuantidade(@PathVariable Integer id) {
-    Optional<Produto> optionalProduto = produtoRepository.findById(id);
-    
-    if (produto != null) {
-      if (produto.getQuantidadeProduto() > 0) {
-        produto.setQuantidadeProduto(produto.getQuantidadeProduto() - 1);
-        produtoRepository.save(produto);
-        return ResponseEntity.ok(produto.getQuantidadeProduto());
-      } else {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(0);
-      }
-    } else {
-      return ResponseEntity.notFound().build();
-    }
   }
 
 }

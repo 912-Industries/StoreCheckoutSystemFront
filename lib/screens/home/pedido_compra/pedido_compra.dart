@@ -15,8 +15,22 @@ class _PedidoCompra extends State<PedidoCompraPage> {
   final descricaoProdutoController = TextEditingController();
   final precoProdutoController = TextEditingController();
   final categoriaProdutoController = TextEditingController();
-
+  late TextEditingController quantidadeProdutoController;
   int quantidade = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    quantidadeProdutoController =
+        TextEditingController(text: quantidade.toString());
+    quantidadeProdutoController.text = quantidade.toString();
+  }
+
+  @override
+  void dispose() {
+    quantidadeProdutoController.dispose();
+    super.dispose();
+  }
 
   void limpaCampos() {
     nomeProdutoController.clear();
@@ -28,6 +42,7 @@ class _PedidoCompra extends State<PedidoCompraPage> {
   void aumentarQuantidade() {
     setState(() {
       quantidade++;
+      quantidadeProdutoController.text = quantidade.toString();
     });
   }
 
@@ -35,6 +50,7 @@ class _PedidoCompra extends State<PedidoCompraPage> {
     setState(() {
       if (quantidade > 0) {
         quantidade--;
+        quantidadeProdutoController.text = quantidade.toString();
       }
     });
   }
@@ -129,7 +145,7 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 40,
+                      height: 20,
                     ),
                     Text('Quantidade: '),
                     Row(
@@ -142,7 +158,19 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                             color: Colors.green,
                           ),
                         ),
-                        Text('$quantidade'),
+                        Container(
+                          width: 50.0, // ajuste este valor conforme necessário
+                          child: TextFormField(
+                            controller: quantidadeProdutoController,
+                            keyboardType: TextInputType.number,
+                            textAlign: TextAlign.center,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 0.0),
+                            ),
+                          ),
+                        ),
                         IconButton(
                           icon: Icon(
                             Icons.add_circle_rounded,
@@ -151,6 +179,9 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                           onPressed: aumentarQuantidade,
                         ),
                       ],
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                     Container(
                         width: MediaQuery.of(context).size.width * 0.2,
