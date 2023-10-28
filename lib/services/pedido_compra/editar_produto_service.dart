@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 class EditarProdutoService {
   Future<bool>? editarProduto(
       String NomeProduto,
-      double PrecoProdutoFinal,
       double PrecoProdutoCusto,
+      double PrecoProdutoFinal,
       String CategoriaProduto,
       String DescricaoProduto,
       int idProduto,
@@ -16,8 +16,8 @@ class EditarProdutoService {
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'nome_produto': NomeProduto,
-            'precoFinal_produto': PrecoProdutoFinal,
             'precoCusto_produto': PrecoProdutoCusto,
+            'precoFinal_produto': PrecoProdutoFinal,
             'categoria_produto': CategoriaProduto,
             'descricao_produto': DescricaoProduto,
             'quantidade_produto': QuantidadeProduto

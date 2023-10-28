@@ -55,19 +55,6 @@ public class ProdutoController {
     return produtoRepository.save(produto);
   }
 
-  /*
-   * TODO dessa forma ele está pegando o preço final do produto multiplicando pelo
-   * markup e deixando o valor dessa conta dentro do preço de custo e onde seria o
-   * preço final está multiplicando pelo preço de custo pelo markup ou seja.
-   * 
-   * No cadastro:
-   * preço de custo 60
-   * preço final 100.2
-   * 
-   * ao editar por qq valor o preço de custo
-   * preço de custo 100.20
-   * preçofinal 167.33
-   */
   @PutMapping("editar/{id}")
   public ResponseEntity<Produto> editarProduto(@PathVariable int id, @RequestBody Produto produto) {
     Optional<Produto> optionalProduto = produtoRepository.findById(id);

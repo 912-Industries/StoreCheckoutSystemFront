@@ -121,7 +121,7 @@ class _EstoquePageState extends State<EstoquePage> {
                     ),
                     DataColumn(
                       label: Text(
-                        'Preço',
+                        'Preço Final',
                       ),
                     ),
                     DataColumn(
@@ -129,6 +129,7 @@ class _EstoquePageState extends State<EstoquePage> {
                         'Categoria',
                       ),
                     ),
+                    DataColumn(label: Text('Quantidade'))
                   ],
                   rows: List<DataRow>.from(
                     produtos!
@@ -146,20 +147,24 @@ class _EstoquePageState extends State<EstoquePage> {
                                     produto['precoFinal_produto']?.toString() ??
                                         '')),
                                 DataCell(
+                                  Text(produto['categoria_produto'] ?? ''),
+                                ),
+                                DataCell(
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Text(produto['categoria_produto'] ?? ''),
+                                      Text(
+                                        produto['quantidade_produto']
+                                                .toString() ??
+                                            '',
+                                        textAlign: TextAlign.center,
+                                      ),
                                       Row(
                                         children: <Widget>[
                                           IconButton(
                                             icon: Icon(Icons.edit_rounded),
                                             onPressed: () {
-                                              print(
-                                                  'ID: ${produto['id_produto']}, Nome: ${produto['nome_produto']}, Preco: ${produto['preco_produto']}, Categoria: ${produto['categoria_produto']}');
-                                              setState(() {});
-
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(

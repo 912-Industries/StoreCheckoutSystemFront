@@ -6,7 +6,6 @@ import 'package:store_checkout_system/services/pedido_compra/cadastro_produto_se
 import 'package:store_checkout_system/services/pedido_compra/editar_produto_service.dart';
 import 'package:store_checkout_system/screens/home/estoque_modal/estoque.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
-import 'package:store_checkout_system/screens/home/pedido_compra/pedido_compra.dart';
 
 class EditarProduto extends StatefulWidget {
   late final Map<String, dynamic> produto;
