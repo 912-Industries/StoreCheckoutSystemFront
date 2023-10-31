@@ -108,6 +108,7 @@ class _EstoquePageState extends State<EstoquePage> {
               SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: DataTable(
+                  showCheckboxColumn: false,
                   columns: const <DataColumn>[
                     DataColumn(
                       label: Text(
@@ -129,7 +130,9 @@ class _EstoquePageState extends State<EstoquePage> {
                         'Categoria',
                       ),
                     ),
-                    DataColumn(label: Text('Quantidade'))
+                    DataColumn(
+                      label: Text('Quantidade'),
+                    )
                   ],
                   rows: List<DataRow>.from(
                     produtos!
@@ -137,6 +140,17 @@ class _EstoquePageState extends State<EstoquePage> {
                             .toLowerCase()
                             .contains(query.toLowerCase()))
                         .map((produto) => DataRow(
+                              onSelectChanged: (bool? selected) {
+                                if (selected == true) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: ((context) =>
+                                          EditarProduto(produto: produto)),
+                                    ),
+                                  );
+                                }
+                              },
                               cells: <DataCell>[
                                 DataCell(Text(
                                   produto['id_produto']?.toString() ?? '',
@@ -154,42 +168,55 @@ class _EstoquePageState extends State<EstoquePage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Text(
-                                        produto['quantidade_produto']
-                                                .toString() ??
-                                            '',
-                                        textAlign: TextAlign.center,
+                                      Expanded(
+                                        child: Center(
+                                          child: Text(
+                                            produto['quantidade_produto']
+                                                    .toString() ??
+                                                '',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
                                       ),
-                                      Row(
-                                        children: <Widget>[
-                                          IconButton(
-                                            icon: Icon(Icons.edit_rounded),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: ((context) =>
-                                                      EditarProduto(
-                                                          produto: produto)),
+                                      IconButton(
+                                        // Adicionar o ícone de remoção aqui
+                                        icon: Icon(Icons.delete),
+                                        onPressed: () async {
+                                          final bool? result = await showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              title: Text('Confirmar remoção'),
+                                              content: Text(
+                                                  'Deseja remover este produto?'),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: Text('Não'),
+                                                  onPressed: () =>
+                                                      Navigator.of(context)
+                                                          .pop(false),
                                                 ),
-                                              );
-                                            },
-                                          ),
-                                          IconButton(
-                                            icon: Icon(Icons.delete_rounded),
-                                            onPressed: () async {
-                                              await excluirProdutoService
-                                                  .excluirProduto(
-                                                      produto['id_produto']
-                                                          .toString());
-                                              setState(() {
-                                                excluirProduto(
-                                                    produto['id_produto']);
-                                              });
-                                            },
-                                          ),
-                                        ],
-                                      )
+                                                TextButton(
+                                                  child: Text('Sim'),
+                                                  onPressed: () =>
+                                                      Navigator.of(context)
+                                                          .pop(true),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+
+                                          if (result == true) {
+                                            await excluirProdutoService
+                                                .excluirProduto(
+                                                    produto['id_produto']
+                                                        .toString());
+                                            setState(() {
+                                              excluirProduto(
+                                                  produto['id_produto']);
+                                            });
+                                          }
+                                        },
+                                      ),
                                     ],
                                   ),
                                 ),
