@@ -5,6 +5,7 @@ import 'editar_produto.dart';
 import 'package:store_checkout_system/services/pedido_compra/estoque_service.dart';
 import 'package:store_checkout_system/services/pedido_compra/autocomplete_service.dart';
 import 'package:store_checkout_system/services/pedido_compra/excluir_produto_service.dart';
+import 'package:store_checkout_system/widgets/icone_exclusao.dart';
 
 class EstoquePage extends StatefulWidget {
   static ValueNotifier<bool> shouldRefreshData = ValueNotifier(false);
@@ -107,123 +108,94 @@ class _EstoquePageState extends State<EstoquePage> {
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                child: DataTable(
-                  showCheckboxColumn: false,
-                  columns: const <DataColumn>[
-                    DataColumn(
-                      label: Text(
-                        'Id',
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Nome',
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Preço Final',
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Categoria',
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text('Quantidade'),
-                    )
-                  ],
-                  rows: List<DataRow>.from(
-                    produtos!
-                        .where((produto) => produto['nome_produto']
-                            .toLowerCase()
-                            .contains(query.toLowerCase()))
-                        .map((produto) => DataRow(
-                              onSelectChanged: (bool? selected) {
-                                if (selected == true) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: ((context) =>
-                                          EditarProduto(produto: produto)),
-                                    ),
-                                  );
-                                }
-                              },
-                              cells: <DataCell>[
-                                DataCell(Text(
-                                  produto['id_produto']?.toString() ?? '',
-                                  textAlign: TextAlign.center,
-                                )),
-                                DataCell(Text(produto['nome_produto'] ?? '')),
-                                DataCell(Text(
-                                    produto['precoFinal_produto']?.toString() ??
-                                        '')),
-                                DataCell(
-                                  Text(produto['categoria_produto'] ?? ''),
-                                ),
-                                DataCell(
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Center(
-                                          child: Text(
-                                            produto['quantidade_produto']
-                                                    .toString() ??
-                                                '',
-                                            textAlign: TextAlign.center,
-                                          ),
+                child: Column(
+                  children: [
+                    DataTable(
+                      showCheckboxColumn: false,
+                      columns: const <DataColumn>[
+                        DataColumn(
+                          label: Text(
+                            'Id',
+                          ),
+                        ),
+                        DataColumn(
+                          label: Text(
+                            'Nome',
+                          ),
+                        ),
+                        DataColumn(
+                          label: Text(
+                            'Preço Final',
+                          ),
+                        ),
+                        DataColumn(
+                          label: Text(
+                            'Categoria',
+                          ),
+                        ),
+                        DataColumn(
+                          label: Text('Quantidade'),
+                        ),
+                      ],
+                      rows: List<DataRow>.from(
+                        produtos!
+                            .where((produto) => produto['nome_produto']
+                                .toLowerCase()
+                                .contains(query.toLowerCase()))
+                            .map((produto) => DataRow(
+                                  onSelectChanged: (bool? selected) {
+                                    if (selected == true) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: ((context) =>
+                                              EditarProduto(produto: produto)),
                                         ),
-                                      ),
-                                      IconButton(
-                                        // Adicionar o ícone de remoção aqui
-                                        icon: Icon(Icons.delete),
-                                        onPressed: () async {
-                                          final bool? result = await showDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                              title: Text('Confirmar remoção'),
-                                              content: Text(
-                                                  'Deseja remover este produto?'),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  child: Text('Não'),
-                                                  onPressed: () =>
-                                                      Navigator.of(context)
-                                                          .pop(false),
-                                                ),
-                                                TextButton(
-                                                  child: Text('Sim'),
-                                                  onPressed: () =>
-                                                      Navigator.of(context)
-                                                          .pop(true),
-                                                ),
-                                              ],
+                                      );
+                                    }
+                                  },
+                                  cells: <DataCell>[
+                                    DataCell(Text(
+                                      produto['id_produto']?.toString() ?? '',
+                                      textAlign: TextAlign.center,
+                                    )),
+                                    DataCell(
+                                        Text(produto['nome_produto'] ?? '')),
+                                    DataCell(Text(produto['precoFinal_produto']
+                                            ?.toString() ??
+                                        '')),
+                                    DataCell(
+                                      Text(produto['categoria_produto'] ?? ''),
+                                    ),
+                                    DataCell(
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Center(
+                                              child: Text(
+                                                produto['quantidade_produto']
+                                                        .toString() ??
+                                                    '',
+                                                textAlign: TextAlign.center,
+                                              ),
                                             ),
-                                          );
-
-                                          if (result == true) {
-                                            await excluirProdutoService
-                                                .excluirProduto(
-                                                    produto['id_produto']
-                                                        .toString());
-                                            setState(() {
-                                              excluirProduto(
-                                                  produto['id_produto']);
-                                            });
-                                          }
-                                        },
+                                          ),
+                                          IconeExclusao(
+                                            idProduto: produto['id_produto']
+                                                .toString(),
+                                            excluirProduto: excluirProduto,
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ))
-                        .toList(),
-                  ),
+                                    ),
+                                  ],
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

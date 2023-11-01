@@ -33,20 +33,21 @@ class EditarProdutoService {
     }
   }
 
-  Future<int?> buscarQuantidadeProduto(int idProduto) async {
+  Future<bool?> buscarQuantidadeProduto(int idProduto) async {
     try {
       var response = await http.get(
           Uri.parse('http://localhost:8080/api/produto/quantidade/$idProduto'),
           headers: {'Content-Type': 'application/json'});
       if (response.statusCode == 200) {
         print(response.body);
+        return true;
       } else {
         print(response.body);
-        return null;
+        return false;
       }
     } catch (e) {
       print('Network error:  + $e');
-      return null;
+      return false;
     }
   }
 }
