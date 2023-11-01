@@ -64,6 +64,7 @@ public class ProdutoController {
 
     Produto produtoAtual = optionalProduto.get();
     produtoAtual.setPrecoCustoProduto(produto.getPrecoCustoProduto());
+    produtoAtual.setQuantidadeProduto(produto.getQuantidadeProduto());
     Markup lastMarkup = markupController.getLastMarkup();
     float productPrice = produto.getPrecoCustoProduto();
     float calculatedPrice = (float) markupController.calculateProductPrice(productPrice, lastMarkup);
