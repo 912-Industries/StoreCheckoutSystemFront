@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:store_checkout_system/screens/home/pedido_compra/pedido_compra.dart';
 import 'editar_produto.dart';
 import 'package:store_checkout_system/services/pedido_compra/estoque_service.dart';
 import 'package:store_checkout_system/services/pedido_compra/autocomplete_service.dart';
@@ -99,9 +100,25 @@ class _EstoquePageState extends State<EstoquePage> {
                     textEditingController.selection =
                         TextSelection.fromPosition(TextPosition(
                             offset: textEditingController.text.length));
-                    return TextField(
-                      controller: textEditingController,
-                      focusNode: focusNode,
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: textEditingController,
+                            focusNode: focusNode,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.add_circle_outline_rounded),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PedidoCompraPage()),
+                            );
+                          },
+                        ),
+                      ],
                     );
                   },
                 ),
