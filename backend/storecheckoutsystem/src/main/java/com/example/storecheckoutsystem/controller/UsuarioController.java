@@ -1,5 +1,6 @@
 package com.example.storecheckoutsystem.controller;
 
+import com.example.storecheckoutsystem.model.Produto;
 import com.example.storecheckoutsystem.model.Usuario;
 import com.example.storecheckoutsystem.repository.UsuarioRepository;
 import java.util.Optional;

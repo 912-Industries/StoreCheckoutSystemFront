@@ -7,6 +7,7 @@ import 'package:store_checkout_system/services/pedido_compra/estoque_service.dar
 import 'package:store_checkout_system/services/pedido_compra/autocomplete_service.dart';
 import 'package:store_checkout_system/services/pedido_compra/excluir_produto_service.dart';
 import 'package:store_checkout_system/widgets/icone_exclusao.dart';
+import 'package:store_checkout_system/widgets/estoque_widgets/autocomplete_widget.dart';
 
 class EstoquePage extends StatefulWidget {
   static ValueNotifier<bool> shouldRefreshData = ValueNotifier(false);
@@ -81,17 +82,9 @@ class _EstoquePageState extends State<EstoquePage> {
             children: [
               Container(
                 width: MediaQuery.of(context).size.width * 0.4,
-                child: Autocomplete<String>(
-                  optionsBuilder: (TextEditingValue textEditingValue) {
-                    return autocompleteService
-                        .getSuggestions(textEditingValue.text);
-                  },
-                  onSelected: (String selection) {
-                    setState(() {
-                      query = selection;
-                      fetchData();
-                    });
-                  },
+                child: AutocompleteWidget(
+                  autocompleteService: autocompleteService,
+                  query: ValueNotifier<String>(query),
                   fieldViewBuilder: (BuildContext context,
                       TextEditingController textEditingController,
                       FocusNode focusNode,
