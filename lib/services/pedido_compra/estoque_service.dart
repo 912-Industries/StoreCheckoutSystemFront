@@ -6,8 +6,6 @@ class EstoqueService {
     final response =
         await http.get(Uri.parse('http://localhost:8080/api/produto'));
 
-    print('Response status: ${response.statusCode}');
-
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((item) => item as Map<String, dynamic>).toList();

@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../services/pedido_compra/editar_produto_service.dart';
-import 'estoque.dart';
+import 'package:store_checkout_system/services/pedido_compra/cadastro_produto_service.dart';
+import 'package:store_checkout_system/services/pedido_compra/editar_produto_service.dart';
+import 'package:store_checkout_system/screens/home/estoque_modal/estoque.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 
 class EditarProduto extends StatefulWidget {
@@ -17,8 +19,30 @@ class _EditarProduto extends State<EditarProduto> {
   late TextEditingController idProdutoController;
   late TextEditingController nomeProdutoController;
   late TextEditingController descricaoProdutoController;
-  late TextEditingController precoProdutoController;
+  late TextEditingController precoProdutoFinalController;
+  late TextEditingController precoProdutoCustoController;
   late TextEditingController categoriaProdutoController;
+  late TextEditingController quantidadeProdutoController;
+
+  CadastroProdutoService service = CadastroProdutoService();
+
+  int quantidade = 1;
+
+  void aumentarQuantidade() {
+    setState(() {
+      int currentQuantity = int.parse(quantidadeProdutoController.text);
+      quantidadeProdutoController.text = (currentQuantity + 1).toString();
+    });
+  }
+
+  void diminuirQuantidade() {
+    setState(() {
+      int currentQuantity = int.parse(quantidadeProdutoController.text);
+      if (currentQuantity > 0) {
+        quantidadeProdutoController.text = (currentQuantity - 1).toString();
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -29,10 +53,14 @@ class _EditarProduto extends State<EditarProduto> {
         text: utf8.decode(utf8.encode(widget.produto['nome_produto'])));
     descricaoProdutoController = TextEditingController(
         text: utf8.decode(utf8.encode(widget.produto['descricao_produto'])));
-    precoProdutoController =
-        TextEditingController(text: widget.produto['preco_produto'].toString());
+    precoProdutoFinalController = TextEditingController(
+        text: widget.produto['precoFinal_produto'].toString());
+    precoProdutoCustoController = TextEditingController(
+        text: widget.produto['precoCusto_produto'].toString());
     categoriaProdutoController = TextEditingController(
         text: utf8.decode(utf8.encode(widget.produto['categoria_produto'])));
+    quantidadeProdutoController = TextEditingController(
+        text: widget.produto['quantidade_produto'].toString());
   }
 
   @override
@@ -40,15 +68,16 @@ class _EditarProduto extends State<EditarProduto> {
     idProdutoController.dispose();
     nomeProdutoController.dispose();
     descricaoProdutoController.dispose();
-    precoProdutoController.dispose();
+    precoProdutoFinalController.dispose();
     categoriaProdutoController.dispose();
+    quantidadeProdutoController.dispose();
     super.dispose();
   }
 
   void limpaCampos() {
     nomeProdutoController.clear();
     descricaoProdutoController.clear();
-    precoProdutoController.clear();
+    precoProdutoFinalController.clear();
     categoriaProdutoController.clear();
   }
 
@@ -102,7 +131,7 @@ class _EditarProduto extends State<EditarProduto> {
                   Container(
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: TextFormField(
-                      controller: precoProdutoController,
+                      controller: precoProdutoCustoController,
                       keyboardType: TextInputType.number,
                       inputFormatters: <TextInputFormatter>[
                         CurrencyTextInputFormatter(
@@ -112,7 +141,29 @@ class _EditarProduto extends State<EditarProduto> {
                         ),
                       ],
                       decoration: InputDecoration(
-                        labelText: 'Preço do Produto',
+                        labelText: 'Preço de Custo do Produto',
+                        prefixIcon: Padding(
+                          child: Icon(Icons.attach_money),
+                          padding: const EdgeInsets.all(10),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: TextFormField(
+                      enabled: false,
+                      controller: precoProdutoFinalController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        CurrencyTextInputFormatter(
+                          locale: 'pt-BR',
+                          decimalDigits: 2,
+                          symbol: 'R\$ ',
+                        ),
+                      ],
+                      decoration: InputDecoration(
+                        labelText: 'Preço Final do Produto',
                         prefixIcon: Padding(
                           child: Icon(Icons.attach_money),
                           padding: const EdgeInsets.all(10),
@@ -169,7 +220,42 @@ class _EditarProduto extends State<EditarProduto> {
                     ),
                   ),
                   SizedBox(
-                    height: 40,
+                    height: 10,
+                  ),
+                  Text('Quantidade: '),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: diminuirQuantidade,
+                        icon: Icon(
+                          Icons.remove_circle_outlined,
+                          color: Colors.green,
+                        ),
+                      ),
+                      Container(
+                        width: 50.0, // ajuste este valor conforme necessário
+                        child: TextFormField(
+                          controller: quantidadeProdutoController,
+                          keyboardType: TextInputType.number,
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(vertical: 0.0),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.add_circle_rounded,
+                          color: Colors.green,
+                        ),
+                        onPressed: aumentarQuantidade,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.2,
@@ -178,25 +264,39 @@ class _EditarProduto extends State<EditarProduto> {
                       onPressed: () async {
                         EditarProdutoService service = EditarProdutoService();
                         bool? isValid = await service.editarProduto(
-                          nomeProdutoController.text,
-                          double.parse(precoProdutoController.text
-                              .replaceAll('R\$', '')
-                              .replaceAll(',', '.')),
-                          categoriaProdutoController.text,
-                          descricaoProdutoController.text,
-                          idProdutoController.text,
-                        );
+                            nomeProdutoController.text,
+                            double.parse(precoProdutoCustoController.text
+                                .replaceAll('R\$', '')
+                                .replaceAll(',', '.')),
+                            double.parse(precoProdutoFinalController.text
+                                .replaceAll('R\$', '')
+                                .replaceAll(',', '.')),
+                            categoriaProdutoController.text,
+                            descricaoProdutoController.text,
+                            int.parse(idProdutoController.text),
+                            int.parse(quantidadeProdutoController.text));
 
                         if (isValid != null && isValid) {
                           EstoquePage.shouldRefreshData.value =
                               !EstoquePage.shouldRefreshData.value;
+                          ElegantNotification.success(
+                            title: Text("Edição de Produto"),
+                            description:
+                                Text("O produto foi editado com sucesso"),
+                          ).show(context);
+                        } else {
+                          ElegantNotification.error(
+                                  title: Text("Edição de Produto"),
+                                  description: Text(
+                                      "Ocorreu algum erro ao salvar a edição do produto"))
+                              .show(context);
                         }
-                        setState(() {
-                          limpaCampos();
-                        });
                       },
                       child: Text('Editar Produto'),
                     ),
+                  ),
+                  SizedBox(
+                    height: 20,
                   )
                 ],
               ),

@@ -1,5 +1,6 @@
 package com.example.storecheckoutsystem.controller;
 
+import com.example.storecheckoutsystem.model.Produto;
 import com.example.storecheckoutsystem.model.Usuario;
 import com.example.storecheckoutsystem.repository.UsuarioRepository;
 import java.util.Optional;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 @RestController
 @RequestMapping("/api/usuario")
@@ -33,9 +33,8 @@ public class UsuarioController {
 
   @GetMapping("/{id_usuario}")
   public ResponseEntity<Usuario> pesquisaUsuarioId(
-    @PathVariable(value = "id_usuario") int id_usuario
-  ) {
-    Optional<Usuario> usuario = usuarioRepository.findById((long) id_usuario);
+      @PathVariable(value = "id_usuario") int id_usuario) {
+    Optional<Usuario> usuario = usuarioRepository.findById((int) id_usuario);
     if (usuario.isPresent()) {
       return ResponseEntity.ok().body(usuario.get());
     } else {
@@ -49,21 +48,19 @@ public class UsuarioController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<?> usuarioLogin(@Validated @RequestBody Usuario login){
+  public ResponseEntity<?> usuarioLogin(@Validated @RequestBody Usuario login) {
     logger.info("Received login request for user: {}", login.getNome_usuario());
     Optional<Usuario> usuariolog = usuarioRepository.findByNomeUsuario(login.getNome_usuario());
     logger.info("Found user in database: {}", usuariolog);
 
-
-
     Optional<Usuario> usuario = usuarioRepository.findByNomeUsuario(login.getNome_usuario());
-    if(usuario.isPresent()){
-      if(login.getSenha_usuario().equals(usuario.get().getSenha_usuario())){
+    if (usuario.isPresent()) {
+      if (login.getSenha_usuario().equals(usuario.get().getSenha_usuario())) {
         return ResponseEntity.ok().body("Login feito com sucesso");
-      }else{
+      } else {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Senha Inválida");
       }
-    }else{
+    } else {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
     }
   }

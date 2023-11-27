@@ -251,6 +251,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  input_quantity:
+    dependency: "direct main"
+    description:
+      name: input_quantity
+      sha256: "6f66ef6682206a19ca8d226755fda68bb4d6ed7d0f7a7e6ad32e6f359f878c0a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
   intl:
     dependency: transitive
     description:
