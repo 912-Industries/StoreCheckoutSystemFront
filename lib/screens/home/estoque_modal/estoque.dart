@@ -99,18 +99,23 @@ class _EstoquePageState extends State<EstoquePage> {
                           child: TextField(
                             controller: textEditingController,
                             focusNode: focusNode,
+                            decoration: InputDecoration(
+                              hintText: "Pesquisar Produto",
+                            ),
                           ),
                         ),
-                        IconButton(
-                          icon: Icon(Icons.add_circle_outline_rounded),
-                          onPressed: () {
+                        InkWell(
+                          onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PedidoCompraPage()),
+                                builder: (context) => PedidoCompraPage(),
+                              ),
                             );
                           },
-                        ),
+                          child: Icon(Icons.add_circle_outline_rounded,
+                              color: Colors.red),
+                        )
                       ],
                     );
                   },
