@@ -82,43 +82,48 @@ class _EstoquePageState extends State<EstoquePage> {
             children: [
               Container(
                 width: MediaQuery.of(context).size.width * 0.4,
-                child: AutocompleteWidget(
-                  autocompleteService: autocompleteService,
-                  query: ValueNotifier<String>(query),
-                  fieldViewBuilder: (BuildContext context,
-                      TextEditingController textEditingController,
-                      FocusNode focusNode,
-                      VoidCallback onFieldSubmitted) {
-                    textEditingController.text = query;
-                    textEditingController.selection =
-                        TextSelection.fromPosition(TextPosition(
-                            offset: textEditingController.text.length));
-                    return Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: textEditingController,
-                            focusNode: focusNode,
-                            decoration: InputDecoration(
-                              hintText: "Pesquisar Produto",
-                            ),
+                child: Stack(
+                  alignment: Alignment.centerRight,
+                  children: [
+                    AutocompleteWidget(
+                      autocompleteService: autocompleteService,
+                      query: ValueNotifier<String>(query),
+                      fieldViewBuilder: (BuildContext context,
+                          TextEditingController textEditingController,
+                          FocusNode focusNode,
+                          VoidCallback onFieldSubmitted) {
+                        textEditingController.text = query;
+                        textEditingController.selection =
+                            TextSelection.fromPosition(TextPosition(
+                                offset: textEditingController.text.length));
+                        return TextField(
+                          controller: textEditingController,
+                          focusNode: focusNode,
+                          decoration: InputDecoration(
+                            hintText: "Pesquisar Produto",
                           ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PedidoCompraPage(),
-                              ),
-                            );
-                          },
+                        );
+                      },
+                    ),
+                    Positioned(
+                      right: 0,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PedidoCompraPage(),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
                           child: Icon(Icons.add_circle_outline_rounded,
                               color: Colors.red),
-                        )
-                      ],
-                    );
-                  },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SingleChildScrollView(

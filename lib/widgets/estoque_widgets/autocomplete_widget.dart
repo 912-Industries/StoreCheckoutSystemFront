@@ -6,10 +6,11 @@ class AutocompleteWidget extends StatefulWidget {
   final ValueNotifier<String> query;
   final AutocompleteFieldViewBuilder fieldViewBuilder;
 
-  AutocompleteWidget(
-      {required this.autocompleteService,
-      required this.query,
-      required this.fieldViewBuilder});
+  AutocompleteWidget({
+    required this.autocompleteService,
+    required this.query,
+    required this.fieldViewBuilder,
+  });
 
   @override
   _AutocompleteWidgetState createState() => _AutocompleteWidgetState();
@@ -17,27 +18,38 @@ class AutocompleteWidget extends StatefulWidget {
 
 class _AutocompleteWidgetState extends State<AutocompleteWidget> {
   final TextEditingController _typeAheadController = TextEditingController();
+  List<String> _suggestions = [];
 
   @override
   void initState() {
     super.initState();
     _typeAheadController.text = widget.query.value;
-    _typeAheadController.addListener(() {
-      widget.query.value = _typeAheadController.text;
+    _typeAheadController.addListener(_updateSuggestions);
+  }
+
+  void _updateSuggestions() async {
+    widget.query.value = _typeAheadController.text;
+    final suggestions = await widget.autocompleteService
+        .getSuggestions(_typeAheadController.text);
+    setState(() {
+      _suggestions = suggestions
+          .map((suggestion) => '${suggestion[1]}: ${suggestion[0]}')
+          .toList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Autocomplete<Map<String, dynamic>>(
+    return Autocomplete<String>(
       optionsBuilder: (TextEditingValue textEditingValue) {
         if (textEditingValue.text == '') {
-          return const Iterable<Map<String, dynamic>>.empty();
+          return const Iterable<String>.empty();
         }
-        return widget.autocompleteService.getSuggestions(textEditingValue.text);
+        return _suggestions
+            .where((option) => option.contains(textEditingValue.text));
       },
-      onSelected: (Map<String, dynamic> selection) {
-        widget.query.value = selection['nome'];
+      onSelected: (String selection) {
+        widget.query.value = selection;
       },
       fieldViewBuilder: (BuildContext context,
           TextEditingController textEditingController,
@@ -49,33 +61,11 @@ class _AutocompleteWidgetState extends State<AutocompleteWidget> {
         return TextField(
           controller: textEditingController,
           focusNode: focusNode,
+          decoration: InputDecoration(
+            hintText: "Pesquisar Produto",
+          ),
         );
       },
-      optionsViewBuilder: (context, onSelected, options) => LayoutBuilder(
-        builder: (context, constraints) => Align(
-          alignment: Alignment.topLeft,
-          child: Material(
-            elevation: 4.0,
-            child: Container(
-                height: 52.0 * options.length,
-                width: constraints.biggest.width,
-                child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: options.length,
-                    shrinkWrap: false,
-                    itemBuilder: (BuildContext context, int index) {
-                      final Map<String, dynamic> option =
-                          options.elementAt(index);
-                      return ListTile(
-                        title: Text('${option['id']} - ${option['nome']}'),
-                        onTap: () {
-                          onSelected(option);
-                        },
-                      );
-                    })),
-          ),
-        ),
-      ),
     );
   }
 }
