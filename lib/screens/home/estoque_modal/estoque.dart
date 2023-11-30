@@ -7,7 +7,6 @@ import 'package:store_checkout_system/services/pedido_compra/estoque_service.dar
 import 'package:store_checkout_system/services/pedido_compra/autocomplete_service.dart';
 import 'package:store_checkout_system/services/pedido_compra/excluir_produto_service.dart';
 import 'package:store_checkout_system/widgets/icone_exclusao.dart';
-import 'package:store_checkout_system/widgets/estoque_widgets/autocomplete_widget.dart';
 
 class EstoquePage extends StatefulWidget {
   static ValueNotifier<bool> shouldRefreshData = ValueNotifier(false);
@@ -86,12 +85,6 @@ class _EstoquePageState extends State<EstoquePage> {
                       decoration: InputDecoration(
                         hintText: "Pesquisar Produto",
                       ),
-                      onChanged: (value) {
-                        setState(() {
-                          query = value;
-                          fetchData();
-                        });
-                      },
                     ),
                     Positioned(
                       right: 0,
