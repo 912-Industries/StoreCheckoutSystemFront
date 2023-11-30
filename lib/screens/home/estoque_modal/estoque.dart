@@ -51,11 +51,7 @@ class _EstoquePageState extends State<EstoquePage> {
     var newProdutos = await produtoService.fetchProdutos();
     if (newProdutos.isNotEmpty) {
       setState(() {
-        produtos = newProdutos
-            .where((produto) => produto['nome_produto']
-                .toLowerCase()
-                .contains(query.toLowerCase()))
-            .toList();
+        produtos = newProdutos;
       });
     }
   }
@@ -85,24 +81,16 @@ class _EstoquePageState extends State<EstoquePage> {
                 child: Stack(
                   alignment: Alignment.centerRight,
                   children: [
-                    AutocompleteWidget(
-                      autocompleteService: autocompleteService,
-                      query: ValueNotifier<String>(query),
-                      fieldViewBuilder: (BuildContext context,
-                          TextEditingController textEditingController,
-                          FocusNode focusNode,
-                          VoidCallback onFieldSubmitted) {
-                        textEditingController.text = query;
-                        textEditingController.selection =
-                            TextSelection.fromPosition(TextPosition(
-                                offset: textEditingController.text.length));
-                        return TextField(
-                          controller: textEditingController,
-                          focusNode: focusNode,
-                          decoration: InputDecoration(
-                            hintText: "Pesquisar Produto",
-                          ),
-                        );
+                    TextField(
+                      controller: _typeAheadController,
+                      decoration: InputDecoration(
+                        hintText: "Pesquisar Produto",
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          query = value;
+                          fetchData();
+                        });
                       },
                     ),
                     Positioned(
@@ -118,8 +106,7 @@ class _EstoquePageState extends State<EstoquePage> {
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(right: 8.0),
-                          child: Icon(Icons.add_circle_outline_rounded,
-                              color: Colors.red),
+                          child: Icon(Icons.add_circle_outline_rounded),
                         ),
                       ),
                     ),
