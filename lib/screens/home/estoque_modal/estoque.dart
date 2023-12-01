@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:store_checkout_system/screens/home/cadastro_produto/cadastro_produto.dart';
 import 'package:store_checkout_system/screens/home/pedido_compra/pedido_compra.dart';
 import 'editar_produto.dart';
 import 'package:store_checkout_system/services/pedido_compra/estoque_service.dart';
@@ -93,7 +94,7 @@ class _EstoquePageState extends State<EstoquePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PedidoCompraPage(),
+                              builder: (context) => CadastroProdutoPage(),
                             ),
                           );
                         },
@@ -136,6 +137,7 @@ class _EstoquePageState extends State<EstoquePage> {
                         DataColumn(
                           label: Text('Quantidade'),
                         ),
+                        DataColumn(label: Text('Ações')),
                       ],
                       rows: List<DataRow>.from(
                         produtos!
@@ -182,14 +184,31 @@ class _EstoquePageState extends State<EstoquePage> {
                                               ),
                                             ),
                                           ),
-                                          IconeExclusao(
-                                            idProduto: produto['id_produto']
-                                                .toString(),
-                                            excluirProduto: excluirProduto,
-                                          ),
                                         ],
                                       ),
                                     ),
+                                    DataCell(Row(
+                                      children: [
+                                        IconeExclusao(
+                                            idProduto: produto['id_produto']
+                                                .toString(),
+                                            excluirProduto: excluirProduto),
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.add_circle_rounded,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PedidoCompraPage(),
+                                              ),
+                                            );
+                                          },
+                                        )
+                                      ],
+                                    ))
                                   ],
                                 ))
                             .toList(),

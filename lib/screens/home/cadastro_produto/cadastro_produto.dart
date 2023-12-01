@@ -1,14 +1,17 @@
-import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:store_checkout_system/services/pedido_compra/cadastro_produto_service.dart';
+import 'package:store_checkout_system/screens/home/estoque_modal/estoque.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:store_checkout_system/helpers/quantidade_helper.dart';
 
-class PedidoCompraPage extends StatefulWidget {
+class CadastroProdutoPage extends StatefulWidget {
   @override
-  _PedidoCompra createState() => _PedidoCompra();
+  _CadastroProduto createState() => _CadastroProduto();
 }
 
-class _PedidoCompra extends State<PedidoCompraPage> {
+class _CadastroProduto extends State<CadastroProdutoPage> {
   final nomeProdutoController = TextEditingController();
   final descricaoProdutoController = TextEditingController();
   final precoProdutoController = TextEditingController();
@@ -16,6 +19,25 @@ class _PedidoCompra extends State<PedidoCompraPage> {
   var quantidadeProdutoController = TextEditingController();
 
   int quantidade = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    quantidadeProdutoController = TextEditingController(text: '1');
+  }
+
+  @override
+  void dispose() {
+    quantidadeProdutoController.dispose();
+    super.dispose();
+  }
+
+  void limpaCampos() {
+    nomeProdutoController.clear();
+    descricaoProdutoController.clear();
+    precoProdutoController.clear();
+    categoriaProdutoController.clear();
+  }
 
   void aumentarQuantidade() {
     setState(() {
@@ -32,27 +54,16 @@ class _PedidoCompra extends State<PedidoCompraPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    quantidadeProdutoController = TextEditingController(text: '1');
-  }
-
-  @override
-  void dispose() {
-    quantidadeProdutoController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      )),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -180,6 +191,58 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                 ),
                 SizedBox(
                   height: 20,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.060,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      CadastroProdutoService service = CadastroProdutoService();
+
+                      String precoProdutoText = precoProdutoController.text;
+                      precoProdutoText = precoProdutoText.replaceAll('R\$', '');
+                      precoProdutoText = precoProdutoText.replaceAll(',', '.');
+
+                      double precoProduto;
+                      int quantidade =
+                          int.parse(quantidadeProdutoController.text);
+                      try {
+                        precoProduto = double.parse(precoProdutoText);
+                      } catch (e) {
+                        print(
+                            'Não foi possível converter a string para um double: $e');
+                        return;
+                      }
+
+                      bool? isValid = await service.cadastroProduto(
+                          nomeProdutoController.text,
+                          precoProduto,
+                          categoriaProdutoController.text,
+                          descricaoProdutoController.text,
+                          quantidade);
+
+                      setState(() {
+                        limpaCampos();
+                      });
+
+                      if (isValid != null && isValid) {
+                        EstoquePage.shouldRefreshData.value =
+                            !EstoquePage.shouldRefreshData.value;
+                        ElegantNotification.success(
+                          title: Text("Pedido de Compra de Produto"),
+                          description: Text(
+                              "O pedido de compra foi contabilizado com sucesso"),
+                        ).show(context);
+                      } else {
+                        ElegantNotification.error(
+                          title: Text("Pedido de Compra de Produto"),
+                          description: Text(
+                              "Ocorreu algum erro ao contabilizar o pedido de compra"),
+                        ).show(context);
+                      }
+                    },
+                    child: Text('Pedido de Compra de Produto'),
+                  ),
                 ),
               ],
             ),
