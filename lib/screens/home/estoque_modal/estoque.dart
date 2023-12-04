@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:store_checkout_system/screens/home/cadastro_produto/cadastro_produto.dart';
 import 'package:store_checkout_system/screens/home/pedido_compra/pedido_compra.dart';
 import 'editar_produto.dart';
-import 'package:store_checkout_system/services/pedido_compra/estoque_service.dart';
-import 'package:store_checkout_system/services/pedido_compra/autocomplete_service.dart';
-import 'package:store_checkout_system/services/pedido_compra/excluir_produto_service.dart';
+import 'package:store_checkout_system/services/produto/estoque_service.dart';
+import 'package:store_checkout_system/services/produto/autocomplete_service.dart';
+import 'package:store_checkout_system/services/produto/excluir_produto_service.dart';
 import 'package:store_checkout_system/widgets/icone_exclusao.dart';
 
 class EstoquePage extends StatefulWidget {
@@ -202,7 +202,8 @@ class _EstoquePageState extends State<EstoquePage> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    PedidoCompraPage(),
+                                                    PedidoCompraPage(
+                                                        produto: produto),
                                               ),
                                             );
                                           },

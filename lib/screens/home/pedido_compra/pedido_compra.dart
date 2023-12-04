@@ -1,19 +1,28 @@
+import 'dart:convert';
+
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:store_checkout_system/helpers/quantidade_helper.dart';
+import 'package:store_checkout_system/screens/home/estoque_modal/estoque.dart';
+import 'package:store_checkout_system/services/compra/pedido_compra_service.dart';
 
 class PedidoCompraPage extends StatefulWidget {
+  late final Map<String, dynamic> produto;
+  PedidoCompraPage({required this.produto});
   @override
   _PedidoCompra createState() => _PedidoCompra();
 }
 
 class _PedidoCompra extends State<PedidoCompraPage> {
-  final nomeProdutoController = TextEditingController();
-  final descricaoProdutoController = TextEditingController();
-  final precoProdutoController = TextEditingController();
-  final categoriaProdutoController = TextEditingController();
-  var quantidadeProdutoController = TextEditingController();
+  late TextEditingController idProdutoController;
+  late TextEditingController nomeProdutoController;
+  late TextEditingController descricaoProdutoController;
+  late TextEditingController precoProdutoFinalController;
+  late TextEditingController precoProdutoCustoController;
+  late TextEditingController categoriaProdutoController;
+  late TextEditingController quantidadeProdutoController;
 
   int quantidade = 1;
 
@@ -34,6 +43,20 @@ class _PedidoCompra extends State<PedidoCompraPage> {
   @override
   void initState() {
     super.initState();
+    idProdutoController =
+        TextEditingController(text: widget.produto['id_produto'].toString());
+    nomeProdutoController = TextEditingController(
+        text: utf8.decode(utf8.encode(widget.produto['nome_produto'])));
+    descricaoProdutoController = TextEditingController(
+        text: utf8.decode(utf8.encode(widget.produto['descricao_produto'])));
+    precoProdutoFinalController = TextEditingController(
+        text: widget.produto['precoFinal_produto'].toString());
+    precoProdutoCustoController = TextEditingController(
+        text: widget.produto['precoCusto_produto'].toString());
+    categoriaProdutoController = TextEditingController(
+        text: utf8.decode(utf8.encode(widget.produto['categoria_produto'])));
+    quantidadeProdutoController = TextEditingController(
+        text: widget.produto['quantidade_produto'].toString());
     quantidadeProdutoController = TextEditingController(text: '1');
   }
 
@@ -63,6 +86,20 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
+                    controller: idProdutoController,
+                    enabled: false,
+                    decoration: InputDecoration(
+                      labelText: 'ID do Produto',
+                      prefixIcon: Padding(
+                        child: Icon(Icons.vpn_key),
+                        padding: EdgeInsets.all(5),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: TextFormField(
                     controller: nomeProdutoController,
                     decoration: InputDecoration(
                       labelText: 'Nome do Produto',
@@ -76,7 +113,7 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
-                    controller: precoProdutoController,
+                    controller: precoProdutoCustoController,
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
                       CurrencyTextInputFormatter(
@@ -86,7 +123,29 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                       ),
                     ],
                     decoration: InputDecoration(
-                      labelText: 'Preço de Custo',
+                      labelText: 'Preço de Custo do Produto',
+                      prefixIcon: Padding(
+                        child: Icon(Icons.attach_money),
+                        padding: const EdgeInsets.all(10),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: TextFormField(
+                    enabled: false,
+                    controller: precoProdutoFinalController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      CurrencyTextInputFormatter(
+                        locale: 'pt-BR',
+                        decimalDigits: 2,
+                        symbol: 'R\$ ',
+                      ),
+                    ],
+                    decoration: InputDecoration(
+                      labelText: 'Preço Final do Produto',
                       prefixIcon: Padding(
                         child: Icon(Icons.attach_money),
                         padding: const EdgeInsets.all(10),
@@ -181,6 +240,47 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                 SizedBox(
                   height: 20,
                 ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.060,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      PedidoCompraService service = PedidoCompraService();
+                      bool? isValid = await service.pedidoCompra(
+                          nomeProdutoController.text,
+                          double.parse(precoProdutoCustoController.text
+                              .replaceAll('R\$', '')
+                              .replaceAll(',', '.')),
+                          double.parse(precoProdutoFinalController.text
+                              .replaceAll('R\$', '')
+                              .replaceAll(',', '.')),
+                          categoriaProdutoController.text,
+                          descricaoProdutoController.text,
+                          int.parse(idProdutoController.text),
+                          int.parse(quantidadeProdutoController.text));
+
+                      if (isValid != null && isValid) {
+                        EstoquePage.shouldRefreshData.value =
+                            !EstoquePage.shouldRefreshData.value;
+                        ElegantNotification.success(
+                          title: Text("Pedido de Compra"),
+                          description: Text(
+                              "Foi efetuado um pedido de compra com sucesso"),
+                        ).show(context);
+                      } else {
+                        ElegantNotification.error(
+                                title: Text("Edição de Produto"),
+                                description: Text(
+                                    "Ocorreu algum erroefetuar o pedido de compra produto"))
+                            .show(context);
+                      }
+                    },
+                    child: Text('Pedido de Compra'),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                )
               ],
             ),
           ),

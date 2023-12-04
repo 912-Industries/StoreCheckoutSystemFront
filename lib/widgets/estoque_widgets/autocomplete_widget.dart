@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:store_checkout_system/services/pedido_compra/autocomplete_service.dart';
+import 'package:store_checkout_system/services/produto/autocomplete_service.dart';
 
 class AutocompleteWidget extends StatelessWidget {
   final TextEditingController controller;
