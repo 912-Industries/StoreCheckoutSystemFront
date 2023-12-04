@@ -1,30 +1,43 @@
-import 'dart:convert';
-
-import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
-import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:store_checkout_system/helpers/quantidade_helper.dart';
+import 'package:store_checkout_system/services/pedido_compra/cadastro_produto_service.dart';
 import 'package:store_checkout_system/screens/home/estoque_modal/estoque.dart';
-import 'package:store_checkout_system/services/compra/pedido_compra_service.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:elegant_notification/elegant_notification.dart';
+import 'package:store_checkout_system/helpers/quantidade_helper.dart';
 
-class PedidoCompraPage extends StatefulWidget {
-  late final Map<String, dynamic> produto;
-  PedidoCompraPage({required this.produto});
+class CadastroProdutoPage extends StatefulWidget {
   @override
-  _PedidoCompra createState() => _PedidoCompra();
+  _CadastroProduto createState() => _CadastroProduto();
 }
 
-class _PedidoCompra extends State<PedidoCompraPage> {
-  late TextEditingController idProdutoController;
-  late TextEditingController nomeProdutoController;
-  late TextEditingController descricaoProdutoController;
-  late TextEditingController precoProdutoFinalController;
-  late TextEditingController precoProdutoCustoController;
-  late TextEditingController categoriaProdutoController;
-  late TextEditingController quantidadeProdutoController;
+class _CadastroProduto extends State<CadastroProdutoPage> {
+  final nomeProdutoController = TextEditingController();
+  final descricaoProdutoController = TextEditingController();
+  final precoProdutoController = TextEditingController();
+  final categoriaProdutoController = TextEditingController();
+  var quantidadeProdutoController = TextEditingController();
 
   int quantidade = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    quantidadeProdutoController = TextEditingController(text: '1');
+  }
+
+  @override
+  void dispose() {
+    quantidadeProdutoController.dispose();
+    super.dispose();
+  }
+
+  void limpaCampos() {
+    nomeProdutoController.clear();
+    descricaoProdutoController.clear();
+    precoProdutoController.clear();
+    categoriaProdutoController.clear();
+  }
 
   void aumentarQuantidade() {
     setState(() {
@@ -41,41 +54,16 @@ class _PedidoCompra extends State<PedidoCompraPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    idProdutoController =
-        TextEditingController(text: widget.produto['id_produto'].toString());
-    nomeProdutoController = TextEditingController(
-        text: utf8.decode(utf8.encode(widget.produto['nome_produto'])));
-    descricaoProdutoController = TextEditingController(
-        text: utf8.decode(utf8.encode(widget.produto['descricao_produto'])));
-    precoProdutoFinalController = TextEditingController(
-        text: widget.produto['precoFinal_produto'].toString());
-    precoProdutoCustoController = TextEditingController(
-        text: widget.produto['precoCusto_produto'].toString());
-    categoriaProdutoController = TextEditingController(
-        text: utf8.decode(utf8.encode(widget.produto['categoria_produto'])));
-    quantidadeProdutoController = TextEditingController(
-        text: widget.produto['quantidade_produto'].toString());
-    quantidadeProdutoController = TextEditingController(text: '1');
-  }
-
-  @override
-  void dispose() {
-    quantidadeProdutoController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      )),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -83,20 +71,6 @@ class _PedidoCompra extends State<PedidoCompraPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: TextFormField(
-                    controller: idProdutoController,
-                    enabled: false,
-                    decoration: InputDecoration(
-                      labelText: 'ID do Produto',
-                      prefixIcon: Padding(
-                        child: Icon(Icons.vpn_key),
-                        padding: EdgeInsets.all(5),
-                      ),
-                    ),
-                  ),
-                ),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
@@ -113,7 +87,7 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
-                    controller: precoProdutoCustoController,
+                    controller: precoProdutoController,
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
                       CurrencyTextInputFormatter(
@@ -123,29 +97,7 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                       ),
                     ],
                     decoration: InputDecoration(
-                      labelText: 'Preço de Custo do Produto',
-                      prefixIcon: Padding(
-                        child: Icon(Icons.attach_money),
-                        padding: const EdgeInsets.all(10),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: TextFormField(
-                    enabled: false,
-                    controller: precoProdutoFinalController,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      CurrencyTextInputFormatter(
-                        locale: 'pt-BR',
-                        decimalDigits: 2,
-                        symbol: 'R\$ ',
-                      ),
-                    ],
-                    decoration: InputDecoration(
-                      labelText: 'Preço Final do Produto',
+                      labelText: 'Preço de Custo',
                       prefixIcon: Padding(
                         child: Icon(Icons.attach_money),
                         padding: const EdgeInsets.all(10),
@@ -245,42 +197,53 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                   height: MediaQuery.of(context).size.height * 0.060,
                   child: ElevatedButton(
                     onPressed: () async {
-                      PedidoCompraService service = PedidoCompraService();
-                      bool? isValid = await service.pedidoCompra(
+                      CadastroProdutoService service = CadastroProdutoService();
+
+                      String precoProdutoText = precoProdutoController.text;
+                      precoProdutoText = precoProdutoText.replaceAll('R\$', '');
+                      precoProdutoText = precoProdutoText.replaceAll(',', '.');
+
+                      double precoProduto;
+                      int quantidade =
+                          int.parse(quantidadeProdutoController.text);
+                      try {
+                        precoProduto = double.parse(precoProdutoText);
+                      } catch (e) {
+                        print(
+                            'Não foi possível converter a string para um double: $e');
+                        return;
+                      }
+
+                      bool? isValid = await service.cadastroProduto(
                           nomeProdutoController.text,
-                          double.parse(precoProdutoCustoController.text
-                              .replaceAll('R\$', '')
-                              .replaceAll(',', '.')),
-                          double.parse(precoProdutoFinalController.text
-                              .replaceAll('R\$', '')
-                              .replaceAll(',', '.')),
+                          precoProduto,
                           categoriaProdutoController.text,
                           descricaoProdutoController.text,
-                          int.parse(idProdutoController.text),
-                          int.parse(quantidadeProdutoController.text));
+                          quantidade);
+
+                      setState(() {
+                        limpaCampos();
+                      });
 
                       if (isValid != null && isValid) {
                         EstoquePage.shouldRefreshData.value =
                             !EstoquePage.shouldRefreshData.value;
                         ElegantNotification.success(
-                          title: Text("Pedido de Compra"),
+                          title: Text("Pedido de Compra de Produto"),
                           description: Text(
-                              "Foi efetuado um pedido de compra com sucesso"),
+                              "O pedido de compra foi contabilizado com sucesso"),
                         ).show(context);
                       } else {
                         ElegantNotification.error(
-                                title: Text("Edição de Produto"),
-                                description: Text(
-                                    "Ocorreu algum erroefetuar o pedido de compra produto"))
-                            .show(context);
+                          title: Text("Pedido de Compra de Produto"),
+                          description: Text(
+                              "Ocorreu algum erro ao contabilizar o pedido de compra"),
+                        ).show(context);
                       }
                     },
-                    child: Text('Pedido de Compra'),
+                    child: Text('Pedido de Compra de Produto'),
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                )
               ],
             ),
           ),

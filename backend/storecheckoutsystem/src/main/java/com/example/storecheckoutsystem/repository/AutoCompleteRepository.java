@@ -10,8 +10,6 @@ import com.example.storecheckoutsystem.model.Produto;
 public interface AutoCompleteRepository extends JpaRepository<Produto, Integer> {
 
     @Query(value = "SELECT nome_produto, id_produto, categoria_produto FROM produto WHERE " +
-            "LOWER(nome_produto) LIKE LOWER(CONCAT('%', :term, '%')) OR " +
-            "CAST(id_produto AS CHAR(50)) LIKE LOWER(CONCAT('%', :term, '%')) OR " +
-            "LOWER(categoria_produto) LIKE LOWER(CONCAT('%', :term, '%'))", nativeQuery = true)
+            "MATCH(nome_produto, categoria_produto) AGAINST(:term IN NATURAL LANGUAGE MODE) LIMIT 10", nativeQuery = true)
     List<Object[]> findSuggestions(String term);
 }

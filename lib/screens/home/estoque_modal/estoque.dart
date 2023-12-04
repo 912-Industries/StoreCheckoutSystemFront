@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:store_checkout_system/screens/home/cadastro_produto/cadastro_produto.dart';
 import 'package:store_checkout_system/screens/home/pedido_compra/pedido_compra.dart';
 import 'editar_produto.dart';
-import 'package:store_checkout_system/services/pedido_compra/estoque_service.dart';
-import 'package:store_checkout_system/services/pedido_compra/autocomplete_service.dart';
-import 'package:store_checkout_system/services/pedido_compra/excluir_produto_service.dart';
+import 'package:store_checkout_system/services/produto/estoque_service.dart';
+import 'package:store_checkout_system/services/produto/autocomplete_service.dart';
+import 'package:store_checkout_system/services/produto/excluir_produto_service.dart';
 import 'package:store_checkout_system/widgets/icone_exclusao.dart';
-import 'package:store_checkout_system/widgets/estoque_widgets/autocomplete_widget.dart';
 
 class EstoquePage extends StatefulWidget {
   static ValueNotifier<bool> shouldRefreshData = ValueNotifier(false);
@@ -51,11 +51,7 @@ class _EstoquePageState extends State<EstoquePage> {
     var newProdutos = await produtoService.fetchProdutos();
     if (newProdutos.isNotEmpty) {
       setState(() {
-        produtos = newProdutos
-            .where((produto) => produto['nome_produto']
-                .toLowerCase()
-                .contains(query.toLowerCase()))
-            .toList();
+        produtos = newProdutos;
       });
     }
   }
@@ -82,38 +78,33 @@ class _EstoquePageState extends State<EstoquePage> {
             children: [
               Container(
                 width: MediaQuery.of(context).size.width * 0.4,
-                child: AutocompleteWidget(
-                  autocompleteService: autocompleteService,
-                  query: ValueNotifier<String>(query),
-                  fieldViewBuilder: (BuildContext context,
-                      TextEditingController textEditingController,
-                      FocusNode focusNode,
-                      VoidCallback onFieldSubmitted) {
-                    textEditingController.text = query;
-                    textEditingController.selection =
-                        TextSelection.fromPosition(TextPosition(
-                            offset: textEditingController.text.length));
-                    return Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: textEditingController,
-                            focusNode: focusNode,
-                          ),
+                child: Stack(
+                  alignment: Alignment.centerRight,
+                  children: [
+                    TextField(
+                      controller: _typeAheadController,
+                      decoration: InputDecoration(
+                        hintText: "Pesquisar Produto",
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CadastroProdutoPage(),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Icon(Icons.add_circle_outline_rounded),
                         ),
-                        IconButton(
-                          icon: Icon(Icons.add_circle_outline_rounded),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PedidoCompraPage()),
-                            );
-                          },
-                        ),
-                      ],
-                    );
-                  },
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SingleChildScrollView(
@@ -146,6 +137,7 @@ class _EstoquePageState extends State<EstoquePage> {
                         DataColumn(
                           label: Text('Quantidade'),
                         ),
+                        DataColumn(label: Text('Ações')),
                       ],
                       rows: List<DataRow>.from(
                         produtos!
@@ -192,14 +184,32 @@ class _EstoquePageState extends State<EstoquePage> {
                                               ),
                                             ),
                                           ),
-                                          IconeExclusao(
-                                            idProduto: produto['id_produto']
-                                                .toString(),
-                                            excluirProduto: excluirProduto,
-                                          ),
                                         ],
                                       ),
                                     ),
+                                    DataCell(Row(
+                                      children: [
+                                        IconeExclusao(
+                                            idProduto: produto['id_produto']
+                                                .toString(),
+                                            excluirProduto: excluirProduto),
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.add_circle_rounded,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PedidoCompraPage(
+                                                        produto: produto),
+                                              ),
+                                            );
+                                          },
+                                        )
+                                      ],
+                                    ))
                                   ],
                                 ))
                             .toList(),
