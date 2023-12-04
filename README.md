@@ -9,7 +9,6 @@ O StoreCheckout é um projeto que visa fornecer um sistema de administração de
 - Gestão completa de produtos, incluindo adição, atualização e remoção.
 - Processamento eficiente de pedidos dos clientes.
 - Monitoramento de vendas e estoque.
-- Integração com sistema de pagamento.
 - Segurança avançada na autenticação e autorização de administradores.
 
 ## Tecnologias Utilizadas
