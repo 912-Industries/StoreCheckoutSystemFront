@@ -70,12 +70,13 @@ class _PedidoCompra extends State<PedidoCompraPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          title: Text('Pedido de Compra'),
           leading: IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      )),
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

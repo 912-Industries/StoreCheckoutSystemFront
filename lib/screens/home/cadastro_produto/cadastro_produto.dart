@@ -57,6 +57,7 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text("Cadastro de Produto"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
