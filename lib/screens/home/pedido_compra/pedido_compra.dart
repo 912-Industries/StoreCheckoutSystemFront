@@ -271,7 +271,7 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                         ElegantNotification.error(
                                 title: Text("Edição de Produto"),
                                 description: Text(
-                                    "Ocorreu algum erroefetuar o pedido de compra produto"))
+                                    "Ocorreu algum erro ao efetuar o pedido de compra produto"))
                             .show(context);
                       }
                     },

@@ -91,4 +91,21 @@ public class ProdutoController {
     return ResponseEntity.ok(produto.getQuantidadeProduto());
   }
 
+  @PutMapping("/compra/{id}")
+  public ResponseEntity<Produto> pedidoCompra(@PathVariable int id, @RequestBody Produto produto) {
+    Optional<Produto> optionalProduto = produtoRepository.findById(id);
+    if (!optionalProduto.isPresent()) {
+      return ResponseEntity.notFound().build();
+    }
+
+    Produto produtoAtual = optionalProduto.get();
+    produtoAtual.setPrecoCustoProduto(produto.getPrecoCustoProduto());
+    produtoAtual.setQuantidadeProduto(produtoAtual.getQuantidadeProduto() + produto.getQuantidadeProduto());
+    Markup lastMarkup = markupController.getLastMarkup();
+    float productPrice = produto.getPrecoCustoProduto();
+    float calculatedPrice = (float) markupController.calculateProductPrice(productPrice, lastMarkup);
+    produtoAtual.setPrecoFinalProduto(calculatedPrice);
+    Produto atualizarProduto = produtoRepository.save(produtoAtual);
+    return ResponseEntity.ok(atualizarProduto);
+  }
 }
