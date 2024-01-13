@@ -1,4 +1,3 @@
-// icone_exclusao.dart
 import 'package:flutter/material.dart';
 
 class IconeExclusao extends StatelessWidget {

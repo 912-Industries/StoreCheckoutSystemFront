@@ -37,12 +37,6 @@ public class Markup {
         return idMarkup;
     }
 
-    
-
-
-   
-
-
     /**
      * @param idMarkup the idMarkup to set
      */

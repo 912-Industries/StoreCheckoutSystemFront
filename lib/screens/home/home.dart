@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/widgets/bottom_nav_bar.dart';
+import 'package:store_checkout_system/widgets/bottom_nav_bar._widget.dart';
 
 class HomePage extends StatelessWidget {
   @override
