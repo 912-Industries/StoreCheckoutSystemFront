@@ -25,6 +25,5 @@
        "titleBar.inactiveForeground": "#e7e7e799"
    },
    "peacock.color": "#dd0531",
-   "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx4G -Xms100m -Xlog:disable",
-   "java.jdt.ls.java.home": "/usr/lib/jvm/java-17-openjdk/"
+   "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx4G -Xms100m -Xlog:disable"
 }
