@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:store_checkout_system/screens/home/estoque_modal/estoque.dart';
+import 'package:store_checkout_system/screens/home/produto_screens/estoque_modal/estoque.dart';
 
-class EditarProdutoService {
-  Future<bool>? editarProduto(
+//TODO Implementar Conexão Back e Front
+class PedidoCompraService {
+  Future<bool>? pedidoCompra(
       String NomeProduto,
       double PrecoProdutoCusto,
       double PrecoProdutoFinal,
@@ -13,7 +15,7 @@ class EditarProdutoService {
       int QuantidadeProduto) async {
     try {
       var response = await http.put(
-          Uri.parse('http://localhost:8080/api/produto/editar/$idProduto'),
+          Uri.parse('http://localhost:8080/api/produto/compra/$idProduto'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'nome_produto': NomeProduto,
@@ -24,32 +26,13 @@ class EditarProdutoService {
             'precoCusto_produto': PrecoProdutoCusto,
           }));
       if (response.statusCode == 200) {
-        EstoquePage.shouldRefreshData.value =
-            true; // Atualize a lista de produtos após a edição
+        EstoquePage.shouldRefreshData.value = true;
         return true;
       } else {
         return false;
       }
     } catch (e) {
-      print('Network error:  + $e');
-      return false;
-    }
-  }
-
-  Future<bool?> buscarQuantidadeProduto(int idProduto) async {
-    try {
-      var response = await http.get(
-          Uri.parse('http://localhost:8080/api/produto/quantidade/$idProduto'),
-          headers: {'Content-Type': 'application/json'});
-      if (response.statusCode == 200) {
-        print(response.body);
-        return true;
-      } else {
-        print(response.body);
-        return false;
-      }
-    } catch (e) {
-      print('Network error:  + $e');
+      print('Network error : + $e');
       return false;
     }
   }

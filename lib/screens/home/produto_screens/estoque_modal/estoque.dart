@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:store_checkout_system/screens/home/cadastro_produto/cadastro_produto.dart';
-import 'package:store_checkout_system/screens/home/pedido_compra/pedido_compra.dart';
-import 'package:store_checkout_system/screens/home/estoque_modal/editar_produto.dart';
+import 'package:store_checkout_system/screens/home/produto/cadastro_produto/cadastro_produto.dart';
+import 'package:store_checkout_system/screens/home/produto/pedido_compra/pedido_compra.dart';
+import 'package:store_checkout_system/screens/home/produto/estoque_modal/editar_produto.dart';
 import 'package:store_checkout_system/services/produto/estoque_service.dart';
 import 'package:store_checkout_system/services/produto/autocomplete_service.dart';
 import 'package:store_checkout_system/services/produto/excluir_produto_service.dart';

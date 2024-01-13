@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
-import 'package:store_checkout_system/services/config/markup_config_service.dart';
+import 'package:store_checkout_system/services/config_services/markup_config_service.dart';
 
 class MarkupPage extends StatefulWidget {
   @override
