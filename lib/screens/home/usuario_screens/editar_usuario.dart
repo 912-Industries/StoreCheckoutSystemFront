@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class EditarUsuario extends StatefulWidget {
-  late final Map<String, dynamic> produto;
-  EditarUsuario({required this.produto});
+  late final Map<String, dynamic> usuario;
+  EditarUsuario({required this.usuario});
 
   @override
   _EditarUsuario createState() => _EditarUsuario();
