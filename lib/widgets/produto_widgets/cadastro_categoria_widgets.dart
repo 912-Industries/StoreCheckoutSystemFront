@@ -40,10 +40,10 @@ class _CadastroCategoria extends State<CadastroCategoria> {
                     ),
                   ),
                 ),
-                //TODO Ao clicar no botão cadastrar categoria na tabela correspondente
+                // TODO Ao clicar no botão cadastrar categoria na tabela correspondente
                 ElevatedButton(
                   onPressed: () async {},
-                  child: null,
+                  child: Text('Cadastrar Categoria'),
                 )
               ],
             ),

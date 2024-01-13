@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:store_checkout_system/screens/home/usuario_screens/usuario_listagem/controle_usuario.dart';
+import 'package:store_checkout_system/screens/home/usuario_screens/listagem_usuario.dart';
 import 'package:store_checkout_system/screens/home/produto_screens/estoque_modal/estoque.dart';
 import 'package:store_checkout_system/screens/home/config_screens/configuracoes.dart';
 
