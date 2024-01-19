@@ -28,10 +28,6 @@ public class Usuario {
   @JsonProperty("senha_usuario")
   private String senha_usuario;
 
-  @Column(name = "nivel_permissao_usuario")
-  @JsonProperty("nivel_permissao_usuario")
-  private int nivel_permissao_usuario;
-
   public int getId_usuario() {
     return id_usuario;
   }
@@ -48,7 +44,4 @@ public class Usuario {
     return senha_usuario;
   }
 
-  public int getNivel_permissao_usuario() {
-    return nivel_permissao_usuario;
-  }
 }

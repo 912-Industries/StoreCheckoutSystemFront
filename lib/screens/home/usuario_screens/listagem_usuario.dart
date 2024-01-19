@@ -45,7 +45,7 @@ class _ControleUsuario extends State<ControleUsuarioPage> {
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(right: 0.8),
-                          child: Icon(Icons.add_circle_outline_rounded),
+                          child: Icon(Icons.person_add_alt_rounded),
                         ),
                       ),
                     ),

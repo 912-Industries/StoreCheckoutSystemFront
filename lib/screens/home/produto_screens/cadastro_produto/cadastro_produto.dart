@@ -165,7 +165,7 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
                       ),
                     ),
                     Container(
-                      width: 50.0, // ajuste este valor conforme necessário
+                      width: 50.0,
                       child: TextFormField(
                         controller: quantidadeProdutoController,
                         keyboardType: TextInputType.number,
