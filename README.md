@@ -13,29 +13,10 @@ O StoreCheckout é um projeto que visa fornecer um sistema de administração de
 
 ## Tecnologias Utilizadas
 
-### Backend (Java, Spring Boot, MySQL)
-
-- **Java**: Linguagem de programação robusta e amplamente adotada.
-- **Spring Boot**: Framework que simplifica o desenvolvimento de aplicativos Java, oferecendo configurações pré-definidas.
-- **MySQL**: Sistema de gerenciamento de banco de dados relacional, adequado para armazenamento e recuperação eficiente de dados.
-
 ### Frontend (Flutter)
 
 - **Flutter**: Framework para desenvolvimento de aplicativos móveis multiplataforma, permitindo a criação de interfaces nativas para iOS e Android a partir de um único código-base.
 
-
-
-
-
-## Executando o Projeto
-
-### Backend
-
-1. Verifique se possui o Java e o MySQL instalados.
-2. Configure as credenciais do banco de dados no arquivo `application.properties` em `backend/src/main/resources`.
-3. Importe o dump do banco de dados utilizando o seguinte comando no terminal:
-   ```mysql -u <seu_usuario> -p <seu_banco_de_dados> < caminho/do/arquivo.sql```
-4. Execute a classe StoreCheckoutsystemApplication.java
 
 ### Frontend
 
