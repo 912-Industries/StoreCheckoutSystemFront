@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class EditarUsuario extends StatefulWidget {
-  late final Map<String, dynamic> usuario;
-  EditarUsuario({required this.usuario});
+  final Map<String, dynamic> usuario;
+  const EditarUsuario({super.key, required this.usuario});
 
   @override
   _EditarUsuario createState() => _EditarUsuario();
@@ -11,7 +11,6 @@ class EditarUsuario extends StatefulWidget {
 class _EditarUsuario extends State<EditarUsuario> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     throw UnimplementedError();
   }
 }

@@ -10,7 +10,7 @@ import 'package:store_checkout_system/helpers/quantidade_helper.dart';
 
 class EditarProduto extends StatefulWidget {
   late final Map<String, dynamic> produto;
-  EditarProduto({required this.produto});
+  const EditarProduto({super.key, required this.produto});
 
   @override
   _EditarProduto createState() => _EditarProduto();
@@ -87,7 +87,7 @@ class _EditarProduto extends State<EditarProduto> {
         appBar: AppBar(
           title: const Text('Edição de Produto'),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_rounded),
+            icon: const Icon(Icons.arrow_back_rounded),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -100,34 +100,34 @@ class _EditarProduto extends State<EditarProduto> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: TextFormField(
                       controller: idProdutoController,
                       enabled: false,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'ID do Produto',
                         prefixIcon: Padding(
-                          child: Icon(Icons.vpn_key),
                           padding: EdgeInsets.all(5),
+                          child: Icon(Icons.vpn_key),
                         ),
                       ),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: TextFormField(
                       controller: nomeProdutoController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Nome do Produto',
                         prefixIcon: Padding(
-                          child: Icon(Icons.shopping_bag),
                           padding: EdgeInsets.all(5),
+                          child: Icon(Icons.shopping_bag),
                         ),
                       ),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: TextFormField(
                       controller: precoProdutoCustoController,
@@ -139,16 +139,16 @@ class _EditarProduto extends State<EditarProduto> {
                           symbol: 'R\$ ',
                         ),
                       ],
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Preço de Custo do Produto',
                         prefixIcon: Padding(
+                          padding: EdgeInsets.all(10),
                           child: Icon(Icons.attach_money),
-                          padding: const EdgeInsets.all(10),
                         ),
                       ),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: TextFormField(
                       enabled: false,
@@ -161,24 +161,24 @@ class _EditarProduto extends State<EditarProduto> {
                           symbol: 'R\$ ',
                         ),
                       ],
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Preço Final do Produto',
                         prefixIcon: Padding(
+                          padding: EdgeInsets.all(10),
                           child: Icon(Icons.attach_money),
-                          padding: const EdgeInsets.all(10),
                         ),
                       ),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: TextFormField(
                       controller: categoriaProdutoController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Categoria do Produto',
                         prefixIcon: Padding(
-                          child: Icon(Icons.category_rounded),
                           padding: EdgeInsets.all(5),
+                          child: Icon(Icons.category_rounded),
                         ),
                       ),
                     ),
@@ -195,11 +195,11 @@ class _EditarProduto extends State<EditarProduto> {
                       maxLines: null,
                       maxLength: 255,
                       maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Descrição do Produto',
                         prefixIcon: Padding(
+                          padding: EdgeInsets.all(10),
                           child: Icon(Icons.description),
-                          padding: const EdgeInsets.all(10),
                         ),
                       ),
                       buildCounter: (
@@ -209,7 +209,7 @@ class _EditarProduto extends State<EditarProduto> {
                         required bool isFocused,
                       }) {
                         return DefaultTextStyle(
-                          style: TextStyle(color: Colors.grey),
+                          style: const TextStyle(color: Colors.grey),
                           child: Text(
                             '$currentLength/$maxLength caracteres',
                             semanticsLabel: 'contador caracteres',
@@ -218,34 +218,34 @@ class _EditarProduto extends State<EditarProduto> {
                       },
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Text('Quantidade: '),
+                  const Text('Quantidade: '),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       IconButton(
                         onPressed: diminuirQuantidade,
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.remove_circle_outlined,
                           color: Colors.green,
                         ),
                       ),
-                      Container(
-                        width: 50.0, // ajuste este valor conforme necessário
+                      SizedBox(
+                        width: 50.0,
                         child: TextFormField(
                           controller: quantidadeProdutoController,
                           keyboardType: TextInputType.number,
                           textAlign: TextAlign.center,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(vertical: 0.0),
                           ),
                         ),
                       ),
                       IconButton(
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.add_circle_rounded,
                           color: Colors.green,
                         ),
@@ -253,10 +253,10 @@ class _EditarProduto extends State<EditarProduto> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.2,
                     height: MediaQuery.of(context).size.height * 0.060,
                     child: ElevatedButton(
@@ -279,22 +279,22 @@ class _EditarProduto extends State<EditarProduto> {
                           EstoquePage.shouldRefreshData.value =
                               !EstoquePage.shouldRefreshData.value;
                           ElegantNotification.success(
-                            title: Text("Edição de Produto"),
+                            title: const Text("Edição de Produto"),
                             description:
-                                Text("O produto foi editado com sucesso"),
+                                const Text("O produto foi editado com sucesso"),
                           ).show(context);
                         } else {
                           ElegantNotification.error(
-                                  title: Text("Edição de Produto"),
-                                  description: Text(
+                                  title: const Text("Edição de Produto"),
+                                  description: const Text(
                                       "Ocorreu algum erro ao salvar a edição do produto"))
                               .show(context);
                         }
                       },
-                      child: Text('Editar Produto'),
+                      child: const Text('Editar Produto'),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   )
                 ],

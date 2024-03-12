@@ -10,7 +10,7 @@ import 'package:store_checkout_system/services/compra_services/pedido_compra_ser
 
 class PedidoCompraPage extends StatefulWidget {
   late final Map<String, dynamic> produto;
-  PedidoCompraPage({required this.produto});
+  const PedidoCompraPage({super.key, required this.produto});
   @override
   _PedidoCompra createState() => _PedidoCompra();
 }
@@ -70,9 +70,9 @@ class _PedidoCompra extends State<PedidoCompraPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Pedido de Compra'),
+          title: const Text('Pedido de Compra'),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -84,34 +84,34 @@ class _PedidoCompra extends State<PedidoCompraPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
                     controller: idProdutoController,
                     enabled: false,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'ID do Produto',
                       prefixIcon: Padding(
-                        child: Icon(Icons.vpn_key),
                         padding: EdgeInsets.all(5),
+                        child: Icon(Icons.vpn_key),
                       ),
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
                     controller: nomeProdutoController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Nome do Produto',
                       prefixIcon: Padding(
-                        child: Icon(Icons.shopping_bag),
                         padding: EdgeInsets.all(5),
+                        child: Icon(Icons.shopping_bag),
                       ),
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
                     controller: precoProdutoCustoController,
@@ -123,16 +123,16 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                         symbol: 'R\$ ',
                       ),
                     ],
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Preço de Custo do Produto',
                       prefixIcon: Padding(
+                        padding: EdgeInsets.all(10),
                         child: Icon(Icons.attach_money),
-                        padding: const EdgeInsets.all(10),
                       ),
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
                     enabled: false,
@@ -145,24 +145,24 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                         symbol: 'R\$ ',
                       ),
                     ],
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Preço Final do Produto',
                       prefixIcon: Padding(
+                        padding: EdgeInsets.all(10),
                         child: Icon(Icons.attach_money),
-                        padding: const EdgeInsets.all(10),
                       ),
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
                     controller: categoriaProdutoController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Categoria do Produto',
                       prefixIcon: Padding(
-                        child: Icon(Icons.category_rounded),
                         padding: EdgeInsets.all(5),
+                        child: Icon(Icons.category_rounded),
                       ),
                     ),
                   ),
@@ -175,11 +175,11 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                     maxLines: null,
                     maxLength: 255,
                     maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Descrição do Produto',
                       prefixIcon: Padding(
+                        padding: EdgeInsets.all(10),
                         child: Icon(Icons.description),
-                        padding: const EdgeInsets.all(10),
                       ),
                     ),
                     buildCounter: (
@@ -189,7 +189,7 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                       required bool isFocused,
                     }) {
                       return DefaultTextStyle(
-                        style: TextStyle(color: Colors.grey),
+                        style: const TextStyle(color: Colors.grey),
                         child: Text(
                           '$currentLength/$maxLength caracteres',
                           semanticsLabel: 'contador caracteres',
@@ -198,27 +198,27 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Text('Quantidade: '),
+                const Text('Quantidade: '),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     IconButton(
                       onPressed: diminuirQuantidade,
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.remove_circle_outlined,
                         color: Colors.green,
                       ),
                     ),
-                    Container(
-                      width: 50.0, // ajuste este valor conforme necessário
+                    SizedBox(
+                      width: 50.0,
                       child: TextFormField(
                         controller: quantidadeProdutoController,
                         keyboardType: TextInputType.number,
                         textAlign: TextAlign.center,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(vertical: 0.0),
                         ),
@@ -230,7 +230,7 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                       ),
                     ),
                     IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.add_circle_rounded,
                         color: Colors.green,
                       ),
@@ -238,10 +238,10 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.2,
                   height: MediaQuery.of(context).size.height * 0.060,
                   child: ElevatedButton(
@@ -264,22 +264,22 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                         EstoquePage.shouldRefreshData.value =
                             !EstoquePage.shouldRefreshData.value;
                         ElegantNotification.success(
-                          title: Text("Pedido de Compra"),
-                          description: Text(
+                          title: const Text("Pedido de Compra"),
+                          description: const Text(
                               "Foi efetuado um pedido de compra com sucesso"),
                         ).show(context);
                       } else {
                         ElegantNotification.error(
-                                title: Text("Edição de Produto"),
-                                description: Text(
+                                title: const Text("Edição de Produto"),
+                                description: const Text(
                                     "Ocorreu algum erro ao efetuar o pedido de compra produto"))
                             .show(context);
                       }
                     },
-                    child: Text('Pedido de Compra'),
+                    child: const Text('Pedido de Compra'),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 )
               ],
