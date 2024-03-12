@@ -13,7 +13,9 @@ import jakarta.persistence.Table;
 public class Usuario {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id_usuario")
+  @JsonProperty("id_usuario")
   private int id_usuario;
 
   @Column(name = "nome_usuario")
@@ -42,6 +44,18 @@ public class Usuario {
 
   public String getSenha_usuario() {
     return senha_usuario;
+  }
+
+  public void setNomeUsuario(String nomeUsuario) {
+    this.nomeUsuario = nomeUsuario;
+  }
+
+  public void setEmail_usuario(String email_usuario) {
+    this.email_usuario = email_usuario;
+  }
+
+  public void setSenha_usuario(String senha_usuario) {
+    this.senha_usuario = senha_usuario;
   }
 
 }

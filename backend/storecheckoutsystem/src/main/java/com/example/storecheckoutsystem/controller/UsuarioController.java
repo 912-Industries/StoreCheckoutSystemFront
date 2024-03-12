@@ -30,6 +30,14 @@ public class UsuarioController {
     return usuarioRepository.findAll();
   }
 
+  @PostMapping("/cadastro-usuario")
+  public Usuario cadastroUsuario(@Validated @RequestBody Usuario usuario) {
+    usuario.setNomeUsuario(usuario.getNome_usuario());
+    usuario.setEmail_usuario(usuario.getEmail_usuario());
+    usuario.setSenha_usuario(usuario.getSenha_usuario());
+    return usuarioRepository.save(usuario);
+  }
+
   @GetMapping("/{id_usuario}")
   public ResponseEntity<Usuario> pesquisaUsuarioId(
       @PathVariable(value = "id_usuario") int id_usuario) {
@@ -63,4 +71,5 @@ public class UsuarioController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
     }
   }
+
 }
