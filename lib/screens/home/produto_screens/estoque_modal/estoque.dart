@@ -12,6 +12,8 @@ import 'package:store_checkout_system/widgets/estoque_widgets/icone_exclusao.dar
 class EstoquePage extends StatefulWidget {
   static ValueNotifier<bool> shouldRefreshData = ValueNotifier(false);
 
+  const EstoquePage({super.key});
+
   @override
   _EstoquePageState createState() => _EstoquePageState();
 }
@@ -72,18 +74,18 @@ class _EstoquePageState extends State<EstoquePage> {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(100),
+        padding: const EdgeInsets.all(100),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.4,
                 child: Stack(
                   alignment: Alignment.centerRight,
                   children: [
                     TextField(
                       controller: _typeAheadController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Pesquisar Produto",
                       ),
                     ),
@@ -94,12 +96,12 @@ class _EstoquePageState extends State<EstoquePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CadastroProdutoPage(),
+                              builder: (context) => const CadastroProdutoPage(),
                             ),
                           );
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
+                        child: const Padding(
+                          padding: EdgeInsets.only(right: 8.0),
                           child: Icon(Icons.add_circle_outline_rounded),
                         ),
                       ),
@@ -194,7 +196,7 @@ class _EstoquePageState extends State<EstoquePage> {
                                                 .toString(),
                                             excluirProduto: excluirProduto),
                                         IconButton(
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.add_circle_rounded,
                                           ),
                                           onPressed: () {

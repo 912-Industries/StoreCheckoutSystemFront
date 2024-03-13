@@ -3,14 +3,16 @@ import 'package:store_checkout_system/services/login_services/validate_service.d
 import 'home/home.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  var _userNameController = TextEditingController();
-  var _passwordController = TextEditingController();
+  final _userNameController = TextEditingController();
+  final _passwordController = TextEditingController();
   ValidateService validateService = ValidateService();
 
   @override
@@ -25,14 +27,14 @@ class _LoginScreenState extends State<LoginScreen> {
               child: TextFormField(
                 textAlignVertical: TextAlignVertical.center,
                 controller: _userNameController,
-                decoration: InputDecoration(labelText: 'Usuário'),
+                decoration: const InputDecoration(labelText: 'Usuário'),
               ),
             ),
             SizedBox(
               width: 250,
               child: TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Senha'),
+                decoration: const InputDecoration(labelText: 'Senha'),
                 obscureText: true,
               ),
             ),
@@ -48,19 +50,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (isValid) {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()),
                       );
                     } else {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text('Erro de Login'),
-                            content:
-                                Text('O usuario ou a senha está incorreto'),
+                            title: const Text('Erro de Login'),
+                            content: const Text(
+                                'O usuario ou a senha está incorreto'),
                             actions: <Widget>[
                               TextButton(
-                                child: Text('Close'),
+                                child: const Text('Close'),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
@@ -71,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     }
                   },
-                  child: Text('Entrar'),
+                  child: const Text('Entrar'),
                 ),
               ),
             ),

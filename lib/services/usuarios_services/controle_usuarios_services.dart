@@ -1,3 +1,4 @@
+// controle_usuario_service.dart
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -10,7 +11,7 @@ class ControleUsuarioService {
       List jsonResponse = jsonDecode(response.body);
       return jsonResponse.map((item) => item as Map<String, dynamic>).toList();
     } else {
-      throw Exception('Falha ao carregar os usuarios');
+      throw Exception('Failed to load users');
     }
   }
 }

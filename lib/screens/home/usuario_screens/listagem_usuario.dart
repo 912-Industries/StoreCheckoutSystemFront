@@ -3,6 +3,8 @@ import 'package:store_checkout_system/screens/home/usuario_screens/cadastro_usua
 import 'package:store_checkout_system/screens/home/usuario_screens/editar_usuario.dart';
 
 class ControleUsuarioPage extends StatefulWidget {
+  const ControleUsuarioPage({super.key});
+
   @override
   _ControleUsuario createState() => _ControleUsuario();
 }
@@ -17,18 +19,18 @@ class _ControleUsuario extends State<ControleUsuarioPage> {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(100),
+        padding: const EdgeInsets.all(100),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.4,
                 child: Stack(
                   alignment: Alignment.centerRight,
                   children: [
                     TextField(
                       controller: _typeAheadController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Pesquisar Usuário',
                       ),
                     ),
@@ -43,8 +45,8 @@ class _ControleUsuario extends State<ControleUsuarioPage> {
                             ),
                           );
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 0.8),
+                        child: const Padding(
+                          padding: EdgeInsets.only(right: 0.8),
                           child: Icon(Icons.person_add_alt_rounded),
                         ),
                       ),

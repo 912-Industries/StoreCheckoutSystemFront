@@ -9,7 +9,7 @@ import 'package:store_checkout_system/screens/home/produto_screens/estoque_modal
 import 'package:store_checkout_system/services/compra_services/pedido_compra_service.dart';
 
 class PedidoCompraPage extends StatefulWidget {
-  late final Map<String, dynamic> produto;
+  final Map<String, dynamic> produto;
   const PedidoCompraPage({super.key, required this.produto});
   @override
   _PedidoCompra createState() => _PedidoCompra();

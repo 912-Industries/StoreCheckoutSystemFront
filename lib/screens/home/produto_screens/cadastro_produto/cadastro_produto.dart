@@ -7,6 +7,8 @@ import 'package:elegant_notification/elegant_notification.dart';
 import 'package:store_checkout_system/helpers/quantidade_helper.dart';
 
 class CadastroProdutoPage extends StatefulWidget {
+  const CadastroProdutoPage({super.key});
+
   @override
   _CadastroProduto createState() => _CadastroProduto();
 }
@@ -57,9 +59,9 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cadastro de Produto"),
+        title: const Text("Cadastro de Produto"),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -72,20 +74,20 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
                     controller: nomeProdutoController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Nome do Produto',
                       prefixIcon: Padding(
-                        child: Icon(Icons.shopping_bag),
                         padding: EdgeInsets.all(5),
+                        child: Icon(Icons.shopping_bag),
                       ),
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
                     controller: precoProdutoController,
@@ -97,24 +99,24 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
                         symbol: 'R\$ ',
                       ),
                     ],
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Preço de Custo',
                       prefixIcon: Padding(
+                        padding: EdgeInsets.all(10),
                         child: Icon(Icons.attach_money),
-                        padding: const EdgeInsets.all(10),
                       ),
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
                     controller: categoriaProdutoController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Categoria do Produto',
                       prefixIcon: Padding(
-                        child: Icon(Icons.category_rounded),
                         padding: EdgeInsets.all(5),
+                        child: Icon(Icons.category_rounded),
                       ),
                     ),
                   ),
@@ -127,11 +129,11 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
                     maxLines: null,
                     maxLength: 255,
                     maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Descrição do Produto',
                       prefixIcon: Padding(
+                        padding: EdgeInsets.all(10),
                         child: Icon(Icons.description),
-                        padding: const EdgeInsets.all(10),
                       ),
                     ),
                     buildCounter: (
@@ -141,7 +143,7 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
                       required bool isFocused,
                     }) {
                       return DefaultTextStyle(
-                        style: TextStyle(color: Colors.grey),
+                        style: const TextStyle(color: Colors.grey),
                         child: Text(
                           '$currentLength/$maxLength caracteres',
                           semanticsLabel: 'contador caracteres',
@@ -150,27 +152,27 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Text('Quantidade: '),
+                const Text('Quantidade: '),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     IconButton(
                       onPressed: diminuirQuantidade,
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.remove_circle_outlined,
                         color: Colors.green,
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       width: 50.0,
                       child: TextFormField(
                         controller: quantidadeProdutoController,
                         keyboardType: TextInputType.number,
                         textAlign: TextAlign.center,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(vertical: 0.0),
                         ),
@@ -182,7 +184,7 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
                       ),
                     ),
                     IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.add_circle_rounded,
                         color: Colors.green,
                       ),
@@ -190,10 +192,10 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.2,
                   height: MediaQuery.of(context).size.height * 0.060,
                   child: ElevatedButton(
@@ -230,19 +232,19 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
                         EstoquePage.shouldRefreshData.value =
                             !EstoquePage.shouldRefreshData.value;
                         ElegantNotification.success(
-                          title: Text("Pedido de Compra de Produto"),
-                          description: Text(
+                          title: const Text("Pedido de Compra de Produto"),
+                          description: const Text(
                               "O pedido de compra foi contabilizado com sucesso"),
                         ).show(context);
                       } else {
                         ElegantNotification.error(
-                          title: Text("Pedido de Compra de Produto"),
-                          description: Text(
+                          title: const Text("Pedido de Compra de Produto"),
+                          description: const Text(
                               "Ocorreu algum erro ao contabilizar o pedido de compra"),
                         ).show(context);
                       }
                     },
-                    child: Text('Pedido de Compra de Produto'),
+                    child: const Text('Pedido de Compra de Produto'),
                   ),
                 ),
               ],

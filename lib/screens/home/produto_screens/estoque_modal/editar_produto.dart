@@ -9,7 +9,7 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:store_checkout_system/helpers/quantidade_helper.dart';
 
 class EditarProduto extends StatefulWidget {
-  late final Map<String, dynamic> produto;
+  final Map<String, dynamic> produto;
   const EditarProduto({super.key, required this.produto});
 
   @override

@@ -13,7 +13,7 @@ class ExcluirProdutoService {
       }
     } catch (e) {
       print('Network error:  + $e');
-      return false; 
+      return false;
     }
   }
 }
