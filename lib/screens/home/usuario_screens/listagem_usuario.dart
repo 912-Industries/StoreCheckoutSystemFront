@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:store_checkout_system/screens/home/usuario_screens/cadastro_usuario.dart';
 import 'package:store_checkout_system/screens/home/usuario_screens/editar_usuario.dart';
-import 'package:store_checkout_system/services/produto_services/excluir_produto_service.dart';
 import 'package:store_checkout_system/services/usuarios_services/controle_usuarios_services.dart';
 import 'package:store_checkout_system/services/usuarios_services/excluir_usuarios_service.dart';
 import 'package:store_checkout_system/widgets/estoque_widgets/icone_exclusao.dart';
@@ -19,7 +18,7 @@ class _ControleUsuario extends State<ControleUsuarioPage> {
   final TextEditingController _typeAheadController = TextEditingController();
   final ControleUsuarioService _controleUsuarioService =
       ControleUsuarioService();
-  final ExcluirUsuarioService excluirUsuario = ExcluirUsuarioService();
+  final ExcluirUsuarioService excluirUsuarioService = ExcluirUsuarioService();
 
   @override
   void initState() {
@@ -35,20 +34,21 @@ class _ControleUsuario extends State<ControleUsuarioPage> {
   }
 
   void fetchData() async {
-    var newProdutos = await _controleUsuarioService.fetchUsuarios();
-    if (newProdutos.isNotEmpty) {
+    var newUsuarios = await _controleUsuarioService.fetchUsuarios();
+    if (newUsuarios.isNotEmpty) {
       setState(() {
-        usuarios = newProdutos;
+        usuarios = newUsuarios;
       });
     }
   }
 
-  Future<bool> excluirProduto(int idProduto) async {
-    bool isDeleted = await excluirUsuario.excluirProduto(idProduto.toString());
+  Future<bool> excluirUsuario(int idProduto) async {
+    bool isDeleted =
+        await excluirUsuarioService.excluirUsuario(idProduto.toString());
     if (isDeleted) {
       fetchData();
       setState(() {
-        usuarios?.removeWhere((produto) => produto['id_produto'] == idProduto);
+        usuarios?.removeWhere((usuario) => usuario['id_usuario'] == idProduto);
       });
     }
     return isDeleted;
@@ -169,10 +169,10 @@ class _ControleUsuario extends State<ControleUsuarioPage> {
                                             children: [
                                               IconeExclusao(
                                                   idProduto:
-                                                      usuario['id_produto']
+                                                      usuario['id_usuario']
                                                           .toString(),
                                                   excluirProduto:
-                                                      excluirProduto),
+                                                      excluirUsuario),
                                             ],
                                           ))
                                         ]),

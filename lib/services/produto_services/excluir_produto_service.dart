@@ -4,7 +4,7 @@ class ExcluirProdutoService {
   Future<bool> excluirProduto(String idProduto) async {
     try {
       var response = await http.delete(
-          Uri.parse('http://localhost:8080/api/produto/excluir/$idProduto'),
+          Uri.parse('http://localhost:8080/api/usuario/excluir/$idProduto'),
           headers: {'Content-Type': 'application/json'});
       if (response.statusCode == 204) {
         return true;
