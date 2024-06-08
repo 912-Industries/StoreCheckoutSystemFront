@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:store_checkout_system/screens/home/usuario_screens/cadastro_usuario.dart';
 import 'package:store_checkout_system/screens/home/usuario_screens/editar_usuario.dart';
+import 'package:store_checkout_system/services/produto_services/excluir_produto_service.dart';
+import 'package:store_checkout_system/services/usuarios_services/controle_usuarios_services.dart';
+import 'package:store_checkout_system/services/usuarios_services/excluir_usuarios_service.dart';
+import 'package:store_checkout_system/widgets/estoque_widgets/icone_exclusao.dart';
 
 class ControleUsuarioPage extends StatefulWidget {
   const ControleUsuarioPage({super.key});
@@ -9,11 +13,46 @@ class ControleUsuarioPage extends StatefulWidget {
   _ControleUsuario createState() => _ControleUsuario();
 }
 
-//TODO Após finalizar o autocomplete de produtos implementar controle de usuario
 class _ControleUsuario extends State<ControleUsuarioPage> {
   List<Map<String, dynamic>>? usuarios = [];
   String query = '';
   final TextEditingController _typeAheadController = TextEditingController();
+  final ControleUsuarioService _controleUsuarioService =
+      ControleUsuarioService();
+  final ExcluirUsuarioService excluirUsuario = ExcluirUsuarioService();
+
+  @override
+  void initState() {
+    _loadUsuarios();
+    super.initState();
+  }
+
+  Future<void> _loadUsuarios() async {
+    final usuariosFetched = await _controleUsuarioService.fetchUsuarios();
+    setState(() {
+      usuarios = usuariosFetched;
+    });
+  }
+
+  void fetchData() async {
+    var newProdutos = await _controleUsuarioService.fetchUsuarios();
+    if (newProdutos.isNotEmpty) {
+      setState(() {
+        usuarios = newProdutos;
+      });
+    }
+  }
+
+  Future<bool> excluirProduto(int idProduto) async {
+    bool isDeleted = await excluirUsuario.excluirProduto(idProduto.toString());
+    if (isDeleted) {
+      fetchData();
+      setState(() {
+        usuarios?.removeWhere((produto) => produto['id_produto'] == idProduto);
+      });
+    }
+    return isDeleted;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +80,7 @@ class _ControleUsuario extends State<ControleUsuarioPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CadastroUsuarioPage(),
+                              builder: (context) => const CadastroUsuarioPage(),
                             ),
                           );
                         },
@@ -58,77 +97,91 @@ class _ControleUsuario extends State<ControleUsuarioPage> {
                 scrollDirection: Axis.vertical,
                 child: Column(
                   children: [
-                    DataTable(
-                      showCheckboxColumn: false,
-                      columns: const <DataColumn>[
-                        DataColumn(
-                          label: Text(
-                            'Id',
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Nome',
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Email',
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Nivel Permissão',
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Ações',
-                          ),
-                        ),
-                      ],
-                      rows: List<DataRow>.from(
-                        usuarios!
-                            .where((usuario) => usuario['nome_usuario']
-                                .toLowerCase()
-                                .contains(query.toLowerCase()))
-                            .map(
-                              (usuario) => DataRow(
-                                  onSelectChanged: (bool? selected) {
-                                    if (selected == true) {
-                                      Navigator.push(
-                                        context,
-                                        //TODO Finalizar arquivo edição de usuario
-                                        MaterialPageRoute(
-                                            builder: (context) => EditarUsuario(
-                                                usuario: usuario)),
-                                      );
-                                    }
-                                  },
-                                  cells: <DataCell>[
-                                    DataCell(Text(
-                                      usuario['id_usuario']?.toString() ?? '',
-                                      textAlign: TextAlign.center,
-                                    )),
-                                    DataCell(Text(
-                                      usuario['nome_usuario'] ?? '',
-                                      textAlign: TextAlign.center,
-                                    )),
-                                    DataCell(Text(
-                                      usuario['email_usuario'] ?? '',
-                                      textAlign: TextAlign.center,
-                                    )),
-                                    DataCell(Text(
-                                      usuario['nivel_permissao_usuario']
-                                              ?.toString() ??
-                                          '',
-                                      textAlign: TextAlign.center,
-                                    )),
-                                  ]),
-                              //TODO Fazer DataCell com Icones para operação no banco
+                    usuarios != null
+                        ? DataTable(
+                            showCheckboxColumn: false,
+                            columns: const <DataColumn>[
+                              DataColumn(
+                                label: Text(
+                                  'Id',
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Nome',
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Email',
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Nivel Permissão',
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Ações',
+                                ),
+                              ),
+                            ],
+                            rows: List<DataRow>.from(
+                              usuarios!
+                                  .where((usuario) => usuario['nome_usuario']
+                                      .toLowerCase()
+                                      .contains(query.toLowerCase()))
+                                  .map(
+                                    (usuario) => DataRow(
+                                        onSelectChanged: (bool? selected) {
+                                          if (selected == true) {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EditarUsuario(
+                                                          usuario: usuario)),
+                                            );
+                                          }
+                                        },
+                                        cells: <DataCell>[
+                                          DataCell(Text(
+                                            usuario['id_usuario'].toString() ??
+                                                '',
+                                            textAlign: TextAlign.center,
+                                          )),
+                                          DataCell(Text(
+                                            usuario['nome_usuario'] ?? '',
+                                            textAlign: TextAlign.center,
+                                          )),
+                                          DataCell(Text(
+                                            usuario['email_usuario'] ?? '',
+                                            textAlign: TextAlign.center,
+                                          )),
+                                          DataCell(Text(
+                                            usuario['nivel_permissao_usuario']
+                                                    ?.toString() ??
+                                                '',
+                                            textAlign: TextAlign.center,
+                                          )),
+                                          DataCell(Row(
+                                            children: [
+                                              IconeExclusao(
+                                                  idProduto:
+                                                      usuario['id_produto']
+                                                          .toString(),
+                                                  excluirProduto:
+                                                      excluirProduto),
+                                            ],
+                                          ))
+                                        ]),
+                                  ),
                             ),
-                      ),
-                    ),
+                          )
+                        : const Center(
+                            child: CircularProgressIndicator(),
+                          ),
                   ],
                 ),
               ),

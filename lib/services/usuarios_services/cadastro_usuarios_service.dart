@@ -6,8 +6,7 @@ class CadastroUsuarioService {
       String SenhaUsuario, String NomeCompletoUsuario) async {
     try {
       var response = await http.post(
-          Uri.parse(
-              'URL'), // Criar um endpoint para realizar o cadastro de usuario
+          Uri.parse('http://localhost:8080/api/usuario/cadastro-usuario'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'nome_usuario': NomeUsuario,
@@ -21,7 +20,7 @@ class CadastroUsuarioService {
         return false;
       }
     } catch (e) {
-      print("Network error + $e");
+      print("Network error  teste+ $e");
       return false;
     }
   }

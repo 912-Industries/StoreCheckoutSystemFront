@@ -4,6 +4,8 @@ import 'package:store_checkout_system/screens/home/produto_screens/estoque_modal
 import 'package:store_checkout_system/screens/home/config_screens/configuracoes.dart';
 
 class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -11,9 +13,9 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _currentIndex = 1;
   final List<Widget> _pages = [
-    ControleUsuarioPage(),
-    EstoquePage(),
-    ConfiguracaoPage(),
+    const ControleUsuarioPage(),
+    const EstoquePage(),
+    const ConfiguracaoPage(),
   ];
 
   @override

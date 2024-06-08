@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:store_checkout_system/services/usuarios_services/cadastro_usuarios_service.dart';
-import 'package:store_checkout_system/screens/home/usuario_screens/listagem_usuario.dart';
-
-import 'package:elegant_notification/elegant_notification.dart';
 
 class CadastroUsuarioPage extends StatefulWidget {
+  const CadastroUsuarioPage({super.key});
+
   @override
   _CadastroUsuario createState() => _CadastroUsuario();
 }
@@ -40,9 +39,9 @@ class _CadastroUsuario extends State<CadastroUsuarioPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cadastro de Usuário"),
+        title: const Text("Cadastro de Usuário"),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -55,75 +54,75 @@ class _CadastroUsuario extends State<CadastroUsuarioPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
                     controller: nomeUsuarioController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: "Nome de Usuário",
                       prefixIcon: Padding(
+                        padding: EdgeInsets.all(5),
                         child: Icon(Icons.person_2_rounded),
-                        padding: EdgeInsets.all(5),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: TextFormField(
-                    controller: nomeCompletoUsuarioController,
-                    decoration: InputDecoration(
-                      labelText: "Nome Completo",
-                      prefixIcon: Padding(
-                        child: Icon(Icons.abc_rounded),
-                        padding: EdgeInsets.all(5),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: TextFormField(
-                    controller: emailUsuarioController,
-                    decoration: InputDecoration(
-                      labelText: "Email",
-                      prefixIcon: Padding(
-                        child: Icon(Icons.email_rounded),
-                        padding: EdgeInsets.all(5),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: TextFormField(
-                    controller: senhaUsuarioController,
-                    decoration: InputDecoration(
-                      labelText: "Senha",
-                      prefixIcon: Padding(
-                        child: Icon(Icons.password_rounded),
-                        padding: EdgeInsets.all(5),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: TextFormField(
-                    controller: confirmarSenhaUsuarioController,
-                    decoration: InputDecoration(
-                      labelText: "Confirmar Senha",
-                      prefixIcon: Padding(
-                        child: Icon(Icons.domain_verification_rounded),
-                        padding: EdgeInsets.all(5),
                       ),
                     ),
                   ),
                 ),
                 SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: TextFormField(
+                    controller: nomeCompletoUsuarioController,
+                    decoration: const InputDecoration(
+                      labelText: "Nome Completo",
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Icon(Icons.abc_rounded),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: TextFormField(
+                    controller: emailUsuarioController,
+                    decoration: const InputDecoration(
+                      labelText: "Email",
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Icon(Icons.email_rounded),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: TextFormField(
+                    controller: senhaUsuarioController,
+                    decoration: const InputDecoration(
+                      labelText: "Senha",
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Icon(Icons.password_rounded),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: TextFormField(
+                    controller: confirmarSenhaUsuarioController,
+                    decoration: const InputDecoration(
+                      labelText: "Confirmar Senha",
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Icon(Icons.domain_verification_rounded),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
                   height: 20,
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.2,
                   height: MediaQuery.of(context).size.height * 0.060,
                   child: ElevatedButton(
@@ -140,7 +139,7 @@ class _CadastroUsuario extends State<CadastroUsuarioPage> {
                         limpaCampos();
                       });
                     },
-                    child: Text('Cadastrar Usuário'),
+                    child: const Text('Cadastrar Usuário'),
                   ),
                 )
               ],
