@@ -6,6 +6,8 @@ import 'package:store_checkout_system/services/usuarios_services/excluir_usuario
 import 'package:store_checkout_system/widgets/estoque_widgets/icone_exclusao.dart';
 
 class ControleUsuarioPage extends StatefulWidget {
+  static ValueNotifier<bool> shouldRefreshData = ValueNotifier(false);
+
   const ControleUsuarioPage({super.key});
 
   @override
@@ -23,6 +25,7 @@ class _ControleUsuario extends State<ControleUsuarioPage> {
   @override
   void initState() {
     _loadUsuarios();
+    ControleUsuarioPage.shouldRefreshData.addListener((fetchData));
     super.initState();
   }
 

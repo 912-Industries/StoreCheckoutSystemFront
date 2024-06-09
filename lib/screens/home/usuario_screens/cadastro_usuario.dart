@@ -97,6 +97,7 @@ class _CadastroUsuario extends State<CadastroUsuarioPage> {
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
                     controller: senhaUsuarioController,
+                    obscureText: true,
                     decoration: const InputDecoration(
                       labelText: "Senha",
                       prefixIcon: Padding(
@@ -110,6 +111,7 @@ class _CadastroUsuario extends State<CadastroUsuarioPage> {
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
                     controller: confirmarSenhaUsuarioController,
+                    obscureText: true,
                     decoration: const InputDecoration(
                       labelText: "Confirmar Senha",
                       prefixIcon: Padding(
