@@ -14,7 +14,7 @@ class MarkupConfigService {
             'margemLucro_markup': MargemLucro,
             'resultadoMarkup_markup': ResultadoMarkup,
           }));
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         return true;
       } else {
         return false;

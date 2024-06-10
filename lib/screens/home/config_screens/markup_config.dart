@@ -129,8 +129,6 @@ class _MarkupPage extends State<MarkupPage> {
                           margemLucro,
                           ResultadoMarkup,
                         );
-                        print(ResultadoMarkup);
-
                         if (isValid != null && isValid) {
                           ElegantNotification.success(
                             title: const Text("Configuração de Markup"),
@@ -139,10 +137,10 @@ class _MarkupPage extends State<MarkupPage> {
                           ).show(context);
                         } else {
                           ElegantNotification.error(
-                                  title: const Text("Configuração de Markup"),
-                                  description: const Text(
-                                      "Ocorreu algum erro ao salvar a configuração de markup"))
-                              .show(context);
+                            title: const Text("Configuração de Markup"),
+                            description: const Text(
+                                "Ocorreu algum erro ao salvar a configuração de markup"),
+                          ).show(context);
                         }
                       },
                       child: const Text("Salvar Configuração do Markup"),
