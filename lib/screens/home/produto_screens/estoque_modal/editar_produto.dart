@@ -46,20 +46,33 @@ class _EditarProduto extends State<EditarProduto> {
   @override
   void initState() {
     super.initState();
-    idProdutoController =
-        TextEditingController(text: widget.produto['id_produto'].toString());
+    idProdutoController = TextEditingController(
+      text: utf8.decode(utf8.encode(widget.produto['id_produto'].toString())),
+    );
     nomeProdutoController = TextEditingController(
-        text: utf8.decode(utf8.encode(widget.produto['nome_produto'])));
+      text: utf8.decode(utf8.encode(widget.produto['nome_produto'])),
+    );
     descricaoProdutoController = TextEditingController(
-        text: utf8.decode(utf8.encode(widget.produto['descricao_produto'])));
+      text: utf8.decode(utf8.encode(widget.produto['descricao_produto'])),
+    );
     precoProdutoFinalController = TextEditingController(
-        text: widget.produto['precoFinal_produto'].toString());
+      text: utf8.decode(utf8.encode(widget.produto['id_precoProduto']
+              ['precoFinal_precoProduto']
+          .toString())),
+    );
     precoProdutoCustoController = TextEditingController(
-        text: widget.produto['precoCusto_produto'].toString());
+      text: utf8.decode(utf8.encode(widget.produto['id_precoProduto']
+              ['precoCusto_precoProduto']
+          .toString())),
+    );
     categoriaProdutoController = TextEditingController(
-        text: utf8.decode(utf8.encode(widget.produto['categoria_produto'])));
+      text: utf8.decode(
+          utf8.encode(widget.produto['id_categoria']['nome_categoria'])),
+    );
     quantidadeProdutoController = TextEditingController(
-        text: widget.produto['quantidade_produto'].toString());
+      text: utf8
+          .decode(utf8.encode(widget.produto['quantidade_produto'].toString())),
+    );
   }
 
   @override
