@@ -31,6 +31,7 @@ class _MarkupPage extends State<MarkupPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: const Text("Configuração de Markup"),

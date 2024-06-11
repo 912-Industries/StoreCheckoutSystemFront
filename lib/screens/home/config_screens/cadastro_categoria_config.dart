@@ -42,7 +42,9 @@ class _CadastroCategoria extends State<CadastroCategoria> {
                     ),
                   ),
                 ),
-                // TODO Ao clicar no botão cadastrar categoria na tabela correspondente
+                const SizedBox(
+                  height: 60,
+                ),
                 ElevatedButton(
                   onPressed: () async {},
                   child: const Text('Cadastrar Categoria'),
