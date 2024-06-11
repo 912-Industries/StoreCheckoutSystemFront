@@ -13,26 +13,4 @@ class EstoqueService {
       throw Exception('Falha ao carregar produtos');
     }
   }
-
-  Future<Map<String, dynamic>> fetchPrecoProdutoById(int id) async {
-    final response =
-        await http.get(Uri.parse('http://localhost:8080/api/precoProduto/$id'));
-
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Falha ao carregar preco produto');
-    }
-  }
-
-  Future<Map<String, dynamic>> fetchCategoriaById(int id) async {
-    final response =
-        await http.get(Uri.parse('http://localhost:8080/api/categoria/$id'));
-
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Falha ao carregar categoria');
-    }
-  }
 }
