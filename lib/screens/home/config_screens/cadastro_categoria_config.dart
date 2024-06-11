@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CadastroCategoria extends StatefulWidget {
+  const CadastroCategoria({super.key});
+
   @override
   _CadastroCategoria createState() => _CadastroCategoria();
 }
@@ -12,9 +14,9 @@ class _CadastroCategoria extends State<CadastroCategoria> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cadastro de Categoria'),
+        title: const Text('Cadastro de Categoria'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -27,23 +29,25 @@ class _CadastroCategoria extends State<CadastroCategoria> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
                     controller: categoriaProduto,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Nome da Categoria',
                       prefixIcon: Padding(
-                        child: Icon(Icons.category_rounded),
                         padding: EdgeInsets.all(5),
+                        child: Icon(Icons.category_rounded),
                       ),
                     ),
                   ),
                 ),
-                //TODO Ao clicar no botão cadastrar categoria na tabela correspondente
+                const SizedBox(
+                  height: 60,
+                ),
                 ElevatedButton(
                   onPressed: () async {},
-                  child: null,
+                  child: const Text('Cadastrar Categoria'),
                 )
               ],
             ),
