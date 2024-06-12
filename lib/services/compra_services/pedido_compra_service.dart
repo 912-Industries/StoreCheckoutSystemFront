@@ -3,28 +3,28 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:store_checkout_system/screens/home/produto_screens/estoque_modal/estoque.dart';
 
-//TODO Implementar Conexão Back e Front
 class PedidoCompraService {
   Future<bool>? pedidoCompra(
-      String NomeProduto,
-      double PrecoProdutoCusto,
-      double PrecoProdutoFinal,
-      String CategoriaProduto,
-      String DescricaoProduto,
       int idProduto,
-      int QuantidadeProduto) async {
+      String nomeProduto,
+      double precoCustoProduto,
+      double precoFinalProduto,
+      String descricaoProduto,
+      int quantidadeProduto) async {
     try {
       var response = await http.put(
           Uri.parse('http://localhost:8080/api/produto/compra/$idProduto'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
-            'nome_produto': NomeProduto,
-            'precoFinal_produto': PrecoProdutoFinal,
-            'categoria_produto': CategoriaProduto,
-            'descricao_produto': DescricaoProduto,
-            'quantidade_produto': QuantidadeProduto,
-            'precoCusto_produto': PrecoProdutoCusto,
+            "id_produto": idProduto,
+            "id_precoProduto": {
+              "precoCusto_precoProduto": precoCustoProduto,
+            },
+            "nome_produto": nomeProduto,
+            "descricao_produto": descricaoProduto,
+            "quantidade_produto": quantidadeProduto
           }));
+
       if (response.statusCode == 200) {
         EstoquePage.shouldRefreshData.value = true;
         return true;

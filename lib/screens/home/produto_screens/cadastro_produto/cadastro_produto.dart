@@ -17,7 +17,6 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
   final nomeProdutoController = TextEditingController();
   final descricaoProdutoController = TextEditingController();
   final precoProdutoController = TextEditingController();
-  final categoriaProdutoController = TextEditingController();
   var quantidadeProdutoController = TextEditingController();
 
   int quantidade = 1;
@@ -38,7 +37,6 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
     nomeProdutoController.clear();
     descricaoProdutoController.clear();
     precoProdutoController.clear();
-    categoriaProdutoController.clear();
   }
 
   void aumentarQuantidade() {
@@ -104,19 +102,6 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
                       prefixIcon: Padding(
                         padding: EdgeInsets.all(10),
                         child: Icon(Icons.attach_money),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: TextFormField(
-                    controller: categoriaProdutoController,
-                    decoration: const InputDecoration(
-                      labelText: 'Categoria do Produto',
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Icon(Icons.category_rounded),
                       ),
                     ),
                   ),
@@ -204,13 +189,17 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
 
                       String precoProdutoText = precoProdutoController.text;
                       precoProdutoText = precoProdutoText.replaceAll('R\$', '');
-                      precoProdutoText = precoProdutoText.replaceAll(',', '.');
+                      precoProdutoText = precoProdutoText.replaceAll('.', '');
+                      precoProdutoText = precoProdutoText.replaceAll(',', '');
 
-                      double precoProduto;
-                      int quantidade =
-                          int.parse(quantidadeProdutoController.text);
+                      int length = precoProdutoText.length;
+                      precoProdutoText =
+                          '${precoProdutoText.substring(0, length - 2)}.${precoProdutoText.substring(length - 2)}';
+                      double precoProduto = double.parse(precoProdutoText);
+
                       try {
-                        precoProduto = double.parse(precoProdutoText);
+                        quantidade =
+                            int.parse(quantidadeProdutoController.text);
                       } catch (e) {
                         print(
                             'Não foi possível converter a string para um double: $e');
@@ -220,7 +209,6 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
                       bool? isValid = await service.cadastroProduto(
                           nomeProdutoController.text,
                           precoProduto,
-                          categoriaProdutoController.text,
                           descricaoProdutoController.text,
                           quantidade);
 

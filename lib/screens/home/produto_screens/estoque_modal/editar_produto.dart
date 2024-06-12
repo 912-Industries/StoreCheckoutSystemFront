@@ -65,10 +65,6 @@ class _EditarProduto extends State<EditarProduto> {
               ['precoCusto_precoProduto']
           .toString())),
     );
-    categoriaProdutoController = TextEditingController(
-      text: utf8.decode(
-          utf8.encode(widget.produto['id_categoria']['nome_categoria'])),
-    );
     quantidadeProdutoController = TextEditingController(
       text: utf8
           .decode(utf8.encode(widget.produto['quantidade_produto'].toString())),
@@ -81,7 +77,6 @@ class _EditarProduto extends State<EditarProduto> {
     nomeProdutoController.dispose();
     descricaoProdutoController.dispose();
     precoProdutoFinalController.dispose();
-    categoriaProdutoController.dispose();
     quantidadeProdutoController.dispose();
     super.dispose();
   }
@@ -90,12 +85,12 @@ class _EditarProduto extends State<EditarProduto> {
     nomeProdutoController.clear();
     descricaoProdutoController.clear();
     precoProdutoFinalController.clear();
-    categoriaProdutoController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Edição de Produto'),
@@ -185,19 +180,6 @@ class _EditarProduto extends State<EditarProduto> {
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.4,
-                    child: TextFormField(
-                      controller: categoriaProdutoController,
-                      decoration: const InputDecoration(
-                        labelText: 'Categoria do Produto',
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.all(5),
-                          child: Icon(Icons.category_rounded),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.4,
                     child: TextField(
                       inputFormatters: [
                         FilteringTextInputFormatter.allow(
@@ -280,10 +262,6 @@ class _EditarProduto extends State<EditarProduto> {
                             double.parse(precoProdutoCustoController.text
                                 .replaceAll('R\$', '')
                                 .replaceAll(',', '.')),
-                            double.parse(precoProdutoFinalController.text
-                                .replaceAll('R\$', '')
-                                .replaceAll(',', '.')),
-                            categoriaProdutoController.text,
                             descricaoProdutoController.text,
                             int.parse(idProdutoController.text),
                             int.parse(quantidadeProdutoController.text));

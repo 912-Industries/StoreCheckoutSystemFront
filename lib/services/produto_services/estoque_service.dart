@@ -8,6 +8,7 @@ class EstoqueService {
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
+      print(response.body);
       return jsonResponse.map((item) => item as Map<String, dynamic>).toList();
     } else {
       throw Exception('Falha ao carregar produtos');

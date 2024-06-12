@@ -132,11 +132,6 @@ class _EstoquePageState extends State<EstoquePage> {
                           ),
                         ),
                         DataColumn(
-                          label: Text(
-                            'Categoria',
-                          ),
-                        ),
-                        DataColumn(
                           label: Text('Quantidade'),
                         ),
                         DataColumn(label: Text('Ações')),
@@ -165,12 +160,10 @@ class _EstoquePageState extends State<EstoquePage> {
                                     )),
                                     DataCell(
                                         Text(produto['nome_produto'] ?? '')),
-                                    DataCell(Text(produto['precoFinal_produto']
-                                            ?.toString() ??
+                                    DataCell(Text(produto['id_precoProduto']
+                                                ['precoFinal_precoProduto']
+                                            .toString() ??
                                         '')),
-                                    DataCell(
-                                      Text(produto['categoria_produto'] ?? ''),
-                                    ),
                                     DataCell(
                                       Row(
                                         mainAxisAlignment:

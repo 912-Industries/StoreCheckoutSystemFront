@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:store_checkout_system/screens/home/config_screens/cadastro_categoria_config.dart';
 import 'package:store_checkout_system/screens/home/usuario_screens/listagem_usuario.dart';
 import 'package:store_checkout_system/screens/home/produto_screens/estoque_modal/estoque.dart';
 import 'package:store_checkout_system/screens/home/config_screens/configuracoes.dart';
@@ -16,7 +15,6 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _pages = [
     const ControleUsuarioPage(),
     const EstoquePage(),
-    const CadastroCategoria(),
     const ConfiguracaoPage(),
   ];
 
@@ -32,21 +30,11 @@ class _MainPageState extends State<MainPage> {
             _currentIndex = index;
           });
         },
-        showUnselectedLabels: true,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey,
-        selectedLabelStyle: const TextStyle(fontSize: 12, color: Colors.black),
-        unselectedLabelStyle:
-            const TextStyle(fontSize: 12, color: Colors.black),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.view_list_rounded),
-            label: 'Usuários',
-          ),
+              icon: Icon(Icons.view_list_rounded), label: 'Usuários'),
           BottomNavigationBarItem(
               icon: Icon(Icons.payments_rounded), label: 'Estoque'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.category_rounded), label: 'Categoria'),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings_rounded), label: 'Configurações'),
         ],
