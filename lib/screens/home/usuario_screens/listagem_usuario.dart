@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:store_checkout_system/screens/home/usuario_screens/cadastro_usuario.dart';
 import 'package:store_checkout_system/screens/home/usuario_screens/editar_usuario.dart';
@@ -26,7 +28,25 @@ class _ControleUsuario extends State<ControleUsuarioPage> {
   void initState() {
     _loadUsuarios();
     ControleUsuarioPage.shouldRefreshData.addListener((fetchData));
+    fetchData();
+    Timer? debounce;
+    _typeAheadController.addListener(() {
+      if (debounce?.isActive ?? false) debounce?.cancel();
+      debounce = Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          query = _typeAheadController.text;
+          fetchData();
+        });
+      });
+    });
+    setState(() {});
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    ControleUsuarioPage.shouldRefreshData.removeListener(fetchData);
+    super.dispose();
   }
 
   Future<void> _loadUsuarios() async {
@@ -83,7 +103,9 @@ class _ControleUsuario extends State<ControleUsuarioPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const CadastroUsuarioPage(),
+                              builder: (context) => CadastroUsuarioPage(
+                                onUserCreated: fetchData,
+                              ),
                             ),
                           );
                         },

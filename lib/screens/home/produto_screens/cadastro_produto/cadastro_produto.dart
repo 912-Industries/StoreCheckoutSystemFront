@@ -185,50 +185,49 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
                   height: MediaQuery.of(context).size.height * 0.060,
                   child: ElevatedButton(
                     onPressed: () async {
-                      CadastroProdutoService service = CadastroProdutoService();
-
-                      String precoProdutoText = precoProdutoController.text;
-                      precoProdutoText = precoProdutoText.replaceAll('R\$', '');
-                      precoProdutoText = precoProdutoText.replaceAll('.', '');
-                      precoProdutoText = precoProdutoText.replaceAll(',', '');
-
-                      int length = precoProdutoText.length;
-                      precoProdutoText =
-                          '${precoProdutoText.substring(0, length - 2)}.${precoProdutoText.substring(length - 2)}';
-                      double precoProduto = double.parse(precoProdutoText);
-
                       try {
+                        CadastroProdutoService service =
+                            CadastroProdutoService();
+
+                        String precoProdutoText = precoProdutoController.text;
+                        precoProdutoText =
+                            precoProdutoText.replaceAll('R\$', '');
+                        precoProdutoText = precoProdutoText.replaceAll('.', '');
+                        precoProdutoText = precoProdutoText.replaceAll(',', '');
+
+                        int length = precoProdutoText.length;
+                        precoProdutoText =
+                            '${precoProdutoText.substring(0, length - 2)}.${precoProdutoText.substring(length - 2)}';
+                        double precoProduto = double.parse(precoProdutoText);
+
                         quantidade =
                             int.parse(quantidadeProdutoController.text);
+
+                        bool? isValid = await service.cadastroProduto(
+                            nomeProdutoController.text,
+                            precoProduto,
+                            descricaoProdutoController.text,
+                            quantidade);
+
+                        setState(() {
+                          limpaCampos();
+                        });
+
+                        if (isValid != null && isValid) {
+                          EstoquePage.shouldRefreshData.value =
+                              !EstoquePage.shouldRefreshData.value;
+                        }
                       } catch (e) {
-                        print(
-                            'Não foi possível converter a string para um double: $e');
-                        return;
-                      }
-
-                      bool? isValid = await service.cadastroProduto(
-                          nomeProdutoController.text,
-                          precoProduto,
-                          descricaoProdutoController.text,
-                          quantidade);
-
-                      setState(() {
-                        limpaCampos();
-                      });
-
-                      if (isValid != null && isValid) {
-                        EstoquePage.shouldRefreshData.value =
-                            !EstoquePage.shouldRefreshData.value;
+                        ElegantNotification.error(
+                          title: const Text("Pedido de Compra de Produto"),
+                          description: Text(
+                              "Ocorreu algum erro ao contabilizar o pedido de compra: $e"),
+                        ).show(context);
+                      } finally {
                         ElegantNotification.success(
                           title: const Text("Pedido de Compra de Produto"),
                           description: const Text(
                               "O pedido de compra foi contabilizado com sucesso"),
-                        ).show(context);
-                      } else {
-                        ElegantNotification.error(
-                          title: const Text("Pedido de Compra de Produto"),
-                          description: const Text(
-                              "Ocorreu algum erro ao contabilizar o pedido de compra"),
                         ).show(context);
                       }
                     },
