@@ -19,9 +19,12 @@ class CadastroProdutoService {
             'descricao_produto': DescricaoProduto,
             'quantidade_produto': QuantidadeProduto
           }));
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         return true;
       } else {
+        print(response.statusCode);
+        print(response.body);
+
         return false;
       }
     } catch (e) {
