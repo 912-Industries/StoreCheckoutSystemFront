@@ -2,6 +2,7 @@ import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:store_checkout_system/screens/home/usuario_screens/listagem_usuario.dart';
 import 'package:store_checkout_system/services/usuarios_services/cadastro_usuarios_service.dart';
+import 'package:store_checkout_system/services/usuarios_services/controle_usuarios_services.dart';
 
 class CadastroUsuarioPage extends StatefulWidget {
   final Function() onUserCreated;
@@ -17,17 +18,27 @@ class _CadastroUsuario extends State<CadastroUsuarioPage> {
   final senhaUsuarioController = TextEditingController();
   final confirmarSenhaUsuarioController = TextEditingController();
   final emailUsuarioController = TextEditingController();
-
-  void verificaSenha() {}
+  final _buttonFocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
+    _buttonFocusNode.addListener(() {
+      if (!_buttonFocusNode.hasFocus) {
+        FocusScope.of(context).unfocus();
+      }
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
+    nomeUsuarioController.dispose();
+    nomeCompletoUsuarioController.dispose();
+    senhaUsuarioController.dispose();
+    confirmarSenhaUsuarioController.dispose();
+    emailUsuarioController.dispose();
+    _buttonFocusNode.dispose();
   }
 
   void limpaCampos() {
@@ -47,6 +58,7 @@ class _CadastroUsuario extends State<CadastroUsuarioPage> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
+            setState(() {});
           },
         ),
       ),
@@ -131,6 +143,7 @@ class _CadastroUsuario extends State<CadastroUsuarioPage> {
                   width: MediaQuery.of(context).size.width * 0.2,
                   height: MediaQuery.of(context).size.height * 0.060,
                   child: ElevatedButton(
+                    focusNode: _buttonFocusNode,
                     onPressed: () async {
                       try {
                         CadastroUsuarioService service =
@@ -142,19 +155,22 @@ class _CadastroUsuario extends State<CadastroUsuarioPage> {
                             senhaUsuarioController.text,
                             nomeCompletoUsuarioController.text);
                         if (isValid != null && isValid) {
-                          widget.onUserCreated;
+                          ControleUsuarioPage.shouldRefreshData.value =
+                              !ControleUsuarioPage.shouldRefreshData.value;
+                          setState(() {});
+                          widget.onUserCreated();
                         }
                       } catch (e) {
                         ElegantNotification.error(
-                          title: const Text("Pedido de Compra de Produto"),
+                          title: const Text("Cadastro de Usuário"),
                           description: Text(
-                              "Ocorreu algum erro ao contabilizar o pedido de compra: $e"),
+                              "Ocorreu algum erro ao cadastrar o usuário: $e"),
                         ).show(context);
                       } finally {
                         ElegantNotification.success(
-                          title: const Text("Pedido de Compra de Produto"),
+                          title: const Text("Cadastro de Usuário"),
                           description: const Text(
-                              "O pedido de compra foi contabilizado com sucesso"),
+                              "O usuário foi cadastrado com sucesso"),
                         ).show(context);
                         limpaCampos();
                       }

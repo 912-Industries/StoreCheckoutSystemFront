@@ -158,8 +158,7 @@ class _EstoquePageState extends State<EstoquePage> {
                                     )),
                                     DataCell(
                                         Text(produto['nome_produto'] ?? '')),
-                                    DataCell(Text(produto['id_precoProduto']
-                                                ['precoFinal_precoProduto']
+                                    DataCell(Text(produto['precoFinal_produto']
                                             .toString() ??
                                         '')),
                                     DataCell(

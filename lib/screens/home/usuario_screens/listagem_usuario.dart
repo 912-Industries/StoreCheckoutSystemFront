@@ -104,7 +104,11 @@ class _ControleUsuario extends State<ControleUsuarioPage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => CadastroUsuarioPage(
-                                onUserCreated: fetchData,
+                                onUserCreated: () {
+                                  _loadUsuarios();
+                                  fetchData;
+                                  setState(() {});
+                                },
                               ),
                             ),
                           );

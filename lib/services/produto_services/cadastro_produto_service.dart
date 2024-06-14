@@ -10,9 +10,7 @@ class CadastroProdutoService {
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'nome_produto': NomeProduto,
-            'id_precoProduto': {
-              'precoCusto_precoProduto': PrecoCustoProduto,
-            },
+            'precoCusto_produto': PrecoCustoProduto,
             'descricao_produto': DescricaoProduto,
             'quantidade_produto': QuantidadeProduto
           }));
