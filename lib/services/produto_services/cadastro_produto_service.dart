@@ -2,29 +2,23 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class CadastroProdutoService {
-  Future<bool>? cadastroProduto(
-      String NomeProduto,
-      double PrecoCustoProduto,
-      String CategoriaProduto,
-      String DescricaoProduto,
-      int QuantidadeProduto) async {
+  Future<bool>? cadastroProduto(String NomeProduto, double PrecoCustoProduto,
+      String DescricaoProduto, int QuantidadeProduto) async {
     try {
       var response = await http.post(
           Uri.parse('http://localhost:8080/api/produto/cadastro'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'nome_produto': NomeProduto,
-            'precoCusto_produto': PrecoCustoProduto,
-            'categoria_produto': CategoriaProduto,
+            'id_precoProduto': {
+              'precoCusto_precoProduto': PrecoCustoProduto,
+            },
             'descricao_produto': DescricaoProduto,
             'quantidade_produto': QuantidadeProduto
           }));
       if (response.statusCode == 201) {
         return true;
       } else {
-        print(response.statusCode);
-        print(response.body);
-
         return false;
       }
     } catch (e) {

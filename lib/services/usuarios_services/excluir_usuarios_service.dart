@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 
 class ExcluirUsuarioService {
-  Future<bool> excluirProduto(String idUsuario) async {
+  Future<bool> excluirUsuario(String idUsuario) async {
     try {
       var response = await http.delete(
           Uri.parse('http://localhost:8080/api/usuario/excluir/$idUsuario'),

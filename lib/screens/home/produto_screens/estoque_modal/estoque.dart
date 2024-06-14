@@ -5,7 +5,6 @@ import 'package:store_checkout_system/screens/home/produto_screens/cadastro_prod
 import 'package:store_checkout_system/screens/home/produto_screens/pedido_compra/pedido_compra.dart';
 import 'package:store_checkout_system/screens/home/produto_screens/estoque_modal/editar_produto.dart';
 import 'package:store_checkout_system/services/produto_services/estoque_service.dart';
-import 'package:store_checkout_system/services/produto_services/autocomplete_service.dart';
 import 'package:store_checkout_system/services/produto_services/excluir_produto_service.dart';
 import 'package:store_checkout_system/widgets/estoque_widgets/icone_exclusao.dart';
 
@@ -20,7 +19,6 @@ class EstoquePage extends StatefulWidget {
 
 class _EstoquePageState extends State<EstoquePage> {
   final EstoqueService produtoService = EstoqueService();
-  final AutocompleteService autocompleteService = AutocompleteService();
   final ExcluirProdutoService excluirProdutoService = ExcluirProdutoService();
   List<Map<String, dynamic>>? produtos = [];
   String query = '';
@@ -132,11 +130,6 @@ class _EstoquePageState extends State<EstoquePage> {
                           ),
                         ),
                         DataColumn(
-                          label: Text(
-                            'Categoria',
-                          ),
-                        ),
-                        DataColumn(
                           label: Text('Quantidade'),
                         ),
                         DataColumn(label: Text('Ações')),
@@ -165,12 +158,10 @@ class _EstoquePageState extends State<EstoquePage> {
                                     )),
                                     DataCell(
                                         Text(produto['nome_produto'] ?? '')),
-                                    DataCell(Text(produto['precoFinal_produto']
-                                            ?.toString() ??
+                                    DataCell(Text(produto['id_precoProduto']
+                                                ['precoFinal_precoProduto']
+                                            .toString() ??
                                         '')),
-                                    DataCell(
-                                      Text(produto['categoria_produto'] ?? ''),
-                                    ),
                                     DataCell(
                                       Row(
                                         mainAxisAlignment:

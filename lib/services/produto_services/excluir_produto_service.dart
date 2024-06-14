@@ -9,6 +9,8 @@ class ExcluirProdutoService {
       if (response.statusCode == 204) {
         return true;
       } else {
+        print('Network error:');
+
         return false;
       }
     } catch (e) {

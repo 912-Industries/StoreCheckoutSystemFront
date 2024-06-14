@@ -1,8 +1,11 @@
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
+import 'package:store_checkout_system/screens/home/usuario_screens/listagem_usuario.dart';
 import 'package:store_checkout_system/services/usuarios_services/cadastro_usuarios_service.dart';
 
 class CadastroUsuarioPage extends StatefulWidget {
-  const CadastroUsuarioPage({super.key});
+  final Function() onUserCreated;
+  const CadastroUsuarioPage({required this.onUserCreated, super.key});
 
   @override
   _CadastroUsuario createState() => _CadastroUsuario();
@@ -97,6 +100,7 @@ class _CadastroUsuario extends State<CadastroUsuarioPage> {
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
                     controller: senhaUsuarioController,
+                    obscureText: true,
                     decoration: const InputDecoration(
                       labelText: "Senha",
                       prefixIcon: Padding(
@@ -110,6 +114,7 @@ class _CadastroUsuario extends State<CadastroUsuarioPage> {
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: TextFormField(
                     controller: confirmarSenhaUsuarioController,
+                    obscureText: true,
                     decoration: const InputDecoration(
                       labelText: "Confirmar Senha",
                       prefixIcon: Padding(
@@ -127,17 +132,32 @@ class _CadastroUsuario extends State<CadastroUsuarioPage> {
                   height: MediaQuery.of(context).size.height * 0.060,
                   child: ElevatedButton(
                     onPressed: () async {
-                      CadastroUsuarioService service = CadastroUsuarioService();
+                      try {
+                        CadastroUsuarioService service =
+                            CadastroUsuarioService();
 
-                      bool? isValid = await service.cadastroUsuario(
-                          nomeUsuarioController.text,
-                          emailUsuarioController.text,
-                          senhaUsuarioController.text,
-                          nomeCompletoUsuarioController.text);
-
-                      setState(() {
+                        bool? isValid = await service.cadastroUsuario(
+                            nomeUsuarioController.text,
+                            emailUsuarioController.text,
+                            senhaUsuarioController.text,
+                            nomeCompletoUsuarioController.text);
+                        if (isValid != null && isValid) {
+                          widget.onUserCreated;
+                        }
+                      } catch (e) {
+                        ElegantNotification.error(
+                          title: const Text("Pedido de Compra de Produto"),
+                          description: Text(
+                              "Ocorreu algum erro ao contabilizar o pedido de compra: $e"),
+                        ).show(context);
+                      } finally {
+                        ElegantNotification.success(
+                          title: const Text("Pedido de Compra de Produto"),
+                          description: const Text(
+                              "O pedido de compra foi contabilizado com sucesso"),
+                        ).show(context);
                         limpaCampos();
-                      });
+                      }
                     },
                     child: const Text('Cadastrar Usuário'),
                   ),

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:store_checkout_system/helpers/quantidade_helper.dart';
 import 'package:store_checkout_system/screens/home/produto_screens/estoque_modal/estoque.dart';
-import 'package:store_checkout_system/services/compra_services/pedido_compra_service.dart';
+import 'package:store_checkout_system/services/produto_services/pedido_compra_service.dart';
 
 class PedidoCompraPage extends StatefulWidget {
   final Map<String, dynamic> produto;
@@ -50,11 +50,16 @@ class _PedidoCompra extends State<PedidoCompraPage> {
     descricaoProdutoController = TextEditingController(
         text: utf8.decode(utf8.encode(widget.produto['descricao_produto'])));
     precoProdutoFinalController = TextEditingController(
-        text: widget.produto['precoFinal_produto'].toString());
+      text: utf8.decode(utf8.encode(widget.produto['id_precoProduto']
+              ['precoFinal_precoProduto']
+          .toString())),
+    );
     precoProdutoCustoController = TextEditingController(
-        text: widget.produto['precoCusto_produto'].toString());
-    categoriaProdutoController = TextEditingController(
-        text: utf8.decode(utf8.encode(widget.produto['categoria_produto'])));
+      text: utf8.decode(utf8.encode(widget.produto['id_precoProduto']
+              ['precoCusto_precoProduto']
+          .toString())),
+    );
+
     quantidadeProdutoController = TextEditingController(
         text: widget.produto['quantidade_produto'].toString());
     quantidadeProdutoController = TextEditingController(text: '1');
@@ -156,19 +161,6 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
-                  child: TextFormField(
-                    controller: categoriaProdutoController,
-                    decoration: const InputDecoration(
-                      labelText: 'Categoria do Produto',
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Icon(Icons.category_rounded),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
                   child: TextField(
                     textAlignVertical: TextAlignVertical.top,
                     controller: descricaoProdutoController,
@@ -248,17 +240,19 @@ class _PedidoCompra extends State<PedidoCompraPage> {
                     onPressed: () async {
                       PedidoCompraService service = PedidoCompraService();
                       bool? isValid = await service.pedidoCompra(
-                          nomeProdutoController.text,
-                          double.parse(precoProdutoCustoController.text
-                              .replaceAll('R\$', '')
-                              .replaceAll(',', '.')),
-                          double.parse(precoProdutoFinalController.text
-                              .replaceAll('R\$', '')
-                              .replaceAll(',', '.')),
-                          categoriaProdutoController.text,
-                          descricaoProdutoController.text,
-                          int.parse(idProdutoController.text),
-                          int.parse(quantidadeProdutoController.text));
+                        int.parse(idProdutoController.text),
+                        nomeProdutoController.text.trim(),
+                        double.tryParse(precoProdutoCustoController.text
+                                .replaceAll('R\$', '')
+                                .replaceAll(',', '.')) ??
+                            0.0,
+                        double.tryParse(precoProdutoFinalController.text
+                                .replaceAll('R\$', '')
+                                .replaceAll(',', '.')) ??
+                            0.0,
+                        descricaoProdutoController.text.trim(),
+                        int.tryParse(quantidadeProdutoController.text) ?? 0,
+                      );
 
                       if (isValid != null && isValid) {
                         EstoquePage.shouldRefreshData.value =
