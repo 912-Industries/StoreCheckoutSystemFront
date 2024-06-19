@@ -219,15 +219,15 @@ class _CadastroProduto extends State<CadastroProdutoPage> {
                         }
                       } catch (e) {
                         ElegantNotification.error(
-                          title: const Text("Pedido de Compra de Produto"),
+                          title: const Text("Cadastro de Produto "),
                           description: Text(
-                              "Ocorreu algum erro ao contabilizar o pedido de compra: $e"),
+                              "Ocorreu algum erro ao contabilizar o cadastro de produto: $e"),
                         ).show(context);
                       } finally {
                         ElegantNotification.success(
-                          title: const Text("Pedido de Compra de Produto"),
+                          title: const Text("Cadastro de Produto"),
                           description: const Text(
-                              "O pedido de compra foi contabilizado com sucesso"),
+                              "O cadastro de produto foi contabilizado com sucesso"),
                         ).show(context);
                       }
                     },

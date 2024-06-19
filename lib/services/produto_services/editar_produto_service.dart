@@ -9,15 +9,15 @@ class EditarProdutoService {
       var response = await http.put(
           Uri.parse('http://localhost:8080/api/produto/editar/$idProduto'),
           headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({
-            "id_produto": idProduto,
-            "id_precoProduto": {
-              "precoCusto_precoProduto": PrecoProdutoCusto,
+          body: jsonEncode(
+            {
+              "id_produto": idProduto,
+              "nome_produto": NomeProduto,
+              "descricao_produto": DescricaoProduto,
+              "precoCusto_produto": PrecoProdutoCusto,
+              "quantidade_produto": QuantidadeProduto
             },
-            "nome_produto": NomeProduto,
-            "descricao_produto": DescricaoProduto,
-            "quantidade_produto": QuantidadeProduto
-          }));
+          ));
       if (response.statusCode == 200) {
         EstoquePage.shouldRefreshData.value =
             true; // Atualize a lista de produtos após a edição

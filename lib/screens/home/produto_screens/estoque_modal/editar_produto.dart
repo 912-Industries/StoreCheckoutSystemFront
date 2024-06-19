@@ -56,14 +56,12 @@ class _EditarProduto extends State<EditarProduto> {
       text: utf8.decode(utf8.encode(widget.produto['descricao_produto'])),
     );
     precoProdutoFinalController = TextEditingController(
-      text: utf8.decode(utf8.encode(widget.produto['id_precoProduto']
-              ['precoFinal_precoProduto']
-          .toString())),
+      text: utf8
+          .decode(utf8.encode(widget.produto['precoFinal_produto'].toString())),
     );
     precoProdutoCustoController = TextEditingController(
-      text: utf8.decode(utf8.encode(widget.produto['id_precoProduto']
-              ['precoCusto_precoProduto']
-          .toString())),
+      text: utf8
+          .decode(utf8.encode(widget.produto['precoCusto_produto'].toString())),
     );
     quantidadeProdutoController = TextEditingController(
       text: utf8

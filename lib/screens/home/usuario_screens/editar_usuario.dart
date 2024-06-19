@@ -15,7 +15,6 @@ class _EditarUsuario extends State<EditarUsuario> {
   late TextEditingController idUsuarioController;
   late TextEditingController nomeUsuarioController;
   late TextEditingController emailUsuarioController;
-  late TextEditingController nivelPermissaoUsuarioController;
   late TextEditingController senhaController;
 
   EditarUsuarioService service = EditarUsuarioService();
@@ -29,8 +28,7 @@ class _EditarUsuario extends State<EditarUsuario> {
         text: utf8.decode(utf8.encode(widget.usuario['nome_usuario'])));
     emailUsuarioController = TextEditingController(
         text: utf8.decode(utf8.encode(widget.usuario['email_usuario'])));
-    nivelPermissaoUsuarioController = TextEditingController(
-        text: widget.usuario['nivel_permissao_usuario'].toString());
+
     senhaController =
         TextEditingController(text: widget.usuario['senha_usuario'].toString());
   }
@@ -40,7 +38,6 @@ class _EditarUsuario extends State<EditarUsuario> {
     idUsuarioController.dispose();
     nomeUsuarioController.dispose();
     emailUsuarioController.dispose();
-    nivelPermissaoUsuarioController.dispose();
     senhaController.dispose();
     super.dispose();
   }
@@ -48,7 +45,6 @@ class _EditarUsuario extends State<EditarUsuario> {
   void limpaCampos() {
     nomeUsuarioController.clear();
     emailUsuarioController.clear();
-    nivelPermissaoUsuarioController.clear();
     senhaController.clear();
   }
 
@@ -128,19 +124,6 @@ class _EditarUsuario extends State<EditarUsuario> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    child: TextFormField(
-                      controller: nivelPermissaoUsuarioController,
-                      decoration: const InputDecoration(
-                        labelText: 'Nível de Permissão',
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.all(5),
-                          child: Icon(Icons.security),
-                        ),
-                      ),
-                    ),
-                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -153,7 +136,6 @@ class _EditarUsuario extends State<EditarUsuario> {
                             int.parse(idUsuarioController.text),
                             nomeUsuarioController.text,
                             emailUsuarioController.text,
-                            nivelPermissaoUsuarioController.text,
                             senhaController.text);
 
                         if (isValid) {

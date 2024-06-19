@@ -147,11 +147,6 @@ class _ControleUsuario extends State<ControleUsuarioPage> {
                               ),
                               DataColumn(
                                 label: Text(
-                                  'Nivel Permissão',
-                                ),
-                              ),
-                              DataColumn(
-                                label: Text(
                                   'Ações',
                                 ),
                               ),
@@ -186,12 +181,6 @@ class _ControleUsuario extends State<ControleUsuarioPage> {
                                           )),
                                           DataCell(Text(
                                             usuario['email_usuario'] ?? '',
-                                            textAlign: TextAlign.center,
-                                          )),
-                                          DataCell(Text(
-                                            usuario['nivel_permissao_usuario']
-                                                    ?.toString() ??
-                                                '',
                                             textAlign: TextAlign.center,
                                           )),
                                           DataCell(Row(

@@ -16,13 +16,11 @@ class PedidoCompraService {
           Uri.parse('http://localhost:8080/api/produto/compra/$idProduto'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
-            "id_produto": idProduto,
-            "id_precoProduto": {
-              "precoCusto_precoProduto": precoCustoProduto,
-            },
-            "nome_produto": nomeProduto,
-            "descricao_produto": descricaoProduto,
-            "quantidade_produto": quantidadeProduto
+            'id_produto': idProduto,
+            'nome_produto': nomeProduto,
+            'precoCusto_produto': precoCustoProduto,
+            'descricao_produto': descricaoProduto,
+            'quantidade_produto': quantidadeProduto
           }));
 
       if (response.statusCode == 200) {
